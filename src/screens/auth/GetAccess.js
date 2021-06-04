@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Animated, View, StyleSheet } from 'react-native';
+import { Animated, View, StyleSheet,Image } from 'react-native';
 import { Easing } from 'react-native-reanimated';
 import { useDispatch } from 'react-redux';
 
@@ -35,6 +35,7 @@ export const GetAccessScreen = () => {
         if (res.data.existing_user) {
           dispatch(setPhone(phoneNumber));
           NavigationService.navigate('CheckPassword');
+          //NavigationService.navigate('CheckEmail');
         } else {
           dispatch(setToken(res.data.token));
           NavigationService.navigate('VerifyPhone');
@@ -63,10 +64,28 @@ export const GetAccessScreen = () => {
   return (
     <Screen
       align="center"
-      isLoading={isLoading}
-      backgroundImage={require('~/assets/images/back2.jpg')}>
+      isLoading={isLoading}      
+      >
       <View style={[styles.container]}>
-      <Button
+      <AppText style={[styles.whiteText, styles.title]}>Get Started</AppText>
+        <AppText style={[styles.grayText, styles.subTitle]}>
+          Enter your phone number below to get started
+        </AppText>
+        {/* <Animated.View style={[styles.inputWrapper, { maxHeight: anim }]}> */}
+       
+          <Input
+            title="Phone #"
+            placeholder="XXX XXX XXXX"
+            value={phoneNumber}
+            style={{marginTop:20}}
+            onChange={(e) => setPhoneNumber(formatPhoneNumber(e))}
+            keyboardType="number-pad"
+            actionIcon="chevron-right"
+            actionHandler={() => sendVerification(phoneNumber)}
+          />
+        {/* </Animated.View> */}
+       
+        <Button
             type="borderless"
             style={styles.button}
             titleStyle={{fontSize: 14}}
@@ -80,28 +99,8 @@ export const GetAccessScreen = () => {
                 //NavigationService.reset('Home');
               //}
             }}>
-            Skip
+            SKIP
           </Button>
-        <AppText style={[styles.whiteText, styles.title]}>
-          Shop{'\n'}Local
-        </AppText>
-        <AppText style={[styles.greenText, styles.title]}>
-          Online
-        </AppText>
-        <AppText style={[styles.whiteText, styles.subTitle]}>
-        Goods & Food
-        </AppText>
-        <Animated.View style={[styles.inputWrapper, { maxHeight: anim }]}>
-          <Input
-            title="Phone #"
-            placeholder="XXX XXX XXXX"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(formatPhoneNumber(e))}
-            keyboardType="number-pad"
-            actionIcon="chevron-right"
-            actionHandler={() => sendVerification(phoneNumber)}
-          />
-        </Animated.View>
       </View>
     </Screen>
   );
@@ -114,18 +113,23 @@ GetAccessScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: Theme.layout.screenPaddingHorizontal,
-    paddingTop: Theme.layout.screenPaddingTop,
+    paddingTop: 30,
     paddingBottom: Theme.layout.screenPaddingBottom,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     flex: 1,
-
+    alignItems: 'center',
     width: '100%',
   },
 
   whiteText: {
-    color: 'white',
+    color: Theme.color.redColor,
     textAlign: 'center',
     textTransform: 'uppercase',
+  },
+
+  grayText: {
+    color: 'gray',
+    textAlign: 'center',
   },
 
   greenText: {
@@ -135,13 +139,13 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 40,
+    fontSize: 25,
     letterSpacing: 2,
     fontWeight: '800',
   },
 
   subTitle: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: 'bold',
 
     marginTop: 10,
@@ -151,13 +155,12 @@ const styles = StyleSheet.create({
     marginTop: 40,
     flexGrow: 1,
     overflow: 'hidden',
-
     width: '100%',
   },
 
   button: {
-    top:  40,
-    right: Theme.layout.screenPaddingHorizontal,
-    position: 'absolute'
+    top:  20,
+    justifyContent: 'flex-start',
+    textTransform: 'uppercase',
   },
 });

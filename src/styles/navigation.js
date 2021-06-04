@@ -42,7 +42,7 @@ export const RegisterNavigationOptions = ({ navigation, options }) => {
         <TouchableOpacity
           style={{ marginRight: 10 }}
           onPress={() => navigation.goBack()}>
-          <Icon size={30} color="white" name="chevron-left" />
+          <Icon size={30} color="black" name="chevron-left" />
         </TouchableOpacity>
       ) : (
         <View style={{ width: 30 }}></View>

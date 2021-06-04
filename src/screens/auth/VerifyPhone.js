@@ -1,7 +1,7 @@
 import React, { useState, useCallback,useEffect, useMemo } from 'react';
 import { View, StyleSheet, Dimensions, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-
+import { RegisterNavigationOptions } from '~/styles';
 import { NavigationService } from '~/core/services';
 import { Screen, Input, Button, AppText } from '~/components';
 import { Theme } from '~/styles';
@@ -140,23 +140,12 @@ export const VerifyPhoneScreen = ({navigation}) => {
   return (
     <Screen
       isLoading={isLoading}
-      backgroundImage={require('~/assets/images/back5.png')} keyboardAware={true}>
+      keyboardAware={true}>
       <View style={[styles.container]}>
-         {windowWidth > 350 ? <View>
-          <AppText style={[styles.whiteText, styles.title]}>
-            Verify{`\n`}Your{`\n`}Number
-          </AppText>
-          <AppText style={[styles.whiteText, styles.subTitle]}>
-            Enter the code we sent
-          </AppText>
-          </View> : <View>
-          <AppText style={[styles.whiteText, styles.smalltitle]}>
-            Verify{`\n`}Your{`\n`}Number
-          </AppText>
-          <AppText style={[styles.whiteText, styles.smallsubTitle]}>
-            Enter the code we sent
-          </AppText>
-          </View>}
+        <AppText style={[styles.whiteText, styles.title]}>Verify</AppText>
+        <AppText numberOfLines={2} style={[styles.grayText, styles.subTitle]}>
+          We just sent a verification code to your phone. Enter it below to verify your phone number
+        </AppText>
         <View style={styles.inputWrapper}>
           <Input
             title="Code"
@@ -169,44 +158,52 @@ export const VerifyPhoneScreen = ({navigation}) => {
           />
         </View>
         <Button
-          type="borderless"
+          type="borderlessred"
           style={styles.button}
           onClick={() => NavigationService.goBack()}>
-          I didn't get the code
+          I did not receive the code
         </Button>
       </View>
     </Screen>
   );
 };
 
-VerifyPhoneScreen.navigationOptions = {
-  headerShown: false,
-};
+VerifyPhoneScreen.navigationOptions= ({ navigation }) =>
+  RegisterNavigationOptions({
+    navigation,
+    options: {
+      headerTitle: '',
+    },
+});
 
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: Theme.layout.screenPaddingHorizontal,
-    paddingTop: Theme.layout.screenPaddingTop,
+    paddingTop: 30,
     paddingBottom: Theme.layout.screenPaddingBottom,
     flex: 1,
-
     width: '100%',
   },
 
   whiteText: {
-    color: 'white',
+    color: Theme.color.redColor,
     textAlign: 'center',
     textTransform: 'uppercase',
   },
 
+  grayText: {
+    color: 'gray',
+    textAlign: 'center',
+  },
+
   title: {
-    fontSize: 35,
+    fontSize: 25,
     letterSpacing: 2,
     fontWeight: '800',
   },
 
   subTitle: {
-    fontSize: 16,
+    fontSize: 13,
     fontWeight: 'bold',
     marginTop: 10,
   },
@@ -224,7 +221,7 @@ const styles = StyleSheet.create({
   },
 
   inputWrapper: {
-    marginTop: 40,
+    marginTop: 20,
     overflow: 'hidden',
 
     width: '100%',

@@ -76,14 +76,15 @@ export const SplashScreen = () => {
     return (
       <Screen
         align="center"
-        backgroundImage={require('~/assets/images/back6.jpg')}>
+        // backgroundImage={require('~/assets/images/back6.jpg')}
+        backgroundColor={Theme.color.redColor} >
         <View style={styles.container}>
           <Image
             source={require('~/assets/images/logo-light.png')}
             style={styles.logo}
             resizeMode="contain"
           />
-          <AppText style={styles.subheading}>SHOP LOCAL ONLINE™</AppText>
+          {/* <AppText style={styles.subheading}>SHOP LOCAL ONLINE™</AppText> */}
         </View>
       </Screen>
     );
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
 
   logo: {
     width: '80%',
-    height: 80,
+    height: 100,
     resizeMode: 'contain',
     margin: 'auto',
   },

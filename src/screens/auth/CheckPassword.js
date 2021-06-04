@@ -114,12 +114,11 @@ export const CheckPasswordScreen = ({ navigation }) => {
 
   return (
     <Screen
-      isLoading={isLoading}
-      backgroundImage={require('~/assets/images/back5.png')}>
+      isLoading={isLoading}>
       <View style={[styles.container]}>
         <AppText style={[styles.whiteText, styles.title]}>Welcome Back</AppText>
-        <AppText style={[styles.whiteText, styles.subTitle]}>
-          Please enter your password
+        <AppText style={[styles.grayText, styles.subTitle]}>
+          Please enter your password below
         </AppText>
         <View style={styles.inputWrapper}>
           <Input
@@ -134,12 +133,12 @@ export const CheckPasswordScreen = ({ navigation }) => {
           />
         </View>
         <Button
-          type="borderless"
+          type="borderlessred"
           style={[styles.button]}
           onClick={() => {
             NavigationService.navigate('ResetPasswordEmail');
           }}>
-          I Forgot My Password
+          I forgot my password
         </Button>
       </View>
     </Screen>
@@ -157,7 +156,7 @@ CheckPasswordScreen.navigationOptions = ({ navigation }) =>
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: Theme.layout.screenPaddingHorizontal,
-    paddingTop: Theme.layout.screenPaddingTop,
+    paddingTop: 30,
     paddingBottom: Theme.layout.screenPaddingBottom,
     flex: 1,
 
@@ -169,26 +168,30 @@ const styles = StyleSheet.create({
   },
 
   whiteText: {
-    color: 'white',
+    color: Theme.color.redColor,
     textAlign: 'center',
     textTransform: 'uppercase',
   },
 
+  grayText: {
+    color: 'gray',
+    textAlign: 'center',
+  },
+
   title: {
-    fontSize: 36,
+    fontSize: 25,
     letterSpacing: 2,
     fontWeight: '800',
   },
 
   subTitle: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: 'bold',
-
-    marginTop: 10,
+    marginTop: 20,
   },
 
   inputWrapper: {
-    marginTop: 40,
+    marginTop: 20,
     overflow: 'hidden',
 
     width: '100%',

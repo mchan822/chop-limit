@@ -3,6 +3,8 @@ export const Theme = {
     accentColor: '#31D457',
     backgroundColor: '#e6e6e6',
     borderColor: '#b8b8b8',
+    redColor: '#ec1a25',
+    grayColor:'gray'
   },
 
   font: {},

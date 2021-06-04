@@ -41,18 +41,19 @@ export const ResetPasswordEmailScreen = () => {
     <Screen
       align="center"
       isLoading={isLoading}
-      backgroundImage={require('~/assets/images/back5.png')} keyboardAware={true}>
+      // backgroundImage={require('~/assets/images/back5.png')} 
+      keyboardAware={true}>
       <View style={[styles.container]}>
       {windowWidth > 250 ? <View>
-        <AppText style={[styles.whiteText, styles.title]}>Password Reset</AppText>
-        <AppText style={[styles.whiteText, styles.subTitle]}>
-          Enter your email address
+        <AppText style={[styles.whiteText, styles.title]}>Reset Password</AppText>
+        <AppText style={[styles.grayText, styles.subTitle]}>
+          Enter your e-mail address below
         </AppText></View>
         :
         <View>
-        <AppText style={[styles.whiteText, styles.smalltitle]}>Password Reset</AppText>
-        <AppText style={[styles.whiteText, styles.smallsubTitle]}>
-          Enter your email address
+        <AppText style={[styles.whiteText, styles.smalltitle]}>Reset Password</AppText>
+        <AppText style={[styles.grayText, styles.smallsubTitle]}>
+          Enter your e-mail address below
         </AppText></View>
         }
         <View style={[styles.inputWrapper]}>
@@ -82,7 +83,7 @@ ResetPasswordEmailScreen.navigationOptions = ({ navigation }) =>
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: Theme.layout.screenPaddingHorizontal,
-    paddingTop: Theme.layout.screenPaddingTop,
+    paddingTop: 30,
     paddingBottom: Theme.layout.screenPaddingBottom,
     justifyContent: 'center',
     flex: 1,
@@ -91,13 +92,18 @@ const styles = StyleSheet.create({
   },
 
   whiteText: {
-    color: 'white',
+    color: Theme.color.redColor,
     textAlign: 'center',
     textTransform: 'uppercase',
   },
 
+  grayText: {
+    color: 'gray',
+    textAlign: 'center',
+  },
+
   title: {
-    fontSize: 40,
+    fontSize: 25,
     letterSpacing: 2,
     fontWeight: '800',
   },
@@ -125,7 +131,7 @@ const styles = StyleSheet.create({
 
 
   inputWrapper: {
-    marginTop: 40,
+    marginTop: 20,
     flexGrow: 1,
     overflow: 'hidden',
 

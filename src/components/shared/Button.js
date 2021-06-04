@@ -32,6 +32,8 @@ export const Button = ({
         return styles.bordered;
       case 'borderless':
         return styles.borderless;
+      case 'borderlessred':
+        return styles.borderless;
       case 'white':
         return styles.white;
       case 'black':
@@ -55,6 +57,8 @@ export const Button = ({
         return styles.blackText;
       case 'borderless':
         return styles.greyText;
+      case 'borderlessred':
+          return styles.redText;
       case 'white':
         return styles.blackText;
       case 'black':
@@ -168,6 +172,10 @@ const styles = StyleSheet.create({
 
   whiteText: {
     color: 'white',
+  },
+
+  redText: {
+    color: '#ec1a25'
   },
 
   greyText: {

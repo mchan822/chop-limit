@@ -44,11 +44,10 @@ export const CheckEmailScreen = () => {
   return (
     <Screen
       align="center"
-      isLoading={isLoading}
-      backgroundImage={require('~/assets/images/back5.png')}>
+      isLoading={isLoading}>
       <View style={[styles.container]}>
         <AppText style={[styles.whiteText, styles.title]}>Check your email</AppText>
-        <AppText style={[styles.whiteText, styles.subTitle]}>
+        <AppText style={[styles.grayText, styles.subTitle]}>
           Enter the code we just sent
         </AppText>
         <View style={[styles.inputWrapper]}>
@@ -78,7 +77,7 @@ CheckEmailScreen.navigationOptions = ({ navigation }) =>
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: Theme.layout.screenPaddingHorizontal,
-    paddingTop: Theme.layout.screenPaddingTop,
+    paddingTop: 30,
     paddingBottom: Theme.layout.screenPaddingBottom,
     justifyContent: 'center',
     flex: 1,
@@ -87,26 +86,31 @@ const styles = StyleSheet.create({
   },
 
   whiteText: {
-    color: 'white',
+    color: Theme.color.redColor,
     textAlign: 'center',
     textTransform: 'uppercase',
   },
 
+  grayText: {
+    color: 'gray',
+    textAlign: 'center',
+  },
+
   title: {
-    fontSize: 40,
+    fontSize: 25,
     letterSpacing: 2,
     fontWeight: '800',
   },
 
   subTitle: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: 'bold',
 
     marginTop: 10,
   },
 
   inputWrapper: {
-    marginTop: 40,
+    marginTop: 20,
     flexGrow: 1,
     overflow: 'hidden',
 

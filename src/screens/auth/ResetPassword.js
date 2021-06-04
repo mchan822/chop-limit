@@ -45,11 +45,11 @@ export const ResetPasswordScreen = () => {
     <Screen
       align="center"
       isLoading={isLoading}
-      backgroundImage={require('~/assets/images/back5.png')}>
+     >
       <View style={[styles.container]}>
-        <AppText style={[styles.whiteText, styles.title]}>Reset Password</AppText>
-        <AppText style={[styles.whiteText, styles.subTitle]}>
-          Enter a new password
+        <AppText style={[styles.whiteText, styles.title]}>New Password</AppText>
+        <AppText style={[styles.grayText, styles.subTitle]}>
+          Please enter a new password below
         </AppText>
         <View style={[styles.inputWrapper]}>
           <Input
@@ -78,7 +78,7 @@ ResetPasswordScreen.navigationOptions = ({ navigation }) =>
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: Theme.layout.screenPaddingHorizontal,
-    paddingTop: Theme.layout.screenPaddingTop,
+    paddingTop: 30,
     paddingBottom: Theme.layout.screenPaddingBottom,
     justifyContent: 'center',
     flex: 1,
@@ -87,26 +87,31 @@ const styles = StyleSheet.create({
   },
 
   whiteText: {
-    color: 'white',
+    color: Theme.color.redColor,
     textAlign: 'center',
     textTransform: 'uppercase',
   },
 
+  grayText: {
+    color: 'gray',
+    textAlign: 'center',
+  },
+
   title: {
-    fontSize: 40,
+    fontSize: 25,
     letterSpacing: 2,
     fontWeight: '800',
   },
 
   subTitle: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: 'bold',
 
     marginTop: 10,
   },
 
   inputWrapper: {
-    marginTop: 40,
+    marginTop: 20,
     flexGrow: 1,
     overflow: 'hidden',
 
