@@ -228,7 +228,7 @@ export const ProductScreen = ({ navigation }) => {
               .finally(() => setLoading(false));  
           }
         }
-        NavigationService.navigate('Sellers');
+        NavigationService.navigate('Home');
         }
       })
       .catch((err) =>

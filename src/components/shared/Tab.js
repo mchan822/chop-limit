@@ -1,17 +1,24 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Dimensions,TouchableOpacity,Image,ActivityIndicator } from 'react-native';
+import { View, StyleSheet, Dimensions,TouchableOpacity,ImageBackground,Image,ActivityIndicator } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Theme } from '~/styles';
+import { Theme,GlobalStyles } from '~/styles';
 import Carousel from 'react-native-snap-carousel';
-import {AppText} from '~/components';
-
+import {AppText,Button} from '~/components';
+import { truncateAddress } from '~/core/utility';
 import LinearGradient from 'react-native-linear-gradient';
+import FoodSVG from '~/assets/images/burger.svg';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { NavigationService } from '~/core/services';
 export const Tab = ({
     tabs,
     setPage,
     categoryData,
-    selectCategory
+    selectCategory,
+    lastAddress,
+    awkward
 }) => {
+const token = useSelector((state) => state.account.token);
 const [contentSizeChanged, setContentSizeChanged] = useState(false);
 const [contentsize, setContentsize] = useState(0);
 const windowWidth = Dimensions.get('window').width;
@@ -25,6 +32,7 @@ const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
     return layoutMeasurement.height + contentOffset.y >=
         contentSize.height - paddingToBottom;
 };
+const dispatch = useDispatch();
 const renderHome = ({item, index}) => {  
     return  <TouchableOpacity style={styles.menuButton}
     onPress={() => selectCategory(item.ttcid)}>
@@ -76,23 +84,104 @@ const [activeTabIndex, setActiveTabIndex] = useState(0);
             }
         }
       }} scrollEventThrottle={100}>
-          {categoryData != false &&
-           <View style = {{maxWidth: windowWidth, flexDirection: 'row',  marginBottom: 10,}}>
-           <Carousel    
-           data={categoryData}
-           layout='default'    
-           inactiveSlideScale={1}             
-           activeSlideAlignment={'start'}
-           contentContainerCustomStyle={{overflow: 'hidden', width: (windowWidth-40)/3*categoryData.length}}
-           inactiveSlideOpacity={1}     
-           renderItem= {renderHome}
-           sliderWidth={windowWidth-40}
-           itemWidth={(windowWidth-40)/3}
-          > 
-          </Carousel> 
-          </View> }
-        {tabs.length > 1 && <View style={styles.tab}>           
-        </View>}
+           <View style={[styles.menuRow, styles.menuRowLastItem]}>
+              <TouchableOpacity
+                style={[
+                  styles.menuButtonAddress,
+                  {
+                    height: 50,
+                    alignItems: 'flex-start',
+                    paddingLeft: 20,
+                    flex: 5,
+                  },
+                ]}
+                onPress={() => {
+                  //dispatch(setTerritoryType({ territory_type: 'restaurants' }));
+                  NavigationService.navigate('Location');
+                }}>
+                <View style={styles.menuButtonTextWrap}>
+                  {/* <Icon size={58} color={'#ffffff'} name="account-circle-outline" style={styles.menuButtonIcon} /> */}
+                  <AppText style={{ color: '#000' }}>
+                    Deliver to:{' '}
+                    {lastAddress ? (
+                    <AppText style={[{ fontWeight: 'bold' }]}>
+                      {truncateAddress(lastAddress)}
+                    </AppText>) : (
+                    <AppText style={[{ fontWeight: 'bold' }]}>
+                      Add Delivery Address
+                    </AppText>)}
+                  </AppText>
+                </View>
+              </TouchableOpacity>
+            </View> 
+        <ImageBackground
+            source={require('~/assets/images/banner.png')}
+            style={styles.banner}>
+          </ImageBackground> 
+        {awkward == true ? 
+        ( categoryData != false &&
+            <View style = {{maxWidth: windowWidth, flexDirection: 'row',  marginBottom: 10,paddingHorizontal:10}}>
+            <Carousel    
+            data={categoryData}
+            layout='default'    
+            inactiveSlideScale={1}             
+            activeSlideAlignment={'start'}
+            contentContainerCustomStyle={{overflow: 'hidden', width: (windowWidth-40)/3*categoryData.length}}
+            inactiveSlideOpacity={1}     
+            renderItem= {renderHome}
+            sliderWidth={windowWidth-40}
+            itemWidth={(windowWidth-40)/3}
+           > 
+           </Carousel> 
+           </View>  ): 
+        <View style={[styles.awkward, styles.topSection]}>
+        <View style={styles.noResultsWrapper}>             
+            <FoodSVG width={120} height={120} />             
+        </View>
+        <AppText style={[styles.subTitle, GlobalStyles.formControl]}>
+          We don't have any restaurant in your area, right now.
+        </AppText>
+        <AppText
+          style={[
+            styles.description,
+            GlobalStyles.formControl,
+            { marginBottom: 20 },
+          ]}>
+          Chow Local® recently launched, and more restaurant should get onboard
+          soon.
+        </AppText>
+        <>
+          <Button
+            type="accent"
+            style={[GlobalStyles.formControl, styles.exitButton]}
+            onClick={() => {
+              NavigationService.navigate('Invite');
+            }}>
+            INVITE A{' '}
+            {'RESTAURANT'}
+          </Button>
+          {token && (
+            <Button
+              type="bordered-dark"
+              style={[GlobalStyles.formControl, styles.exitButton]}
+              onClick={() => {
+                NavigationService.navigate('StartSelling');
+              }}>
+              {'I OPERATE A RESTAURANT'}
+            </Button>
+          )}
+        </>
+        {/* } */}
+        <Button
+          type="bordered-dark"
+          style={[GlobalStyles.formControl, styles.exitButton]}
+          onClick={() => {
+            NavigationService.reset('Home');
+          }}>
+          Exit
+        </Button>
+      </View>}
+          
         <View style={styles.tabContent}>{typeof tabs[activeTabIndex] != null && tabs[activeTabIndex].content}</View>
     </ScrollView>
     
@@ -118,7 +207,69 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',   
       },
+        
+    banner: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginHorizontal:0,
+        marginTop: 10,
+        paddingBottom: 10,
+        width: Dimensions.get("window").width ,
+        resizeMode: 'contain',
+        height:Dimensions.get("window").width * 3 / 8 ,    
+    },
+    menuButtonAddress: {    
+        height: 120,
+        marginHorizontal:5,
+        marginVertical:5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'white',
+        borderRadius: 10,
+    },
+    noResultsWrapper: {
+        marginTop: 35,
+        marginBottom: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      menuWrapper: {
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        flex: 1,
+        marginTop:10
+      },
+      subTitle: {
+        textAlign: 'center',
+        // textTransform: 'uppercase',
+        color: 'black',
+        fontSize: 16,
+        fontWeight: 'bold',
+        paddingHorizontal: 20,
+        marginTop: 10,
+        marginBottom: 10,
+      },
+    
+    
+      menuRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 10,
+        paddingHorizontal:10,
+      },
+    
+      menuRowLastItem: {
+        marginBottom: 0,
+      }, 
+      menuButtonTextWrap: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
       
+  awkward: {
+    paddingHorizontal: Theme.layout.screenPaddingHorizontal,
+  },
     image_category: {
         backgroundColor: '#FFF',
         aspectRatio: 1,
@@ -162,6 +313,7 @@ const styles = StyleSheet.create({
     },
     tabContent : {
         paddingTop: 10,
+        paddingHorizontal:10,
         flex: 1,
         minHeight: '100%'
     }

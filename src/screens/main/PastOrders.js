@@ -151,7 +151,7 @@ export const PastOrdersScreen = () => {
   ) => {
     dispatch(setTerritoryType({ territory_type : category }));
 
-    NavigationService.navigate(lastAddress ? 'Sellers' : 'Location',{
+    NavigationService.navigate(lastAddress ? 'Home' : 'Location',{
       title : category == 'restaurants' ? 'restaurants' : 'shops' 
     })
   }

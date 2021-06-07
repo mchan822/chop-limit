@@ -2,8 +2,8 @@ export const Config = {
   shareURL: 'https://shopl.net',
   signUpURL: 'https://live.chowlocal.com/start-selling',
   // apiBaseURL: 'https://account.chowlocal-dev.com/api/v1',
-  apiBaseURL: 'https://live.chowlocal.com/api/v1',
-  
+  //apiBaseURL: 'https://live.chowlocal.com/api/v1',
+  apiBaseURL: 'https://live.shopl.net/api/v1',
   followSHOPL: 'https://www.facebook.com/SHOPLApp/',
   // googleAPIKey: 'AIzaSyC6v3MjMvZeLsWqImhRNqun4-3ykBZ8rOs',
   googleAPIKey: 'AIzaSyDAA-1DUSd8i8LvaAKMV-aDDDzE1GOMelA',

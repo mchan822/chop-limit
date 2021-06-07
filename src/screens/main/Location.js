@@ -220,7 +220,7 @@ export const LocationScreen = ({navigation}) => {
                   .finally(() => setLoading(false));
                 dispatch(setAddressAction(address));
                 dispatch(setAddressFullAction(addressFull));
-                NavigationService.navigate('Sellers');
+                NavigationService.navigate('Home');
               }
             })
             .catch((err) =>
@@ -302,7 +302,7 @@ export const LocationScreen = ({navigation}) => {
               .finally(() => setLoading(false));
             dispatch(setAddressAction(address));
             dispatch(setAddressFullAction(addressFull));
-            NavigationService.navigate('Sellers');
+            NavigationService.navigate('Home');
           }
         }
       }

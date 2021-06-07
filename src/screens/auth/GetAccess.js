@@ -92,7 +92,7 @@ export const GetAccessScreen = () => {
             onClick={() => {
               AppEventsLogger.logEvent('SIGN-IN SKIPPED')
               dispatch(signOut());     
-              dispatch(setTerritoryType({ territory_type: "address" }));
+              dispatch(setTerritoryType({ territory_type: "restaurants" }));
               //if(!token){
               NavigationService.reset('SelectDelivery1',{addressCnt: 0});
               //} else {

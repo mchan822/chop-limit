@@ -258,7 +258,7 @@ export const ProductEditScreen = ({ navigation }) => {
               .finally(() => setLoading(false));  
           }
         }
-        NavigationService.navigate('Sellers');
+        NavigationService.navigate('Home');
         }
       })
       .catch((err) =>
@@ -1478,7 +1478,7 @@ ProductEditScreen.navigationOptions = ({ navigation }) =>
       headerLeft: () => (
         <TouchableOpacity
           style={{ marginRight: 10 }}
-          onPress={() => {NavigationService.reset("Sellers");NavigationService.navigate("Products");}}>
+          onPress={() => {NavigationService.reset('Home');NavigationService.navigate("Products");}}>
           <Icon
             size={24}
             color={navigation.getParam('darkContent') ? 'black' : 'white'}

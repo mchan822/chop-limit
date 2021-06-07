@@ -32,7 +32,7 @@ export const LocationInstructionScreen = ({ navigation }) => {
       body: formData,
     })
       .then((res) => {
-        NavigationService.navigate('Sellers');
+        NavigationService.navigate('Home');
       })
       .catch((err) =>
         dispatch(showNotification({ type: 'error', message: err.message })),

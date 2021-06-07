@@ -149,7 +149,7 @@ export const OpenOrder = ({ navigation }) => {
               .finally(() => setLoading(false));  
           }
         }
-          NavigationService.navigate('Sellers');
+          NavigationService.navigate('Home');
       })
       .catch((err) =>
         dispatch(showNotification({ type: 'error', message: res.message })),

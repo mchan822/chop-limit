@@ -6,7 +6,7 @@ import { NavigationService } from '~/core/services';
 import { Screen, AppText } from '~/components';
 
 import { fetchAPI } from '~/core/utility';
-import { setUserInfo, setToken, signOut, setOrder } from '~/store/actions';
+import { setUserInfo, setToken, signOut, setOrder,setTerritoryType } from '~/store/actions';
 import { Theme } from '~/styles';
 import { setBanner } from '../store/actions';
 
@@ -15,6 +15,7 @@ export const SplashScreen = () => {
   const token = useSelector((state) => state.account.token);
 
   useEffect(() => {
+    dispatch(setTerritoryType({ territory_type: "restaurants" }));
     if (token) {
       fetchAPI('/token', {
         method: 'GET',
@@ -59,20 +60,20 @@ export const SplashScreen = () => {
     }
   }, []);
 
-  if (token) {
-    return (
-      <Screen
-        align="center"
-        backgroundImage={require('~/assets/images/back2.jpg')}>
-        <View style={styles.container}>
-          <AppText style={[styles.heading]}>SHOP</AppText>
-          <AppText style={[styles.heading]}>LOCAL</AppText>
-          <AppText style={[styles.heading, styles.accentColor]}>ONLINE</AppText>
-          <AppText style={styles.subheading}>Goods & Food</AppText>
-        </View>
-      </Screen>
-    );
-  } else {
+  // if (token) {
+  //   return (
+  //     <Screen
+  //       align="center"
+  //       backgroundImage={require('~/assets/images/back2.jpg')}>
+  //       <View style={styles.container}>
+  //         <AppText style={[styles.heading]}>SHOP</AppText>
+  //         <AppText style={[styles.heading]}>LOCAL</AppText>
+  //         <AppText style={[styles.heading, styles.accentColor]}>ONLINE</AppText>
+  //         <AppText style={styles.subheading}>Goods & Food</AppText>
+  //       </View>
+  //     </Screen>
+  //   );
+  // } else {
     return (
       <Screen
         align="center"
@@ -88,7 +89,7 @@ export const SplashScreen = () => {
         </View>
       </Screen>
     );
-  }
+  // }
 };
 
 SplashScreen.navigationOptions = {

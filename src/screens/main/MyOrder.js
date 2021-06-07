@@ -204,7 +204,7 @@ export const MyOrderScreen = ({ navigation }) => {
         setOrderDetail(res.data);
         if(res.data.cart_quantity == '0'){
           NavigationService.reset('Home');
-          NavigationService.navigate('Sellers');
+          NavigationService.navigate('Home');
         }
         dispatch(updatedNotes(res.data.notes));
         setNote(res.data.notes);
@@ -251,7 +251,7 @@ export const MyOrderScreen = ({ navigation }) => {
         //dispatch(showNotification({ type: 'error', message: err.message })),
         {
           dispatch(showNotification({ type: 'error', message: err.message }))
-          NavigationService.navigate('Sellers');
+          NavigationService.navigate('Home');
           dispatch(cancelOrder())
         }
         
@@ -322,7 +322,7 @@ export const MyOrderScreen = ({ navigation }) => {
               .finally(() => setLoading(false));  
           }
         }
-        NavigationService.navigate('Sellers');
+        NavigationService.navigate('Home');
       })
       .catch((err) =>
         dispatch(showNotification({ type: 'error', message: res.message })),

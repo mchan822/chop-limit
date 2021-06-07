@@ -116,37 +116,7 @@ export const SellersScreen = ({ navigation }) => {
       if (token && order && order.address_id && order.address_id != '0' && order.cancelled == '0') {
         setLoading(true);
         const formData = new FormData();
-        formData.append('address_id', order.address_id);
-        // fetchAPI(
-        //   `/territories/by_address_id?range=100&type=${territory_type}&offer_pickup=1&filter_by=products_totals${sellersFilter}&size=4&page=${page}&sort_by_extra=is-operational`,
-        //   {
-        //     method: 'POST',
-        //     headers: {
-        //       authorization: `Bearer ${token}`,
-        //     },
-        //     body: formData,
-        //   },
-        // ).then(async (res) => {
-        //   setTotalPages(res.data.total_pages);
-        //   if(page == 0){
-        //     setSellersInArea(
-        //       res.data.territories.filter((territory) =>
-        //         Boolean(territory.app_image),
-        //       ),
-        //     );
-        //     setOpenInAreaCnt(res.data.total_operational);
-        //     setCloseInAreaCnt(res.data.total_not_operational);
-        //   } else {
-        //     setSellersInArea((existing) => [ 
-        //       ...existing,
-        //       ...res.data.territories.filter((territory) =>
-        //         Boolean(territory.app_image),
-        //       )]
-        //     );
-        //     // setOpenInAreaCnt(res.data.total_operational);
-        //     // setCloseInAreaCnt(res.data.total_not_operational);
-        //   }
-     
+        formData.append('address_id', order.address_id);   
           fetchAPI(
             `/territories/by_address_id?type=${territory_type}&deliverable=1&filter_by=products_totals${sellersFilter}&size=4&page=${page}&sort_by_extra=is-operational`,
             {
@@ -180,34 +150,10 @@ export const SellersScreen = ({ navigation }) => {
           .catch((err) => {
             dispatch(showNotification({ type: 'error', message: err.message }));
           })
-          .finally(() => setLoading(false));
-        //  })
-        //  .catch((err) => {
-        //   dispatch(showNotification({ type: 'error', message: err.message }));
-        // })
-        // .finally(() => setLoading(false));
-       // Promise.all([getSellersInArea,getSellersDelivery])
-         
+          .finally(() => setLoading(false));    
       } else {
         console.log("explorer.address++++++++++++" ,explorer.address);
-        setLoading(true);
-        // fetchAPI(
-        //   `/territories/by_address?address=${explorer.address}&range=100&type=${territory_type}&offer_pickup=1&filter_by=products_totals${sellersFilter}&size=4&page=${page}&sort_by_extra=is-operational`,
-        //   {
-        //     method: 'POST',
-        //   },
-        // ).then(async (res) => {
-        //   setTotalPages(res.data.total_pages);
-        //   // fix this
-        //   if(page == 0){
-        //     setSellersInArea(res.data.territories.filter((item) => Boolean(item.app_image)));       
-        //     setOpenInAreaCnt(res.data.total_operational);
-        //     setCloseInAreaCnt(res.data.total_not_operational);
-        //   } else{
-        //     setSellersInArea((existing) => [...existing, ...res.data.territories.filter((item) => Boolean(item.app_image))]);        
-        //     // setOpenInAreaCnt(res.data.total_operational);
-        //     // setCloseInAreaCnt(res.data.total_not_operational);
-        //   }
+        setLoading(true);       
             fetchAPI(
               `/territories/by_address?address=${explorer.address}&type=${territory_type}&deliverable=1&&filter_by=products_totals${sellersFilter}&size=4&page=${page}&sort_by_extra=is-operational`,
               {
@@ -229,14 +175,8 @@ export const SellersScreen = ({ navigation }) => {
             .catch((err) => {
               dispatch(showNotification({ type: 'error', message: err.message }));
             })
-            .finally(() => setLoading(false));
-          // }) 
-          // .catch((err) => {
-          //   dispatch(showNotification({ type: 'error', message: err.message }));
-          // })
-          // .finally(() => setLoading(false));
+            .finally(() => setLoading(false));       
       }
-    // }
   }, [dispatch, sellersFilter, territory_type, page]);
   
   useEffect(() => {
@@ -317,7 +257,7 @@ export const SellersScreen = ({ navigation }) => {
                 {deliverySellersHeader}
                 <LoadingGIF />
               </>
-            ) : territory_type === 'restaurants' ? (
+            ) : territory_type === 'restaurants' && (
               <View>
                 { openDeliveryCnt == 0 ?   
                 <View style={styles.view_noSeller}>    
@@ -371,115 +311,13 @@ export const SellersScreen = ({ navigation }) => {
                   numColumns={1}
                 />}
               </View>
-            ) : (  
-              <FlatList
-                style={styles.availableSellers}
-                data={sellersDelivery}
-                keyExtractor={(item, index) => index.toString()}               
-                ListHeaderComponent={territory_type == 'services' ? <AppText style={styles.subTitle}>{sellersDelivery.length + (sellersDelivery.length == 1 ? '  Business offers services' :'  Businesses offer services')}</AppText> : deliverySellersHeader}
-                renderItem={({ item }) => (
-                  <TouchableOpacity
-                    style={styles.seller}
-                    activeOpacity={0.8}
-                    onPress={() => setSeller(item)}>
-                    <Seller seller={item} />
-                  </TouchableOpacity>
-                )}
-                numColumns={1}
-              />)
+            )
           ) : (
             <AppText style={styles.noSellerText}>No ${territory_type}</AppText>
           )}
         </View>
       ),
     });
-
-    // if (sellersInArea && !!sellersInArea.length && territory_type != 'services') {
-    //   tabData.push({
-    //     title: 'Pickup',
-    //     content: (
-    //     <View style={[styles.pickupSellers]}>{
-    //       territory_type === 'restaurants' ? (
-    //       <View style={[styles.nearbySellers]}>
-             
-    //          { openInAreaCnt == 0 ? 
-    //             <View style={styles.view_noSeller}>
-    //               <Icon size={120} color={ Theme.color.accentColor} name="emoticon-sad-outline" />     
-    //               {/* <Image
-    //                   source={require('~/assets/images/sadface.png')}
-    //                   style={styles.image_noSeller}
-    //                   resizeMode="cover"
-    //                 /> */}
-    //             </View> 
-    //                 : 
-    //             <FlatList
-    //               style={styles.availableSellers}
-    //               data={sellersInArea.filter((item) =>item.operation_state == 'open')}
-    //               keyExtractor={(item, index) => index.toString()}              
-    //               ListHeaderComponent={
-    //                 <AppText style={styles.subTitle}>
-    //                   {(openInAreaCnt == 1) ? openInAreaCnt +' restaurant offer free pickup': openInAreaCnt +' restaurants offer free pickup'}
-    //                 </AppText>
-    //               }
-    //               renderItem={({ item }) => (
-    //                 <TouchableOpacity
-    //                   style={styles.seller}
-    //                   activeOpacity={0.8}
-    //                   onPress={() => setSeller(item)}>
-    //                   <Seller seller={item} />
-    //                 </TouchableOpacity>
-    //               )}
-    //               numColumns={1}
-    //             />
-    //           }
-    //         {closeInAreaCnt > 0 &&
-    //         <FlatList
-    //             style={styles.availableSellers}
-    //             data={sellersInArea.filter((item) =>item.operation_state != 'open')}
-    //             keyExtractor={(item, index) => index.toString()}              
-    //             ListHeaderComponent={
-    //               <AppText style={styles.subTitle}>
-    //                 {(closeInAreaCnt == 1) ? closeInAreaCnt + ' restaurant offering pick up is closed for the day' :  (openInAreaCnt == 0 ? 'All' : closeInAreaCnt)  + ' restaurants offering pick up are closed for the day'}
-    //               </AppText>
-    //             }
-    //             renderItem={({ item }) => (
-    //               <TouchableOpacity
-    //                 style={styles.closedSeller}
-    //                 activeOpacity={0.8}
-    //                 onPress={() => setSeller(item)}>
-    //                 <Seller seller={item} />
-    //               </TouchableOpacity>
-    //             )}
-    //             numColumns={1}
-    //           />}
-    //       </View>) :(
-    //          <View style={[styles.nearbySellers]}>
-    //           <FlatList
-    //             style={styles.availableSellers}
-    //             data={sellersInArea}
-    //             keyExtractor={(item, index) => index.toString()}              
-    //             ListHeaderComponent={
-    //               <AppText style={styles.subTitle}>
-    //                 {'These local shops offer free pickup'}
-    //               </AppText>
-    //             }
-    //             renderItem={({ item }) => (
-    //               <TouchableOpacity
-    //                 style={styles.seller}
-    //                 activeOpacity={0.8}
-    //                 onPress={() => setSeller(item)}>
-    //                 <Seller seller={item} />
-    //               </TouchableOpacity>
-    //             )}
-    //             numColumns={1}
-    //           />              
-    //        </View>
-    //       )}
-    //       </View>
-    //     ),
-    //   });
-    // }
-
     return tabData;
   }, [sellersDelivery, closeDeliveryCnt]);
 
