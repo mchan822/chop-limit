@@ -84,6 +84,7 @@ const [activeTabIndex, setActiveTabIndex] = useState(0);
             }
         }
       }} scrollEventThrottle={100}>
+        {categoryData != false &&
            <View style={[styles.menuRow, styles.menuRowLastItem]}>
               <TouchableOpacity
                 style={[
@@ -113,11 +114,13 @@ const [activeTabIndex, setActiveTabIndex] = useState(0);
                   </AppText>
                 </View>
               </TouchableOpacity>
-            </View> 
-        <ImageBackground
+            </View> }
+            {categoryData != false &&
+          <ImageBackground
             source={require('~/assets/images/banner.png')}
             style={styles.banner}>
           </ImageBackground> 
+          }
         {awkward == true ? 
         ( categoryData != false &&
             <View style = {{maxWidth: windowWidth, flexDirection: 'row',  marginBottom: 10,paddingHorizontal:10}}>
@@ -172,14 +175,14 @@ const [activeTabIndex, setActiveTabIndex] = useState(0);
           )}
         </>
         {/* } */}
-        <Button
+        {/* <Button
           type="bordered-dark"
           style={[GlobalStyles.formControl, styles.exitButton]}
           onClick={() => {
             NavigationService.reset('Home');
           }}>
           Exit
-        </Button>
+        </Button> */}
       </View>}
           
         <View style={styles.tabContent}>{typeof tabs[activeTabIndex] != null && tabs[activeTabIndex].content}</View>

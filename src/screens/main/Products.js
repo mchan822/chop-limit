@@ -7,11 +7,15 @@ import {
   StyleSheet,
   Image,
   Linking,
+  Dimensions
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector, useDispatch } from 'react-redux';
 import parseAddress from 'parse-address-string';
-
+import RestaurantSVG from '~/assets/images/restaurant.svg';
+import UserSVG from '~/assets/images/user.svg';
+import ChatSVG from '~/assets/images/chat.svg';
+import OrderSVG from '~/assets/images/invoice.svg';
 import { Screen, Product, AppText, Button } from '~/components';
 import { NavigationService } from '~/core/services';
 import { formatPhoneNumber } from '~/core/utility'
@@ -276,17 +280,92 @@ export const ProductsScreen = ({ navigation }) => {
     const price = useSelector(
       (state) => state.order.order && state.order.order.cart_amount,
     );
-    return (+price || 0) > 0 ? (
-      <Button
-        type="accent"
-        style={styles.myCartButton}
-        icon="cart-outline"
-        rightText={`${order.currency_icon}${(+price || 0).toFixed(2)}`}
-        onClick={() => NavigationService.navigate('MyOrder')}>
-        My Cart
-      </Button>
-    ) : (
-      <></>
+    return (
+      <View style={{flexDirection:'row',paddingBottom:5,backgroundColor:'#efefef',paddingHorizontal:10}}>
+          <TouchableOpacity
+        style={[
+          styles.menuButton,
+          {
+            backgroundColor: 'white',
+            height: 60,
+            width: 60,
+            alignItems: 'center',
+          },
+        ]}
+        onPress={() => {
+          NavigationService.navigate('Home');
+        }}>      
+         
+        <RestaurantSVG height={30} width={30}/>
+       
+      </TouchableOpacity> 
+       <TouchableOpacity
+        style={[
+          styles.menuButton,
+          {
+            backgroundColor: 'white',
+            height: 60,
+            width: 60,
+            alignItems: 'center',
+          },
+        ]}
+        onPress={() => {
+          NavigationService.navigate('MessageTerritoryList');
+        }}>
+        
+        <ChatSVG height={30} width={30}/>
+        {/* { unread > 0 &&<AppText style={styles.unreadDot}>{unread}</AppText> } */}
+      </TouchableOpacity> 
+      <TouchableOpacity
+        style={[
+          styles.menuButton,
+          {
+            backgroundColor: 'white',
+            height: 60,
+            width: 60,
+            alignItems: 'center',
+          },
+        ]}
+        onPress={() => {
+          NavigationService.navigate('More');
+        }}>
+        
+        <UserSVG height={30} width={30}/>     
+      </TouchableOpacity> 
+      {price && price > 0 ?
+        <TouchableOpacity
+        style={[
+          styles.menuButton,
+          {
+            backgroundColor: Theme.color.accentColor,
+            height: 60,
+            width:  Dimensions.get("window").width - 240,          
+            flexDirection:'row'
+          },
+        ]}
+        onPress={() => {
+          NavigationService.navigate('MyOrder');
+        }}>          
+          <OrderSVG height={30} width={30}/>
+          <AppText  style={{color:'white',fontWeight:'bold',paddingLeft:5,fontSize:16}}>{`${order.currency_icon}${(+price || 0).toFixed(2)}`}</AppText>
+      </TouchableOpacity>:   
+       <TouchableOpacity
+       style={[
+         styles.menuButton,
+         {
+           backgroundColor: 'black',
+           height: 60,
+           width:  Dimensions.get("window").width - 240,
+           
+           flexDirection:'row'
+         },
+       ]}
+      >       
+       <OrderSVG style={{justifyContent:'flex-start'}}height={30} width={30}/>
+       <AppText style={{color:'white',fontWeight:'bold',paddingLeft:5,fontSize:16}}>{"$"+`${(+price || 0).toFixed(2)}`}</AppText>
+       </TouchableOpacity>    
+     }
+      </View>
     );
   };
   
@@ -392,7 +471,7 @@ export const ProductsScreen = ({ navigation }) => {
           <TouchableOpacity onPress={()=> {
             NavigationService.navigate("DealList",{territory_id: territory.tid});
           }}>
-          {territory.promo_codes_count == 0 ?
+          {territory.promo_codes_count != undefined && ( territory.promo_codes_count == 0 ?
         territory.free_delivery_cutoff != '0.00'  && <View style={styles.details_delivery}>
           <View style={styles.details_row}>
             <PriceSVG style={styles.dealItem} height={17} width={17}/>
@@ -417,7 +496,7 @@ export const ProductsScreen = ({ navigation }) => {
          <View style={styles.details_row}>
          <PriceSVG style={styles.dealItem} height={17} width={17}/>  
           <AppText style={styles.products_freeDelivery} numberOfLines={1}>{territory.promo_codes_count} Deals Available
-        </AppText></View></View>
+        </AppText></View></View>)
         }
         </TouchableOpacity>
           {/* commeted by chris because jaco waht to remove this button for restauratns and services for now before build live chat
@@ -867,6 +946,16 @@ const styles = StyleSheet.create({
     color: 'black',
     paddingVertical: 5,
     paddingLeft:15,
+  },
+  
+  menuButton: {    
+    height: 120,
+    marginHorizontal:5,
+    marginVertical:5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    borderRadius: 10,
   },
 
 });

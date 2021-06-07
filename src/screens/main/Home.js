@@ -192,11 +192,10 @@ export const HomeScreen = ({ navigation }) => {
           },
         ]}
         onPress={() => {
-          NavigationService.navigate('MessageTerritoryList');
+          NavigationService.navigate('Home');
         }}>      
          
         <RestaurantSVG height={30} width={30}/>
-        { unread > 0 &&<AppText style={styles.unreadDot}>{unread}</AppText> }
       </TouchableOpacity> 
        <TouchableOpacity
         style={[
@@ -230,23 +229,39 @@ export const HomeScreen = ({ navigation }) => {
         }}>
         
         <UserSVG height={30} width={30}/>
-        { unread > 0 &&<AppText style={styles.unreadDot}>{unread}</AppText> }
+      
       </TouchableOpacity> 
       {price && price > 0 ?
-      <Button
-        type="accent"
-        style={styles.myCartButton}
-        rightText={`${order.currency_icon}${(+price || 0).toFixed(2)}`}
-        onClick={() => NavigationService.navigate('MyOrder')}>
+        <TouchableOpacity
+        style={[
+          styles.menuButton,
+          {
+            backgroundColor: Theme.color.accentColor,
+            height: 60,
+            width:  Dimensions.get("window").width - 240,          
+            flexDirection:'row'
+          },
+        ]}
+        onPress={() => {
+          NavigationService.navigate('MyOrder');
+        }}>          
           <OrderSVG height={30} width={30}/>
-      </Button>:
-      <Button
-        type="accent"
-        style={styles.myCartButton}
-        rightText={`${order.currency_icon}${(+price || 0).toFixed(2)}`}
-        onClick={() => NavigationService.navigate('MyOrder')}>
-          <OrderSVG style={{justifyContent:'flex-start'}}height={30} width={30}/>
-      </Button>
+          <AppText  style={{color:'white',fontWeight:'bold',paddingLeft:5,fontSize:16}}>{`${order.currency_icon}${(+price || 0).toFixed(2)}`}</AppText>
+      </TouchableOpacity>:   
+       <TouchableOpacity
+       style={[
+         styles.menuButton,
+         {
+           backgroundColor: 'black',
+           height: 60,
+           width:  Dimensions.get("window").width - 240,           
+           flexDirection:'row'
+         },
+       ]}
+       >       
+       <OrderSVG style={{justifyContent:'flex-start'}}height={30} width={30}/>
+       <AppText style={{color:'white',fontWeight:'bold',paddingLeft:5,fontSize:16}}>{"$"+`${(+price || 0).toFixed(2)}`}</AppText>
+       </TouchableOpacity>    
      }
       </View>
     );

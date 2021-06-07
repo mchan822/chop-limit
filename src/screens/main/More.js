@@ -30,8 +30,8 @@ export const MoreScreen = ({navigation}) => {
         <Button
           type="bordered-dark"
           style={[GlobalStyles.formControl]}
-          onClick={() => NavigationService.navigate('Invite')}>
-          Invite A Business
+          onClick={() => NavigationService.navigate('PastOrders')}>
+          My Past Orders
         </Button>
         <Button
           type="bordered-dark"
@@ -49,7 +49,13 @@ export const MoreScreen = ({navigation}) => {
           type="bordered-dark"
           style={[GlobalStyles.formControl]}
           onClick={() => NavigationService.navigate('ContactUs')}>
-          Contact Us
+          Contact Chow Local®
+        </Button>
+        <Button
+          type="bordered-dark"
+          style={[GlobalStyles.formControl]}
+          onClick={() => NavigationService.navigate('Invite')}>
+          Invite A Restaurant
         </Button>
         <Button
           type="bordered-dark"
@@ -105,6 +111,6 @@ MoreScreen.navigationOptions = ({ navigation }) =>
   MainNavigationOptions({
     navigation,
     options: {
-      headerTitle: 'MORE',
+      headerTitle: 'MY ACCOUNT',
     },
   });

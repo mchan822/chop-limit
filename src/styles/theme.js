@@ -22,7 +22,7 @@ export const Theme = {
   registerHeader: {
     backgroundColor: 'transparent',
     actionColor: 'white',
-    titleColor: '#31D457',
+    titleColor: '#ec1a25',
   },
 
   messageRoomHeader: {

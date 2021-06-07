@@ -77,7 +77,7 @@ export const MainNavigationOptions = ({
   return {
     headerStyle: {
       height: Theme.header.height,
-      backgroundColor: 'green',
+      backgroundColor: Theme.color.accentColor,
     },
 
     headerTintColor: Theme.registerHeader.actionColor,

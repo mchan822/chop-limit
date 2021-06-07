@@ -331,68 +331,11 @@ export const SellersWithCategoryScreen = ({ navigation }) => {
           },
         ]}>
         {sellersDelivery === false ||
-          sellersDelivery.length ? (          
-         <Tab tabs={tabData} categoryData={false} setPage={()=> loadMore(page, totalPages)}/>
-        ) : (
-          <View style={[styles.awkward, styles.topSection]}>
-            <View style={styles.noResultsWrapper}>
-              {territory_type === 'restaurants' ? (
-                <FoodSVG width={120} height={120} />
-              ) : territory_type === 'shops' ? (
-                <ShopSVG width={120} height={120} />
-              ) :  (<ServiceSVG width={120} height={120} />)}
-            </View>
-            <AppText style={[styles.subTitle, GlobalStyles.formControl]}>
-              We don't have any {territory_type} in your area, right now.
-            </AppText>
-            <AppText
-              style={[
-                styles.description,
-                GlobalStyles.formControl,
-                { marginBottom: 20 },
-              ]}>
-              Chow Local® recently launched, and more {territory_type} should get onboard
-              soon.
-            </AppText>
-
-            {/* <AppText style={[styles.description, GlobalStyles.formControl]}>
-              We'll let you know as soon as anyone starts selling within {territory_type === 'restaurants' ? '15 miles' : '50 miles'} of the address you entered earlier.
-            </AppText> */}
-            {/* {(token && order) &&  */}
-            <>
-              <Button
-                type="accent"
-                style={[GlobalStyles.formControl, styles.exitButton]}
-                onClick={() => {
-                  NavigationService.navigate('Invite');
-                }}>
-                INVITE A{' '}
-                {territory_type === 'restaurants' ? 'RESTAURANT' : territory_type === 'services'? 'LOCAL PRO' : 'RETAILER'}
-              </Button>
-              {token && (
-                <Button
-                  type="bordered-dark"
-                  style={[GlobalStyles.formControl, styles.exitButton]}
-                  onClick={() => {
-                    NavigationService.navigate('StartSelling');
-                  }}>
-                  {territory_type === 'restaurants'
-                    ? 'I OPERATE A RESTAURANT'
-                    : territory_type === 'services'? 'I AM A LOCAL PRO' : 'I OPERATE A RETAILER STORE'}
-                </Button>
+          sellersDelivery.length ? (             
+              <Tab tabs={tabData} awkward={true}   setPage={()=> loadMore(page, totalPages)} categoryData={false}/>
+              ) : (
+                <Tab tabs={tabData} awkward={false} setPage={()=> loadMore(page, totalPages)} categoryData={false}/>
               )}
-            </>
-            {/* } */}
-            <Button
-              type="bordered-dark"
-              style={[GlobalStyles.formControl, styles.exitButton]}
-              onClick={() => {
-                NavigationService.reset('Home');
-              }}>
-              Exit
-            </Button>
-          </View>
-        )}
       </View>      
     </Screen>
   );
