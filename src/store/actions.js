@@ -148,6 +148,13 @@ export const updateCard = (isUpdateCard) => ({
     isUpdateCard,
   },
 });
+export const setUnreadMessages = (unread) => ({
+  type: 'SET_UNREAD',
+  payload: {
+    unread,
+  },
+});
+
 
 
 

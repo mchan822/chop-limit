@@ -38,7 +38,7 @@ export const ProductsScreen = ({ navigation }) => {
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [parsedAddress, setParsedAddress] = useState();
-
+  const unread = useSelector((state) => state.notification.unreadMessages);
   // store
   const dispatch = useDispatch();
 
@@ -295,9 +295,7 @@ export const ProductsScreen = ({ navigation }) => {
         onPress={() => {
           NavigationService.navigate('Home');
         }}>      
-         
         <RestaurantSVG height={30} width={30}/>
-       
       </TouchableOpacity> 
        <TouchableOpacity
         style={[
@@ -312,9 +310,8 @@ export const ProductsScreen = ({ navigation }) => {
         onPress={() => {
           NavigationService.navigate('MessageTerritoryList');
         }}>
-        
         <ChatSVG height={30} width={30}/>
-        {/* { unread > 0 &&<AppText style={styles.unreadDot}>{unread}</AppText> } */}
+        { unread > 0 &&<AppText style={styles.unreadDot}>{unread}</AppText> }
       </TouchableOpacity> 
       <TouchableOpacity
         style={[
@@ -797,7 +794,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 20,
   },
-
+  
+  unreadDot: {
+    borderRadius: 3,
+    textAlign:"center", 
+    fontSize: 10,
+    color: "#fff",
+    backgroundColor: "#f00",
+    height: 15,
+    minWidth: 13,
+    paddingLeft:2, 
+    paddingRight: 2, 
+    fontWeight: "bold", 
+    borderRadius: 25, 
+    position: 'absolute',
+    right: 10,
+    top: 5    
+  },
   sellerDetail: {
     justifyContent: 'center',
     flex: 1,

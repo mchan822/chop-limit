@@ -17,6 +17,7 @@ const InitialState = {
   enterMessageRoom: false,
   subscriptionAddressUpdated: false,
   subscriptionCancelledUpdated: false,
+  unreadMessages:null
 };
 
 const reducer = (state = InitialState, action) => {
@@ -46,6 +47,12 @@ const reducer = (state = InitialState, action) => {
       ...state,
       isUpdateCard: action.payload.isUpdateCard,
     };
+    case 'SET_UNREAD':
+    return {
+      ...state,
+      unreadMessages: action.payload.unread,
+    };
+    
     case 'UPDATED_ORDERNOTE':
       return {
         ...state,

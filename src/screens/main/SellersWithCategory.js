@@ -26,10 +26,10 @@ import { NavigationService } from '~/core/services';
 import { MainNavigationOptions, Theme, GlobalStyles } from '~/styles';
 
 import { showNotification, setTerritory } from '~/store/actions';
-
-import ShopSVG from '~/assets/images/pet-shop-black.svg';
-import FoodSVG from '~/assets/images/burger-black.svg';
-import ServiceSVG from '~/assets/images/services-black.svg';
+import OrderSVG from '~/assets/images/invoice.svg';
+import RestaurantSVG from '~/assets/images/restaurant.svg';
+import UserSVG from '~/assets/images/user.svg';
+import ChatSVG from '~/assets/images/chat.svg';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export const SellersWithCategoryScreen = ({ navigation }) => {
@@ -44,24 +44,98 @@ export const SellersWithCategoryScreen = ({ navigation }) => {
   const windowWidth = Dimensions.get('window').width;
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  
+  const unread = useSelector((state) => state.notification.unreadMessages);
   const [sellersFilter, setSellersFilter] = useState('&sort_by=most-orders');
   
   const MyCart = () => {
     const price = useSelector(
       (state) => state.order.order && state.order.order.cart_amount,
     );
-    return (+price || 0) > 0 ? (
-      <Button
-        type="accent"
-        style={styles.myCartButton}
-        icon="cart-outline"
-        rightText={`${order.currency_icon}${(+price || 0).toFixed(2)}`}
-        onClick={() => NavigationService.navigate('MyOrder')}>
-        My Cart
-      </Button>
-    ) : (
-      <></>
+    return (
+      <View style={{flexDirection:'row',paddingBottom:5,backgroundColor:'transparent',paddingHorizontal:10}}>
+          <TouchableOpacity
+        style={[
+          styles.menuButton,
+          {
+            backgroundColor: 'white',
+            height: 60,
+            width: 60,
+            alignItems: 'center',
+          },
+        ]}
+        onPress={() => {
+          NavigationService.navigate('Home');
+        }}>      
+         
+        <RestaurantSVG height={30} width={30}/>
+      </TouchableOpacity> 
+       <TouchableOpacity
+        style={[
+          styles.menuButton,
+          {
+            backgroundColor: 'white',
+            height: 60,
+            width: 60,
+            alignItems: 'center',
+          },
+        ]}
+        onPress={() => {
+          NavigationService.navigate('MessageTerritoryList');
+        }}>
+        
+        <ChatSVG height={30} width={30}/>
+        { unread > 0 &&<AppText style={styles.unreadDot}>{unread}</AppText> }
+      </TouchableOpacity> 
+      <TouchableOpacity
+        style={[
+          styles.menuButton,
+          {
+            backgroundColor: 'white',
+            height: 60,
+            width: 60,
+            alignItems: 'center',
+          },
+        ]}
+        onPress={() => {
+          NavigationService.navigate('More');
+        }}>
+        
+        <UserSVG height={30} width={30}/>
+      
+      </TouchableOpacity> 
+      {price && price > 0 ?
+        <TouchableOpacity
+        style={[
+          styles.menuButton,
+          {
+            backgroundColor: Theme.color.accentColor,
+            height: 60,
+            width:  Dimensions.get("window").width - 240,          
+            flexDirection:'row'
+          },
+        ]}
+        onPress={() => {
+          NavigationService.navigate('MyOrder');
+        }}>          
+          <OrderSVG height={30} width={30}/>
+          <AppText  style={{color:'white',fontWeight:'bold',paddingLeft:5,fontSize:16}}>{`${order.currency_icon}${(+price || 0).toFixed(2)}`}</AppText>
+      </TouchableOpacity>:   
+       <TouchableOpacity
+       style={[
+         styles.menuButton,
+         {
+           backgroundColor: 'black',
+           height: 60,
+           width:  Dimensions.get("window").width - 240,           
+           flexDirection:'row'
+         },
+       ]}
+       >       
+       <OrderSVG style={{justifyContent:'flex-start'}}height={30} width={30}/>
+       <AppText style={{color:'white',fontWeight:'bold',paddingLeft:5,fontSize:16}}>{"$"+`${(+price || 0).toFixed(2)}`}</AppText>
+       </TouchableOpacity>    
+     }
+      </View>
     );
   };
  
@@ -480,14 +554,32 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#333',
   },
-  myCartButton: {
-    marginHorizontal: 20,    
-    marginVertical: 15,  
-    position:'absolute',
-    bottom:0,
-    display: 'flex',
-    right:0,
-    left:0  
+ 
+  menuButton: {    
+    height: 120,
+    marginHorizontal:5,
+    marginVertical:5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    borderRadius: 10,
+  },
+
+  unreadDot: {
+    borderRadius: 3,
+    textAlign:"center", 
+    fontSize: 10,
+    color: "#fff",
+    backgroundColor: "#f00",
+    height: 15,
+    minWidth: 13,
+    paddingLeft:2, 
+    paddingRight: 2, 
+    fontWeight: "bold", 
+    borderRadius: 25, 
+    position: 'absolute',
+    right: 10,
+    top: 5    
   },
 });
 

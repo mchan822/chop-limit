@@ -67,7 +67,6 @@ export const CreditCardScreen = ({ navigation }) => {
   return (
     <Screen
       isLoading={isLoading}
-      backgroundImage={require('~/assets/images/back5.png')}
       showHeaderOverLayOnScroll>
       <View style={styles.container}>
         <Input

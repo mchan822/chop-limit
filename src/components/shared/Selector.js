@@ -72,7 +72,7 @@ export const Selector = ({
       {!hideSelector && typeSelector  && (
         <TouchableOpacity
           style={[styles.item, styles.picker, style]}
-          activeOpacity={0.8}
+          activeOpacity={1}
           onPress={() => {
             NavigationService.navigate('SelectorPage', {
               title,
@@ -156,7 +156,8 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 14,
     marginBottom: 10,
-    paddingTop:8
+    paddingTop:8,
+    color:'black'
   },
 
   labelSelector: {

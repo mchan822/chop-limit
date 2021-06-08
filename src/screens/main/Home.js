@@ -11,11 +11,11 @@ import { truncateAddress } from '~/core/utility';
 import { fetchAPI,capitalize } from '~/core/utility';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {setTerritoryType} from '~/store/actions';
+// import ShopSVG from '~/assets/images/shop.svg';
+// import FoodSVG from '~/assets/images/burger.svg';
+// import ServiceSVG from '~/assets/images/services.svg';
+// import DealSVG from '~/assets/images/deal.svg';
 import OrderSVG from '~/assets/images/invoice.svg';
-import ShopSVG from '~/assets/images/shop.svg';
-import FoodSVG from '~/assets/images/burger.svg';
-import ServiceSVG from '~/assets/images/services.svg';
-import DealSVG from '~/assets/images/deal.svg';
 import RestaurantSVG from '~/assets/images/restaurant.svg';
 import UserSVG from '~/assets/images/user.svg';
 import ChatSVG from '~/assets/images/chat.svg';
@@ -25,7 +25,8 @@ import BackgroundTimer from 'react-native-background-timer';
 import {
   showNotification,
   setAddress as setAddressAction,
-  setTerritory
+  setTerritory,
+  setUnreadMessages
 } from '~/store/actions';
 
 
@@ -42,12 +43,13 @@ export const HomeScreen = ({ navigation }) => {
   const token = useSelector((state) => state.account.token);
   const banner_url = useSelector((state) => state.account.banner_url);
   const guestToken = useSelector((state) => state.account.guestToken);
+  const unread = useSelector((state) => state.notification.unreadMessages);
   const order = useSelector((state) => state.order.order);
   const explorer = useSelector((state) => state.explorer);
   const [address, setAddress] = useState('');
   const windowWidth = Dimensions.get('window').width;
   const [indexButton,setIndexButton] = useState('');
-  const [unread, setUnread] = useState('');
+  //const [unread, setUnread] = useState('');
   //const [featuredSellers, setfeaturedSellersDelivery] = useState(false);
   const enterMessageRoomValue =  useSelector((state) => state.notification.enterMessageRoom);
   // const renderFeatured = ({item,index}) => {
@@ -429,7 +431,8 @@ export const HomeScreen = ({ navigation }) => {
       })
       .then((res) => {
         console.log("console log data ++++++++++++++",res);
-        setUnread(res.data.total);          
+        dispatch(setUnreadMessages(res.data.total));
+      
       })
       .catch((err) =>
         dispatch(showNotification({ type: 'error', message: err.message })),
@@ -532,7 +535,7 @@ export const HomeScreen = ({ navigation }) => {
           {
             lastMessageChecked_var = res.data.last_time_checked
           }
-          setUnread(res.data.total);          
+          dispatch(setUnreadMessages(res.data.total));  
         })
          .catch((err) =>
           {}//dispatch(showNotification({ type: 'error', message: err.message })),
@@ -557,7 +560,7 @@ export const HomeScreen = ({ navigation }) => {
   const [openDeliveryCnt, setOpenDeliveryCnt] = useState(false);
   const [closeDeliveryCnt, setCloseDeliveryCnt] = useState(false);
   const [categoryData, setCategoryData] =  useState(false);
-  const [selectedCategory, selectCategory] = useState(false);
+  //const [selectedCategory, selectCategory] = useState(false);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   
@@ -631,8 +634,7 @@ export const HomeScreen = ({ navigation }) => {
             .finally(() => setLoading(false));       
       }
   }, [page,lastAddress]);
-  
-  useEffect(() => {
+  const selectCategory = useCallback((selectedCategory)=>{
     if(selectedCategory != false){
       var categoryName = "";
       categoryData.map((item) => {
@@ -642,7 +644,10 @@ export const HomeScreen = ({ navigation }) => {
       console.log("cateogory name",categoryName);
       NavigationService.navigate("SellersWithCategory",{selectedCategory: selectedCategory,categoryName:categoryName});
     }
-  },[selectedCategory])
+  });
+  // useEffect(() => {
+    
+  // },[selectedCategory])
 
   useEffect(() => { 
     fetchAPI(
@@ -771,8 +776,7 @@ export const HomeScreen = ({ navigation }) => {
           sellersDelivery.length ? (          
          <Tab tabs={tabData} awkward={true} lastAddress={lastAddress} categoryData={categoryData} setPage={()=> loadMore(page, totalPages)} selectCategory={selectCategory}/>
         ) : (
-          <Tab tabs={tabData} awkward={false} lastAddress={lastAddress} categoryData={categoryData} setPage={()=> loadMore(page, totalPages)} selectCategory={selectCategory}/>
-          
+          <Tab tabs={tabData} awkward={false} lastAddress={lastAddress} categoryData={true} setPage={()=> loadMore(page, totalPages)} selectCategory={selectCategory}/>
         )}     
       </View>      
     </Screen>

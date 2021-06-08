@@ -14,7 +14,10 @@ import GetLocation from 'react-native-get-location';
 import GeoCoder from 'react-native-geocoding';
 import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import OrderSVG from '~/assets/images/invoice.svg';
+import RestaurantSVG from '~/assets/images/restaurant.svg';
+import UserSVG from '~/assets/images/user.svg';
+import ChatSVG from '~/assets/images/chat.svg';
 import { NavigationService } from '~/core/services';
 import { Config } from '~/core/config';
 import { fetchAPI } from '~/core/utility';
@@ -41,7 +44,7 @@ export const LocationScreen = ({navigation}) => {
   const [dlgVisible, setDlgVisible] = useState(false);
   const mapRef = useRef();
   const dispatch = useDispatch();
-
+  const unread = useSelector((state) => state.notification.unreadMessages);
   const [isLoading, setLoading] = useState(false);
   const [addresses, setAddresses] = useState([]);
 
@@ -49,12 +52,7 @@ export const LocationScreen = ({navigation}) => {
   const userInfo = useSelector((state) => state.account.userInfo);
   const guestToken = useSelector((state) => state.account.guestToken);
   const order = useSelector((state) => state.order.order);
-  const addressState = useSelector((state) => state.explorer.address);
-  const territory_type = useSelector(
-    (state) => state.order.territory_type.territory_type,
-  );
-
-  
+  const addressState = useSelector((state) => state.explorer.address);  
   const editSubscription = useMemo(() => navigation.getParam('editSubscription'), []);
   const subscription_Sid = useMemo(() => navigation.getParam('subscription_id'), []);
   const territory_id = useMemo(() => navigation.getParam('territory_id'), []);
@@ -313,17 +311,91 @@ export const LocationScreen = ({navigation}) => {
     const price = useSelector(
       (state) => state.order.order && state.order.order.cart_amount,
     );
-    return (+price || 0) > 0 ? (
-      <Button
-        type="accent"
-        style={styles.myCartButton}
-        icon="cart-outline"
-        rightText={`${order.currency_icon}${(+price || 0).toFixed(2)}`}
-        onClick={() => NavigationService.navigate('MyOrder')}>
-        My Cart
-      </Button>
-    ) : (
-      <></>
+    return (
+      <View style={{flexDirection:'row',paddingBottom:10,backgroundColor:Theme.color.backgroundColor,paddingHorizontal:10}}>
+          <TouchableOpacity
+        style={[
+          styles.menuButton,
+          {
+            backgroundColor: 'white',
+            height: 60,
+            width: 60,
+            alignItems: 'center',
+          },
+        ]}
+        onPress={() => {
+          NavigationService.navigate('Home');
+        }}>      
+         
+        <RestaurantSVG height={30} width={30}/>
+      </TouchableOpacity> 
+       <TouchableOpacity
+        style={[
+          styles.menuButton,
+          {
+            backgroundColor: 'white',
+            height: 60,
+            width: 60,
+            alignItems: 'center',
+          },
+        ]}
+        onPress={() => {
+          NavigationService.navigate('MessageTerritoryList');
+        }}>
+        
+        <ChatSVG height={30} width={30}/>
+        { unread > 0 &&<AppText style={styles.unreadDot}>{unread}</AppText> }
+      </TouchableOpacity> 
+      <TouchableOpacity
+        style={[
+          styles.menuButton,
+          {
+            backgroundColor: 'white',
+            height: 60,
+            width: 60,
+            alignItems: 'center',
+          },
+        ]}
+        onPress={() => {
+          NavigationService.navigate('More');
+        }}>
+        
+        <UserSVG height={30} width={30}/>
+      
+      </TouchableOpacity> 
+      {price && price > 0 ?
+        <TouchableOpacity
+        style={[
+          styles.menuButton,
+          {
+            backgroundColor: Theme.color.accentColor,
+            height: 60,
+            width:  Dimensions.get("window").width - 240,          
+            flexDirection:'row'
+          },
+        ]}
+        onPress={() => {
+          NavigationService.navigate('MyOrder');
+        }}>          
+          <OrderSVG height={30} width={30}/>
+          <AppText  style={{color:'white',fontWeight:'bold',paddingLeft:5,fontSize:16}}>{`${order.currency_icon}${(+price || 0).toFixed(2)}`}</AppText>
+      </TouchableOpacity>:   
+       <TouchableOpacity
+       style={[
+         styles.menuButton,
+         {
+           backgroundColor: 'black',
+           height: 60,
+           width:  Dimensions.get("window").width - 240,           
+           flexDirection:'row'
+         },
+       ]}
+       >       
+       <OrderSVG style={{justifyContent:'flex-start'}}height={30} width={30}/>
+       <AppText style={{color:'white',fontWeight:'bold',paddingLeft:5,fontSize:16}}>{"$"+`${(+price || 0).toFixed(2)}`}</AppText>
+       </TouchableOpacity>    
+     }
+      </View>
     );
   };
   const deleteAddress = useCallback(
@@ -553,7 +625,34 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     letterSpacing: 0.5,
   },
+  
+  menuButton: {    
+    height: 120,
+    marginHorizontal:5,
+    marginVertical:5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    borderRadius: 10,
+  },
 
+  unreadDot: {
+    borderRadius: 3,
+    textAlign:"center", 
+    fontSize: 10,
+    color: "#fff",
+    backgroundColor: "#f00",
+    height: 15,
+    minWidth: 13,
+    paddingLeft:2, 
+    paddingRight: 2, 
+    fontWeight: "bold", 
+    borderRadius: 25, 
+    position: 'absolute',
+    right: 10,
+    top: 5    
+  },
+  
   description: {
     color: 'grey',
     fontSize: 14,

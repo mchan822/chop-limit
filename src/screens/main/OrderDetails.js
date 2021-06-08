@@ -70,7 +70,7 @@ export const OrderDetailsScreen = ({ navigation }) => {
             </View>
             <View style={{flex:4,padding:10}}>
               <View style={{flex: 1}}><AppText style={{fontSize: 13, fontWeight: '400', textAlign: 'left'}}>{orderDetail.status_name}</AppText></View>
-              <View style={{flex: 1}}></View><AppText style={{fontSize: 13, color: '#31D457', fontWeight: '400', textAlign: 'left'}}>{orderDetail.total_amount_formatted} </AppText>
+              <View style={{flex: 1}}><AppText style={{fontSize: 13, color: Theme.color.accentColor, fontWeight: '400', textAlign: 'left'}}>{orderDetail.total_amount_formatted} </AppText></View>
           </View>       
             {/* <View style={{flex:5,backgroundColor:'#DDD',width:'100%',padding:10}}>
                 <View style={{flex: 1}}></View><AppText style={{fontSize: 22,paddingBottom:5, color: 'black', fontWeight: '400', textAlign: 'left'}}> {orderDetail.total_amount_formatted} </AppText>

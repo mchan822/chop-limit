@@ -391,14 +391,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 15
   },
 
-  myCartButton: {
-    marginHorizontal: 10,
-    backgroundColor: "#FFF",
-    borderWidth: 0,
-    borderRadius: 10,
-    height: 60
-  },
-
   buttonText: {
     color: "#06f",
     fontWeight: "bold"
