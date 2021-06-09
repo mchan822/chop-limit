@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { Screen, Input, Button } from '~/components';
+import { Screen, Input, Button,StickyBottom } from '~/components';
 import { GlobalStyles, MainNavigationOptions, Theme } from '~/styles';
 
 import { fetchAPI } from '~/core/utility';
@@ -66,7 +66,7 @@ export const ContactUsScreen = ({ navigation }) => {
   }, [send]);
 
   return (
-    <Screen isLoading={isLoading} keyboardAware={true}>
+    <Screen isLoading={isLoading} keyboardAware={true} stickyBottom={<StickyBottom/>}>
       <View style={styles.container}>
         <Input
           style={GlobalStyles.formControl}

@@ -4,8 +4,8 @@ import { View, StyleSheet, Image, TouchableOpacity, Dimensions,ImageBackground, 
 import { useSelector, useDispatch } from 'react-redux';
 import Carousel from 'react-native-snap-carousel';
 import { NavigationService } from '~/core/services';
-
-import { Screen, AppText,Button, Seller,LoadingGIF,Tab } from '~/components';
+import LinearGradient from 'react-native-linear-gradient';
+import { Screen, AppText,Button, Seller,LoadingGIF,Tab,StickyBottom } from '~/components';
 import { Theme, MainNavigationOptions,GlobalStyles } from '~/styles';
 import { truncateAddress } from '~/core/utility';
 import { fetchAPI,capitalize } from '~/core/utility';
@@ -15,10 +15,6 @@ import {setTerritoryType} from '~/store/actions';
 // import FoodSVG from '~/assets/images/burger.svg';
 // import ServiceSVG from '~/assets/images/services.svg';
 // import DealSVG from '~/assets/images/deal.svg';
-import OrderSVG from '~/assets/images/invoice.svg';
-import RestaurantSVG from '~/assets/images/restaurant.svg';
-import UserSVG from '~/assets/images/user.svg';
-import ChatSVG from '~/assets/images/chat.svg';
 import PushNotification,{Importance} from "react-native-push-notification";
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import BackgroundTimer from 'react-native-background-timer';
@@ -52,222 +48,6 @@ export const HomeScreen = ({ navigation }) => {
   //const [unread, setUnread] = useState('');
   //const [featuredSellers, setfeaturedSellersDelivery] = useState(false);
   const enterMessageRoomValue =  useSelector((state) => state.notification.enterMessageRoom);
-  // const renderFeatured = ({item,index}) => {
-  //   return (<View style={{marginHorizontal:5,marginTop:10}}><Seller seller={item}></Seller></View>);
-  // }
-  // const renderHome = ({item, index}) => {    
-  //   if(index == 0)
-  //   {
-  //     return (
-  //   <TouchableOpacity style={{...styles.menuButton, width:(windowWidth-70)/3}}
-  //     onPress={() => chooseSellerCategory('shops')}>
-  //     <View style={styles.menuButtonTextWrap}>
-  //       <ShopSVG height={50} width={50} />
-  //       <AppText style={styles.menuButtonTitle}>Shops</AppText>
-  //     </View>
-  //   </TouchableOpacity>);
-  //   } else if(index == 1)
-  //   {
-  //     return (
-  //     <TouchableOpacity style={{...styles.menuButton, width:(windowWidth-70)/3}}
-  //       onPress={() => chooseSellerCategory('restaurants')}>
-  //       <View style={styles.menuButtonTextWrap}>
-  //         <FoodSVG width={50} height={50} />
-  //         <AppText style={styles.menuButtonTitle}>Food</AppText>
-  //       </View>
-  //     </TouchableOpacity>  
-  //     );
-  //   } else if(index == 2)
-  //   {
-  //     return (
-  //       <TouchableOpacity style={{...styles.menuButton, width:(windowWidth-70)/3}}
-  //       onPress={() => chooseSellerCategory('services')}>
-  //       <View style={styles.menuButtonTextWrap}>
-  //         <ServiceSVG width={50} height={50} />        
-  //         {/* <Icon size={57} color={'#ffffff'} name="clipboard-list-outline" style={styles.menuButtonIcon} /> */}
-  //         <AppText style={styles.menuButtonTitle}>
-  //           Services
-  //         </AppText>
-  //       </View>
-  //     </TouchableOpacity> 
-         
-  //     ); 
-  //   } else if(index == 3)
-  //   {
-  //     return(
-  //       <TouchableOpacity style={{...styles.menuButton, width:(windowWidth-70)/3}}
-  //       onPress={() => chooseDealsList()}>
-  //       <View style={styles.menuButtonTextWrap}>
-  //         <DealSVG height={50} width={60} />
-  //         {/* <Icon size={50} color={'#ffffff'} name="gift-outline" style={styles.menuButtonIcon} /> */}
-  //         <AppText style={styles.menuButtonTitle}>
-  //           Deals
-  //         </AppText>
-  //       </View>
-  //     </TouchableOpacity>     
-  //     );
-  //   } else if(index == 4)
-  //   {
-  //      return(
-  //       <TouchableOpacity style={{...styles.menuButton, width:(windowWidth-70)/3}}
-  //       onPress={() => chooseOrderList()}>
-  //       <View style={styles.menuButtonTextWrap}>
-  //         <OrderSVG height={50} width={50} />
-  //         <AppText style={styles.menuButtonTitle}>My Orders</AppText>
-  //       </View>
-  //     </TouchableOpacity>     
-     
-  //     );
-  //   } else if(index == 5)
-  //   {
-  //     return(
-  //       <TouchableOpacity style={{...styles.menuButton, width:(windowWidth-70)/3}}
-  //       onPress={() => NavigationService.navigate('More')}>
-  //       <View style={styles.menuButtonTextWrap}>
-  //         {/* <InviteSVG height={50} width={60}/> */}
-  //         <Icon size={50} color={'#000'} name="dots-horizontal" style={styles.menuButtonIcon} />
-  //         <AppText style={styles.menuButtonTitle}>
-  //         More
-  //         </AppText>
-  //       </View>
-  //     </TouchableOpacity> 
-  //     );
-  //   }
-    // } else if(index == 6)
-    // {
-    //    return(
-    //     <TouchableOpacity style={styles.menuButton}
-    //     onPress={() => chooseMyAccount()}>
-    //     <View style={styles.menuButtonTextWrap}>
-    //       <UserSVG height={50} width={60} />
-    //       {/* <Icon size={50} color={'#ffffff'} name="gift-outline" style={styles.menuButtonIcon} /> */}
-    //       <AppText style={styles.menuButtonTitle}>
-    //         My Account
-    //       </AppText>
-    //     </View>
-    //   </TouchableOpacity> 
-    //   );
-    // }
-  // };
-
-  // const homeData = [
-  //   {
-  //     data: 1
-  //   },
-  //   {
-  //     data: 2
-  //   },
-  //   {
-  //     data: 3
-  //   },
-  //   {
-  //     data: 4
-  //   },
-  //   {
-  //     data: 5
-  //   },
-  //   {
-  //     data: 6
-  //   },
-  //   ];
-    
-  // const territory_type_initial = useSelector(
-  //   (state) =>
-  //     (state.order.territory_type &&
-  //       state.order.territory_type.territory_type) ||
-  //     'shops',
-  // );
-  const MyCart = () => {
-    const price = useSelector(
-      (state) => state.order.order && state.order.order.cart_amount,
-    );
-    return (
-      <View style={{flexDirection:'row',paddingBottom:10,backgroundColor:'transparent',paddingHorizontal:10}}>
-          <TouchableOpacity
-        style={[
-          styles.menuButton,
-          {
-            backgroundColor: 'white',
-            height: 60,
-            width: 60,
-            alignItems: 'center',
-          },
-        ]}
-        onPress={() => {
-          NavigationService.navigate('Home');
-        }}>      
-         
-        <RestaurantSVG height={30} width={30}/>
-      </TouchableOpacity> 
-       <TouchableOpacity
-        style={[
-          styles.menuButton,
-          {
-            backgroundColor: 'white',
-            height: 60,
-            width: 60,
-            alignItems: 'center',
-          },
-        ]}
-        onPress={() => {
-          NavigationService.navigate('MessageTerritoryList');
-        }}>
-        
-        <ChatSVG height={30} width={30}/>
-        { unread > 0 &&<AppText style={styles.unreadDot}>{unread}</AppText> }
-      </TouchableOpacity> 
-      <TouchableOpacity
-        style={[
-          styles.menuButton,
-          {
-            backgroundColor: 'white',
-            height: 60,
-            width: 60,
-            alignItems: 'center',
-          },
-        ]}
-        onPress={() => {
-          NavigationService.navigate('More');
-        }}>
-        
-        <UserSVG height={30} width={30}/>
-      
-      </TouchableOpacity> 
-      {price && price > 0 ?
-        <TouchableOpacity
-        style={[
-          styles.menuButton,
-          {
-            backgroundColor: Theme.color.accentColor,
-            height: 60,
-            width:  Dimensions.get("window").width - 240,          
-            flexDirection:'row'
-          },
-        ]}
-        onPress={() => {
-          NavigationService.navigate('MyOrder');
-        }}>          
-          <OrderSVG height={30} width={30}/>
-          <AppText  style={{color:'white',fontWeight:'bold',paddingLeft:5,fontSize:16}}>{`${order.currency_icon}${(+price || 0).toFixed(2)}`}</AppText>
-      </TouchableOpacity>:   
-       <TouchableOpacity
-       style={[
-         styles.menuButton,
-         {
-           backgroundColor: 'black',
-           height: 60,
-           width:  Dimensions.get("window").width - 240,           
-           flexDirection:'row'
-         },
-       ]}
-       >       
-       <OrderSVG style={{justifyContent:'flex-start'}}height={30} width={30}/>
-       <AppText style={{color:'white',fontWeight:'bold',paddingLeft:5,fontSize:16}}>{"$"+`${(+price || 0).toFixed(2)}`}</AppText>
-       </TouchableOpacity>    
-     }
-      </View>
-    );
-  };
 
   const dispatch = useDispatch();
 
@@ -762,7 +542,7 @@ export const HomeScreen = ({ navigation }) => {
     <Screen
       align="bottom"
       backgroundColor='#EFEFEF'
-      stickyBottom={<MyCart/>} 
+      stickyBottom={<StickyBottom/>} 
       >
       <View style={styles.container}>      
              
@@ -784,7 +564,7 @@ export const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     //paddingHorizontal: Theme.layout.screenPaddingHorizontal,
-    paddingTop: Platform.OS === 'ios' ? 60 : 30,
+    paddingTop: Platform.OS === 'ios' ? 30 : 30,
     paddingBottom: 10,
 
     display: 'flex',
@@ -836,6 +616,23 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
 
+  unreadDot: {
+    borderRadius: 3,
+    textAlign:"center", 
+    fontSize: 10,
+    color: "#fff",
+    backgroundColor: "#f00",
+    height: 15,
+    minWidth: 13,
+    paddingLeft:2, 
+    paddingRight: 2, 
+    fontWeight: "bold", 
+    borderRadius: 25, 
+    position: 'absolute',
+    right: 10,
+    top: 5    
+  },
+
   menuButtonTextWrap: {
     flex: 1,
     alignItems: 'center',
@@ -868,23 +665,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     width:'30%'
   },
-
-  unreadDot: {
-    borderRadius: 3,
-    textAlign:"center", 
-    fontSize: 10,
-    color: "#fff",
-    backgroundColor: "#f00",
-    height: 15,
-    minWidth: 13,
-    paddingLeft:2, 
-    paddingRight: 2, 
-    fontWeight: "bold", 
-    borderRadius: 25, 
-    position: 'absolute',
-    right: 10,
-    top: 5    
-  },
+  
   
    banner: {
     alignItems: 'center',

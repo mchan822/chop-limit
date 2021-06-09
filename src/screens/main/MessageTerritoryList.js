@@ -2,17 +2,12 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { View, StyleSheet, FlatList, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Screen, Input, Button, MessageTerritoryItem, LoadingGIF } from '~/components';
+import { Screen, Input, Button, MessageTerritoryItem, LoadingGIF, StickyBottom } from '~/components';
 import { GlobalStyles, MainNavigationOptions, Theme } from '~/styles';
-
 import { fetchAPI } from '~/core/utility';
 import { showNotification, setUserInfo, setPhone, setToken, setTerritory,enterMessageRoom } from '~/store/actions';
 import { NavigationService } from '~/core/services';
 import { DashedLine, AppText} from '../../components';
-
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { HeaderStyleInterpolators } from 'react-navigation-stack';
-
 export const MessageTerritoryListScreen = ({ navigation }) => {
   const userinfo =  useSelector((state) => state.account.userInfo);
   const enterMessageRoomValue =  useSelector((state) => state.notification.enterMessageRoom);
@@ -24,8 +19,7 @@ export const MessageTerritoryListScreen = ({ navigation }) => {
   const token = useSelector((state) => state.account.token);
   const guestToken = useSelector((state) => state.account.guestToken);
   
-  const windowHeight = Dimensions.get('window').height;
-
+  const windowHeight = Dimensions.get('window').height;  
   useEffect(() => {
     fetchAPI(`/messages/list?size=10&page=0`, {
       method: 'GET',
@@ -42,9 +36,8 @@ export const MessageTerritoryListScreen = ({ navigation }) => {
     )
   },[enterMessageRoomValue]);
 
-
   return (
-    <Screen isLoading={isLoading} keyboardAware={true}>
+    <Screen isLoading={isLoading} keyboardAware={true} stickyBottom={<StickyBottom/>}>
       <View style={styles.container}>
         {territoryList && territoryList.length > 0 && (
             <ScrollView
@@ -91,6 +84,34 @@ const styles = StyleSheet.create({
     paddingHorizontal: Theme.layout.screenPaddingHorizontal,
     paddingTop: 90
   },
+
+  menuButton: {    
+    height: 120,
+    marginHorizontal:5,
+    marginVertical:5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    borderRadius: 10,
+  },
+
+  unreadDot: {
+    borderRadius: 3,
+    textAlign:"center", 
+    fontSize: 10,
+    color: "#fff",
+    backgroundColor: "#f00",
+    height: 15,
+    minWidth: 13,
+    paddingLeft:2, 
+    paddingRight: 2, 
+    fontWeight: "bold", 
+    borderRadius: 25, 
+    position: 'absolute',
+    right: 10,
+    top: 5    
+  },
+  
 });
 
 MessageTerritoryListScreen.navigationOptions = ({ navigation }) =>

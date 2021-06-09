@@ -129,7 +129,6 @@ export const OrderDetailsScreen = ({ navigation }) => {
                     </AppText>
                   </View>
                 </View>
-
                 <View style={styles.separator} />
                 <AppText style={styles.summaryTotal}>
                   {orderDetail.currency_icon} {(+orderDetail.total_amount).toFixed(2)}

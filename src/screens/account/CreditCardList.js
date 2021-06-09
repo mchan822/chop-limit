@@ -18,7 +18,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { NavigationService } from '~/core/services';
 import { Config } from '~/core/config';
 import { fetchAPI } from '~/core/utility';
-import { Screen, LocationSelector, CardItem,Button, AppText } from '~/components';
+import { Screen, LocationSelector, CardItem,Button, AppText,StickyBottom } from '~/components';
 import { GlobalStyles, MainNavigationOptions, Theme } from '~/styles';
 
 import {
@@ -93,23 +93,7 @@ export const CreditCardListScreen = ({navigation}) => {
     },
     [dispatch, token, guestToken, defaultCard],
   );
-  const MyCart = () => {
-    const price = useSelector(
-      (state) => state.order.order && state.order.order.cart_amount,
-    );
-    return (+price || 0) > 0 ? (
-      <Button
-        type="accent"
-        style={styles.myCartButton}
-        icon="cart-outline"
-        rightText={`${order.currency_icon}${(+price || 0).toFixed(2)}`}
-        onClick={() => NavigationService.navigate('MyOrder')}>
-        My Cart
-      </Button>
-    ) : (
-      <></>
-    );
-  };
+  
   const deleteCard = useCallback(
     (cardId) => {
       setLoading(true);
@@ -183,7 +167,7 @@ export const CreditCardListScreen = ({navigation}) => {
   }, [dispatch, isUpdateCard]);
 
   return (
-    <Screen isLoading={isLoading} hasList stickyBottom={<MyCart />} >
+    <Screen isLoading={isLoading} hasList stickyBottom={<StickyBottom />} >
       
       <View style={styles.container}>
         {cards && cards.length > 0 && (

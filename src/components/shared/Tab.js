@@ -140,7 +140,7 @@ const [activeTabIndex, setActiveTabIndex] = useState(0);
            </View>  ): 
         <View style={[styles.awkward, styles.topSection]}>
         <View style={styles.noResultsWrapper}>             
-            <FoodSVG width={120} height={120} />             
+            {/* <FoodSVG width={120} height={120} />              */}
         </View>
         <AppText style={[styles.subTitle, GlobalStyles.formControl]}>
           We don't have any restaurant in your area, right now.

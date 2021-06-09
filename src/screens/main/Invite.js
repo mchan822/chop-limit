@@ -271,10 +271,10 @@ const styles = StyleSheet.create({
   },
 
   formHeading : {
-      fontWeight: 'bold',
       textAlign: 'center',
       //textTransform: 'uppercase',
-      fontSize: 16,
+      fontSize: 14,
+      color:'gray',
       width: '80%',
       alignSelf: 'center',
       marginBottom: 10

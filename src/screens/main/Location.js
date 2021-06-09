@@ -20,8 +20,9 @@ import UserSVG from '~/assets/images/user.svg';
 import ChatSVG from '~/assets/images/chat.svg';
 import { NavigationService } from '~/core/services';
 import { Config } from '~/core/config';
+import LinearGradient from 'react-native-linear-gradient';
 import { fetchAPI } from '~/core/utility';
-import { Screen, LocationSelector, StoredAddress,Button, AppText } from '~/components';
+import { Screen, LocationSelector, StoredAddress,Button, AppText,StickyBottom } from '~/components';
 import { GlobalStyles, MainNavigationOptions, Theme } from '~/styles';
 
 import {
@@ -43,8 +44,7 @@ export const LocationScreen = ({navigation}) => {
   const [addressFull, setAddressFull] = useState(null);
   const [dlgVisible, setDlgVisible] = useState(false);
   const mapRef = useRef();
-  const dispatch = useDispatch();
-  const unread = useSelector((state) => state.notification.unreadMessages);
+  const dispatch = useDispatch();  
   const [isLoading, setLoading] = useState(false);
   const [addresses, setAddresses] = useState([]);
 
@@ -307,97 +307,7 @@ export const LocationScreen = ({navigation}) => {
     },
     [dispatch, token, guestToken, editSubscription],
   );
-  const MyCart = () => {
-    const price = useSelector(
-      (state) => state.order.order && state.order.order.cart_amount,
-    );
-    return (
-      <View style={{flexDirection:'row',paddingBottom:10,backgroundColor:Theme.color.backgroundColor,paddingHorizontal:10}}>
-          <TouchableOpacity
-        style={[
-          styles.menuButton,
-          {
-            backgroundColor: 'white',
-            height: 60,
-            width: 60,
-            alignItems: 'center',
-          },
-        ]}
-        onPress={() => {
-          NavigationService.navigate('Home');
-        }}>      
-         
-        <RestaurantSVG height={30} width={30}/>
-      </TouchableOpacity> 
-       <TouchableOpacity
-        style={[
-          styles.menuButton,
-          {
-            backgroundColor: 'white',
-            height: 60,
-            width: 60,
-            alignItems: 'center',
-          },
-        ]}
-        onPress={() => {
-          NavigationService.navigate('MessageTerritoryList');
-        }}>
-        
-        <ChatSVG height={30} width={30}/>
-        { unread > 0 &&<AppText style={styles.unreadDot}>{unread}</AppText> }
-      </TouchableOpacity> 
-      <TouchableOpacity
-        style={[
-          styles.menuButton,
-          {
-            backgroundColor: 'white',
-            height: 60,
-            width: 60,
-            alignItems: 'center',
-          },
-        ]}
-        onPress={() => {
-          NavigationService.navigate('More');
-        }}>
-        
-        <UserSVG height={30} width={30}/>
-      
-      </TouchableOpacity> 
-      {price && price > 0 ?
-        <TouchableOpacity
-        style={[
-          styles.menuButton,
-          {
-            backgroundColor: Theme.color.accentColor,
-            height: 60,
-            width:  Dimensions.get("window").width - 240,          
-            flexDirection:'row'
-          },
-        ]}
-        onPress={() => {
-          NavigationService.navigate('MyOrder');
-        }}>          
-          <OrderSVG height={30} width={30}/>
-          <AppText  style={{color:'white',fontWeight:'bold',paddingLeft:5,fontSize:16}}>{`${order.currency_icon}${(+price || 0).toFixed(2)}`}</AppText>
-      </TouchableOpacity>:   
-       <TouchableOpacity
-       style={[
-         styles.menuButton,
-         {
-           backgroundColor: 'black',
-           height: 60,
-           width:  Dimensions.get("window").width - 240,           
-           flexDirection:'row'
-         },
-       ]}
-       >       
-       <OrderSVG style={{justifyContent:'flex-start'}}height={30} width={30}/>
-       <AppText style={{color:'white',fontWeight:'bold',paddingLeft:5,fontSize:16}}>{"$"+`${(+price || 0).toFixed(2)}`}</AppText>
-       </TouchableOpacity>    
-     }
-      </View>
-    );
-  };
+  
   const deleteAddress = useCallback(
     (addressId) => {
       setLoading(true);
@@ -500,7 +410,7 @@ export const LocationScreen = ({navigation}) => {
   }, [dispatch, order, mapRef]);
 
   return (
-    <Screen isLoading={isLoading} hasList stickyBottom={<MyCart />} >
+    <Screen isLoading={isLoading} hasList stickyBottom={<StickyBottom />} >
       <Dialog.Container visible={dlgVisible}>
         <Dialog.Description>{address}</Dialog.Description>
         <Dialog.Button

@@ -638,7 +638,8 @@ export const ProductScreen = ({ navigation }) => {
                 flex: 3,
                 height: '100%',
                 paddingVertical:8,
-                flexDirection:'row'
+                flexDirection:'row',
+                borderRadius: 10,
               }}
               // rightText={`${product.currency_icon}${price.toFixed(2)}`}
               onPress={() =>
@@ -654,8 +655,8 @@ export const ProductScreen = ({ navigation }) => {
                   <AppText style={{fontSize:11,fontWeight:'bold',letterSpacing: -0.5,}}>{`\n`}{product.subscription_type_name_every}</AppText>
                 </Text>
               </View> )   
-                 :(<View style={{flexDirection:'row',paddingVertical:5, }}>
-                   <Icon  style={{marginTop:3}} size={22} color={'#fff'} name="cart-outline" />       
+                 :(<View style={{flexDirection:'row',paddingVertical:5}}>
+                   <Icon  style={{marginTop:3,marginLeft:5}} size={22} color={'#fff'} name="cart-outline" />       
                  <Text  style={{color:'#FFFFFF',fontSize:20,marginLeft:10,fontWeight: 'bold'}} >ADD </Text>
                  <Text  style={{color:'#FFFFFFDD',fontSize:17, marginTop:2}}>{`${product.currency_icon}${price.toFixed(2)}`}</Text> 
                  </View>

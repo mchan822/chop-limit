@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { StyleSheet, View, FlatList } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { Screen, OrderItem, SubscriptionItem, Button, AppText, Tabs, LoadingGIF} from '~/components';
+import { Screen, OrderItem, SubscriptionItem, Button, AppText, Tabs, LoadingGIF,StickyBottom} from '~/components';
 import { MainNavigationOptions, Theme } from '~/styles';
 
 import { fetchAPI } from '~/core/utility';
@@ -32,7 +32,11 @@ export const PastOrdersScreen = () => {
         <View>
         {pastOrders && pastOrders.length > 0 ? (
           <>
-          <AppText style={styles.heading}>YOU HAVE {pastOrders.length} PAST ORDERS</AppText>
+          {pastOrders.length == 1 ?
+            <AppText style={styles.heading}>YOU HAVE {pastOrders.length} PAST ORDER</AppText>
+            :
+            <AppText style={styles.heading}>YOU HAVE {pastOrders.length} PAST ORDERS</AppText>
+          }
           <FlatList
             data={pastOrders}
             style={styles.list}
@@ -57,7 +61,7 @@ export const PastOrdersScreen = () => {
               </>
           ) :
           <>
-          <AppText style={styles.heading}>YOU HAVE NO PAST ORDERS</AppText>
+          <AppText style={styles.heading}>YOU HAVE NO PAST ORDER</AppText>
           <AppText style={styles.subheading}>Once you complete an order you'll see it here.</AppText>
           </>
       }
@@ -65,50 +69,23 @@ export const PastOrdersScreen = () => {
       ),
     });
 
-    tabData.push({
-        title: 'Subscriptions',
-        content: (
-          
-        <View>
-        {subscriptions && subscriptions.length > 0 ? (
-          <>
-          <AppText style={styles.heading}>YOU HAVE {subscriptions.length} SUBSCRIPTIONS</AppText>
-          <FlatList
-            data={subscriptions}
-            style={styles.list}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <SubscriptionItem
-                subscription={item}
-                onPress={() => {
-                  NavigationService.navigate('Subscription', {
-                    //subscriptionId: item.subscription_id,
-                    item: item
-                  });                 
-                  console.log("Subscription clicked");
-                }}
-              />
-            )}
-          />
-          </>
-        
-      ) : 
-          subscriptions === false? (
-              <>
-                <LoadingGIF />
-              </>
-          ) :
-          <>
-          <AppText style={styles.heading}>YOU HAVE NO SUBSCRIPTIONS</AppText>
-          </>
-      }
-      </View>
-      ),
-    });
+   
 
     return tabData;
-  }, [pastOrders, subscriptions]);
-
+  }, [pastOrders]);
+  useEffect(() => {    
+    PastOrdersScreen.navigationOptions = ({ navigation }) =>
+      MainNavigationOptions({
+        navigation,
+        options: {
+          headerTitle: pastOrders.length < 2 ? 'Past Order' : 'Past Orders',
+          headerTintColors: Theme.color.accentColor,
+        },
+        headerTitleStyle: {
+          color: Theme.color.accentColor,
+        },
+      });
+  },[pastOrders])
   useEffect(() => {    
     if(token){
       console.log("aaaaaaaasdfsdfaaaaaaaaaaaaa",token);
@@ -119,25 +96,26 @@ export const PastOrdersScreen = () => {
         },
       })
       .then(async (res) => {
-        /*
-        setPastOrders(
-          res.data.orders.filter((item) => item.status_name === 'Paid'),
-        );
-        */
-        setPastOrders(res.data.orders);
-        await fetchAPI('/subscriptions', {
-          method: 'POST',
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        })
-        .then((res) => {         
-          console.log(res.data.subscriptions);
-          setSubscriptions(res.data.subscriptions);
-        })
-        .catch((err) =>
-          dispatch(showNotification({ type: 'error', message: err.message })),
-        )
+        
+        // setPastOrders(
+        //   res.data.orders.filter((item) => item.status_name === 'Paid'),
+        // );
+       
+       
+         setPastOrders(res.data.orders);
+        // await fetchAPI('/subscriptions', {
+        //   method: 'POST',
+        //   headers: {
+        //     authorization: `Bearer ${token}`,
+        //   },
+        // })
+        // .then((res) => {         
+        //   console.log(res.data.subscriptions);
+        //   setSubscriptions(res.data.subscriptions);
+        // })
+        // .catch((err) =>
+        //   dispatch(showNotification({ type: 'error', message: err.message })),
+        // )
       })
       .catch((err) =>
         dispatch(showNotification({ type: 'error', message: err.message })),
@@ -175,7 +153,7 @@ export const PastOrdersScreen = () => {
   );
 
   return (
-    <Screen hasList isLoading={isLoading} fullScreen={true}>
+    <Screen hasList isLoading={isLoading} stickyBottom={<StickyBottom/>}>
       <View style={styles.container}>
       <Tabs tabs={tabData} />
       
@@ -216,7 +194,7 @@ PastOrdersScreen.navigationOptions = ({ navigation }) =>
   MainNavigationOptions({
     navigation,
     options: {
-      headerTitle: 'My Orders',
+      headerTitle: 'Past Order',
       headerTintColors: 'black',
     },
   });

@@ -109,8 +109,6 @@ const styles = StyleSheet.create({
 
   subTitle: {
     fontSize: 14,
-    fontWeight: 'bold',
-
     marginTop: 10,
   },
 

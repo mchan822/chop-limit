@@ -27,3 +27,4 @@ export { MessageItem } from './pages/MessageItem';
 export { MessageTerritoryItem } from './pages/MessageTerritoryItem';
 export { DealItem } from './pages/DealItem';
 export { CardItem } from './pages/CardItem';
+export { StickyBottom } from './pages/StickyBottom';

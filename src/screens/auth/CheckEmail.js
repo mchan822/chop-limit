@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     color: 'gray',
     textAlign: 'center',
   },
-
+  
   title: {
     fontSize: 25,
     letterSpacing: 2,
@@ -103,9 +103,7 @@ const styles = StyleSheet.create({
   },
 
   subTitle: {
-    fontSize: 13,
-    fontWeight: 'bold',
-
+    fontSize: 14,    
     marginTop: 10,
   },
 

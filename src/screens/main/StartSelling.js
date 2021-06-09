@@ -97,9 +97,9 @@ const styles = StyleSheet.create({
   },
 
   formHeading : {
-      fontWeight: 'bold',
+      color:'gray',
       textAlign: 'center',
-      fontSize: 16,
+      fontSize: 14,
       // textTransform: 'uppercase',
       width: '80%',
       alignSelf: 'center',

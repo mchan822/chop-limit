@@ -98,9 +98,9 @@ export const PastOrder = ({
             {product.extras.length === 0 ? (
                 <></>
               ) : (
-                <> {product.option_name != 'Default' &&                  
+                <>
+                {product.option_name != 'Default' &&                  
                   <AppText style={[styles.item, styles.optionName]}>
-
                     {product.options_name}:{product.option_name}
                   </AppText>
                 }
@@ -124,8 +124,7 @@ export const PastOrder = ({
                   })}
                 </AppText>
               }
-            )
-             
+            )             
             )}
              {product.instructions.length != 0 && (               
               <AppText style={[styles.item, styles.instructions]} numberOfLines={1} >
@@ -135,24 +134,9 @@ export const PastOrder = ({
             )}
             {extrasOptions ? extrasOptions : null}
           </View>
-          {
-            // <Selector
-            //   style={styles.selectorLabel}
-            //   labelSelector
-            //   value={quantity}
-            //   hideSelector={true}
-            //   title="Quantity"
-            //   header="How many do you want"
-            //   options={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => ({
-            //     label: item,
-            //     value: item,
-            //   }))}              
-            // />
             <AppText style={[styles.item, styles.picker]}>{product.quantity}</AppText>
-          }
-          <AppText numberOfLines={1} style={[styles.item, styles.price]}>
-            {orderDetail.currency_icon}
-            {(+product.amount).toFixed(2)}
+            <AppText numberOfLines={1} style={[styles.item, styles.price]}>
+              {orderDetail.currency_icon}{(+product.amount).toFixed(2)}
           </AppText>
         </View>
       </Swipeable>

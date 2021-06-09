@@ -2,7 +2,7 @@ import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { Screen, Button, Input,AppText } from '~/components';
+import { Screen, Button, Input,AppText,StickyBottom } from '~/components';
 import { GlobalStyles, MainNavigationOptions, Theme } from '~/styles';
 
 import { fetchAPI } from '~/core/utility';
@@ -79,7 +79,7 @@ export const ProfileScreen = ({ navigation }) => {
   }, [_save]);
 
   return (
-    <Screen hasList isLoading={isLoading} keyboardAware={true} >
+    <Screen hasList isLoading={isLoading} keyboardAware={true} stickyBottom={<StickyBottom/>}>
       <View style={styles.container}>
         <AppText style={styles.formHeading}>Update your profile</AppText>
         <AppText style={styles.description} numberOfLines={2}>Please enter your personal information below, including a password</AppText>
