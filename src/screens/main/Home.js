@@ -567,8 +567,7 @@ export const HomeScreen = ({ navigation }) => {
   const [sellersFilter, setSellersFilter] = useState('&sort_by=most-orders');
   //const territory_type = useState("restaurants");
  
-  useEffect(() => {
-    console.log("sellersFilter****************** ",sellersFilter);
+  useEffect(() => {    
       if (token && order && order.address_id && order.address_id != '0' && order.cancelled == '0') {
         setLoading(true);
         const formData = new FormData();
@@ -656,7 +655,6 @@ export const HomeScreen = ({ navigation }) => {
         method: 'POST',
       },
     ).then((res) => {
-      console.log("+++++++++++res.data.categories",res.data.categories);
       setCategoryData(res.data.categories);    
 
     })
@@ -756,7 +754,7 @@ export const HomeScreen = ({ navigation }) => {
       ),
     });
     return tabData;
-  }, [sellersDelivery, closeDeliveryCnt]);
+  }, [sellersDelivery,openDeliveryCnt, closeDeliveryCnt]);
 
 
 
@@ -773,10 +771,10 @@ export const HomeScreen = ({ navigation }) => {
             style={styles.banner}>
           </ImageBackground>  */}
           {sellersDelivery === false ||
-          sellersDelivery.length ? (          
+          sellersDelivery.length ? (      
          <Tab tabs={tabData} awkward={true} lastAddress={lastAddress} categoryData={categoryData} setPage={()=> loadMore(page, totalPages)} selectCategory={selectCategory}/>
         ) : (
-          <Tab tabs={tabData} awkward={false} lastAddress={lastAddress} categoryData={true} setPage={()=> loadMore(page, totalPages)} selectCategory={selectCategory}/>
+          <Tab tabs={tabData} awkward={false} lastAddress={lastAddress}  categoryData={categoryData}  setPage={()=> loadMore(page, totalPages)} selectCategory={selectCategory}/>
         )}     
       </View>      
     </Screen>

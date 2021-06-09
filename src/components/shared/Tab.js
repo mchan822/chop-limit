@@ -16,7 +16,8 @@ export const Tab = ({
     categoryData,
     selectCategory,
     lastAddress,
-    awkward
+    awkward,
+    categoryScreen,
 }) => {
 const token = useSelector((state) => state.account.token);
 const [contentSizeChanged, setContentSizeChanged] = useState(false);
@@ -84,7 +85,7 @@ const [activeTabIndex, setActiveTabIndex] = useState(0);
             }
         }
       }} scrollEventThrottle={100}>
-        {categoryData != false &&
+      {categoryScreen != true &&
            <View style={[styles.menuRow, styles.menuRowLastItem]}>
               <TouchableOpacity
                 style={[
@@ -115,7 +116,7 @@ const [activeTabIndex, setActiveTabIndex] = useState(0);
                 </View>
               </TouchableOpacity>
             </View> }
-        {categoryData != false &&
+        {categoryScreen != false &&
           <ImageBackground
             source={require('~/assets/images/banner.png')}
             style={styles.banner}>

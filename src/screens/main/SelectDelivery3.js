@@ -110,7 +110,7 @@ export const SelectDeliveryScreen3 = ({ navigation }) => {
                     dispatch(setAddressFullAction(addressFull));                      
                   }
                   if(territory_type && territory_type != 'address'){
-                    NavigationService.navigate('Home');
+                    NavigationService.reset('Home');
                   } else {
                     NavigationService.reset('Home');
                     NavigationService.navigate('Location');
@@ -142,7 +142,7 @@ export const SelectDeliveryScreen3 = ({ navigation }) => {
                       }
                       //dispatch(setAddress(address));
                       if(territory_type){
-                        NavigationService.navigate('Home');
+                        NavigationService.reset('Home');
                       } else {
                         NavigationService.reset('Home');
                       }
@@ -197,7 +197,7 @@ export const SelectDeliveryScreen3 = ({ navigation }) => {
               }
               console.log("territory clcicked",territory_type);
               if(territory_type && territory_type != 'address'){
-                NavigationService.navigate('Home');
+                NavigationService.reset('Home');
               } else {
                 NavigationService.reset('Home');
                 NavigationService.navigate('Location');
@@ -230,7 +230,7 @@ export const SelectDeliveryScreen3 = ({ navigation }) => {
                   }
                   //dispatch(setAddress(address));
                   if(territory_type && territory_type != 'address'){
-                    NavigationService.navigate('Home');
+                    NavigationService.reset('Home');
                   } else {
                     NavigationService.reset('Home');
                   }
