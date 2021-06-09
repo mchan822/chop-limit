@@ -41,7 +41,6 @@ export const ResetPasswordEmailScreen = () => {
     <Screen
       align="center"
       isLoading={isLoading}
-      // backgroundImage={require('~/assets/images/back5.png')} 
       keyboardAware={true}>
       <View style={[styles.container]}>
       {windowWidth > 250 ? <View>

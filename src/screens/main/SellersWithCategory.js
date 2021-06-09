@@ -406,9 +406,9 @@ export const SellersWithCategoryScreen = ({ navigation }) => {
         ]}>
         {sellersDelivery === false ||
           sellersDelivery.length ? (             
-              <Tab tabs={tabData} awkward={true}   setPage={()=> loadMore(page, totalPages)} categoryData={false}/>
+              <Tab tabs={tabData} awkward={true}   setPage={()=> loadMore(page, totalPages)} categoryScreen={true} categoryData={false}/>
               ) : (
-                <Tab tabs={tabData} awkward={false} setPage={()=> loadMore(page, totalPages)} categoryData={false}/>
+                <Tab tabs={tabData} awkward={false} setPage={()=> loadMore(page, totalPages)} categoryScreen={true} categoryData={false}/>
               )}
       </View>      
     </Screen>

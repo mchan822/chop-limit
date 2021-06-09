@@ -62,7 +62,7 @@ export const StartSellingScreen = ({ navigation }) => {
     return (
         <Screen isLoading={isLoading} keyboardAware={true}>
             <View style={styles.container}>
-                <AppText style={styles.formHeading}>Want to start selling on Chow Local ?</AppText>
+                <AppText style={styles.formHeading}>Want to start selling on Chow Local?</AppText>
                 <Input
                 style={GlobalStyles.formControl}
                 title="Business"

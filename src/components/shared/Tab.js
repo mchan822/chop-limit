@@ -116,7 +116,7 @@ const [activeTabIndex, setActiveTabIndex] = useState(0);
                 </View>
               </TouchableOpacity>
             </View> }
-        {categoryScreen != false &&
+        {categoryScreen != true &&
           <ImageBackground
             source={require('~/assets/images/banner.png')}
             style={styles.banner}>
