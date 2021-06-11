@@ -4,7 +4,7 @@ import Share from 'react-native-share';
 import { useSelector, useDispatch } from 'react-redux';
 import { Config } from '~/core/config';
 import { NavigationService } from '~/core/services';
-import { Screen, Button, AppText } from '~/components';
+import { Screen, Button, AppText, StickyBottom } from '~/components';
 import { GlobalStyles, MainNavigationOptions, Theme } from '~/styles';
 import { showNotification,signOut } from '~/store/actions';
 
@@ -25,7 +25,7 @@ export const MoreScreen = ({navigation}) => {
   }, [userInfo]);
 
   return (
-    <Screen>
+    <Screen stickyBottom={<StickyBottom/>}>
       <View style={styles.container}>
         <Button
           type="bordered-dark"

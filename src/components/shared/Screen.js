@@ -159,8 +159,7 @@ export const Screen = ({
   messageInputKeyboardAware = false,
 }) =>
   showHeaderOverLayOnScroll || headerOverLayAlwaysVisible ? (
-    <View style={[styles.rootContainer, { backgroundColor: backgroundColor }]}>
-      
+    <View style={[styles.rootContainer, { backgroundColor: backgroundColor }]}>      
       <AnimatedHeader
         statusBar={statusBar}
         backgroundImage={backgroundImage}
@@ -197,7 +196,10 @@ export const Screen = ({
           </CustomKeyBoardAvoidingView>
         )}
       </AnimatedHeader>
-      {stickyBottom && stickyBottom}
+      {stickyBottom &&
+      <View style={{marginTop:-80}}>
+      {stickyBottom}
+      </View>}
     </View>
   ) : messageInputKeyboardAware == true ? 
   ( 
@@ -224,7 +226,7 @@ export const Screen = ({
           {children}
         </Content>                
       </CustomKeyBoardAvoidingView>   
-      {stickyBottom && stickyBottom}       
+      {stickyBottom && stickyBottom}
       </SafeAreaView>  
     </KeyboardAwareScrollView>
   ) :
@@ -270,7 +272,10 @@ export const Screen = ({
           </Content>
         </CustomKeyBoardAvoidingView>
       )}   
-      {stickyBottom && stickyBottom}     
+       {stickyBottom &&
+      <View style={{marginTop:-80}}>
+      {stickyBottom}
+      </View>}
     </SafeAreaView>
       // </KeyboardAwareScrollView>
   );

@@ -403,7 +403,7 @@ export const ProductsScreen = ({ navigation }) => {
         </AppText></View></View>)
         }
         </TouchableOpacity>
-          {/* commeted by chris because jaco waht to remove this button for restauratns and services for now before build live chat
+          
            <Button
               type="bordered_light"
               style={[GlobalStyles.formControl,styles.quoteButton]}
@@ -411,7 +411,7 @@ export const ProductsScreen = ({ navigation }) => {
                   sellerID : territory.tid
               })}>
           Contact Us
-          </Button>  */}
+          </Button> 
          </View>
         </View>
         ) :
@@ -645,6 +645,7 @@ export const ProductsScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingBottom:80
   },
 
   list: {

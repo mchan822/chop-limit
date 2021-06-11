@@ -348,7 +348,7 @@ export const MessageRoomScreen = ({ navigation }) => {
               onPress={() => {
                 setModalVisible(true);
                 fadeIn();
-            }}>
+              }}>
             <View style={{backgroundColor: "#bbb", paddingHorizontal: 10, paddingVertical: 5, borderRadius: 10}}><AppText style={{color: "#fff",fontSize:12}}>ADD PROFILE PIC</AppText></View>
             </TouchableOpacity>)
             }

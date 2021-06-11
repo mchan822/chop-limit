@@ -47,14 +47,14 @@ export const SellerInfoScreen = ({navigation}) => {
             Call {formatPhoneNumber(territory.support_phone)}
             </Button>}
 
-            {token && territory && typeof territory.support_mail === 'string' && territory.support_mail.trim().length > 0 && <Button
+            {/* {token && territory && typeof territory.support_mail === 'string' && territory.support_mail.trim().length > 0 && <Button
             type="bordered-dark"
             style={[GlobalStyles.formControl]}
             onClick={() => navigation.navigate('ContactSeller',{
                 sellerID : territory.tid
-            })}>{territory.type_slug == 'services'? 'Contact' : 'E-Mail'}
+            })}>{'Contact'}
             
-            </Button>}
+            </Button>} */}
 
             <Button
             type="bordered-dark"

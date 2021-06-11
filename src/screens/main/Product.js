@@ -443,7 +443,7 @@ export const ProductScreen = ({ navigation }) => {
                             dispatch(clearNotification());
                             NavigationService.goBack();
                           }}>
-                          View all Products
+                          View Menu
                         </Button>
 
                         <Button

@@ -86,7 +86,7 @@ export const Notification = ({}) => {
                 if(notification.type == 'error_signin'){NavigationService.reset('GetAccess')}
                 dispatch(clearNotification())
               }}>
-              {notification.buttonText ? notification.buttonText : (notification.type == 'success' ? 'Continue' : notification.type == 'error_card' ? 'Update Credit Card' : notification.type == 'error_signin' ? "Sign In": 'Try Again')}
+              {notification.buttonText ? notification.buttonText : (notification.type == 'success' ? 'Continue' : notification.type == 'error_card' ? 'Manage My Cards' : notification.type == 'error_signin' ? "Sign In": 'Try Again')}
             </Button>
             </>
             :

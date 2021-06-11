@@ -31,13 +31,13 @@ export const StickyBottom = ({ }) => {
     return (
       <View style={{flexDirection:'row',paddingBottom:10,backgroundColor:'transparent',paddingHorizontal:10}}>
          <LinearGradient
-     colors={['#e6e6e600', '#b6b6b6aa', '#b6b6b6ff']}
+     colors={['transparent',  '#b6b6b6ff']}
       style={{
           position: 'absolute',
           left: 0,
           right: 0,
           bottom: 0,      
-          height: 90,
+          height: 70,
       }}/>
           <TouchableOpacity
         style={[

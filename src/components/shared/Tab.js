@@ -84,7 +84,7 @@ const [activeTabIndex, setActiveTabIndex] = useState(0);
                 setContentSizeChanged(false);          
             }
         }
-      }} scrollEventThrottle={100}>
+      }} scrollEventThrottle={100} style={{paddingTop:10}}>
       {categoryScreen != true &&
            <View style={[styles.menuRow, styles.menuRowLastItem]}>
               <TouchableOpacity
@@ -198,6 +198,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingTop: 20
     },
+
     tabButton : {
         marginLeft: 10,
         marginRight: 10,
@@ -205,6 +206,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#BBB',
         borderRadius: 5
     },
+
     menuButton: { 
         marginTop: 20,
         marginHorizontal:10,
@@ -222,6 +224,7 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         height:Dimensions.get("window").width * 3 / 8 ,    
     },
+
     menuButtonAddress: {    
         height: 120,
         marginHorizontal:5,
@@ -231,18 +234,21 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 10,
     },
+
     noResultsWrapper: {
         marginTop: 35,
         marginBottom: 20,
         alignItems: 'center',
         justifyContent: 'center',
       },
+
       menuWrapper: {
         alignItems: 'center',
         justifyContent: 'flex-start',
         flex: 1,
         marginTop:10
       },
+
       subTitle: {
         textAlign: 'center',
         // textTransform: 'uppercase',
@@ -253,7 +259,12 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 10,
       },
-    
+
+      description: {
+        textAlign: 'center',
+        fontSize: 16,
+        color: '#333',
+      },
     
       menuRow: {
         flexDirection: 'row',
@@ -265,6 +276,7 @@ const styles = StyleSheet.create({
       menuRowLastItem: {
         marginBottom: 0,
       }, 
+      
       menuButtonTextWrap: {
         flex: 1,
         alignItems: 'center',

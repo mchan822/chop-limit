@@ -564,8 +564,8 @@ export const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     //paddingHorizontal: Theme.layout.screenPaddingHorizontal,
-    paddingTop: Platform.OS === 'ios' ? 30 : 30,
-    paddingBottom: 10,
+    paddingTop: 0,
+    marginBottom: 0,
 
     display: 'flex',
     minHeight: '100%',
@@ -687,7 +687,7 @@ const styles = StyleSheet.create({
   deliverySellers: {
     flex: 1,
     backgroundColor:'#EFEFEF',
-    marginBottom:20
+    marginBottom:80
   },
 
   pickupSellers: {

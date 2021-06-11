@@ -87,7 +87,7 @@ export const UpdateCreditCardScreen = ({ navigation }) => {
           .finally(() => setLoading(false));
       })
       .catch((err) =>{
-        dispatch(showNotification({ type: 'error', message: err.message}));
+        dispatch(showNotification({ type: 'error_card', message: err.message}));
       }
         
       )
@@ -128,7 +128,7 @@ export const UpdateCreditCardScreen = ({ navigation }) => {
             setCard(res.data);
           })
           .catch((err) =>
-            dispatch(showNotification({ type: 'error', message: err.message })),
+            dispatch(showNotification({ type: 'error_card', message: err.message })),
           )
           .finally(() => setLoading(false));
       }
@@ -223,7 +223,7 @@ export const UpdateCreditCardScreen = ({ navigation }) => {
         dispatch(showNotification({ type: 'success', message: res.message }));
       })
       .catch((err) =>
-        dispatch(showNotification({ type: 'error', message: err.message })),
+        dispatch(showNotification({ type: 'error_card', message: err.message })),
       )
       .finally(() => setLoading(false));
   }, [dispatch, card, token, userInfo]);
