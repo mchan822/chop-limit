@@ -689,8 +689,8 @@ export const ProductScreen = ({ navigation }) => {
 
           <View style={styles.content}>
           
-            {!!available && available === true && productReview.total == 0 &&
-              <View style={styles.sincecontent}>
+            {!!available && available === true && productReview.total == 0 && 
+              <View style={[styles.sincecontent,{ marginTop: product && !product.images.length ? 40 : 0 }]}>
                 <AppText style={styles.reason} numberOfLines={2}>
                   Since you purchased this item previously,            
                 <AppText style={styles.reason1} onPress={() => NavigationService.navigate('MyReview',{productId: navigation.getParam('productId'),reviewCnt: 0})}>
@@ -698,11 +698,11 @@ export const ProductScreen = ({ navigation }) => {
                 </AppText>  
                 </AppText>  
               </View>
-            } 
+             }
             <AppText
               style={[
                 styles.productName,
-                { marginTop: product && !product.images.length ? 40 : 0 },
+                { marginTop: product && !product.images.length  &&  available === false  ? 40 : 0 },
               ]}
               numberOfLines={2}>
               {product.name}
@@ -784,7 +784,6 @@ export const ProductScreen = ({ navigation }) => {
                 </View>
               </>
             )}
-
             {products_extra &&
               products_extra.length > 0 &&
               products_extra.map((product_extra) => {
@@ -1125,7 +1124,7 @@ export const ProductScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginBottom: 60,
+    marginBottom: 160,
   },
 
   imageWrapper: {
@@ -1417,7 +1416,13 @@ const styles = StyleSheet.create({
   },
 
   sincecontent: {
-    flexDirection:'row'
+    flexDirection:'row',
+  },
+
+  sincecontent_noImage: {
+    flexDirection:'row',
+    marginTop:40,
+    marginBottom:0,
   },
   
   closedTextContainer: {

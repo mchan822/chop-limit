@@ -117,8 +117,8 @@ export const OrderSuccessScreen = ({ navigation }) => {
         value: +order.cart_total_amount,
         tax: +order.cart_tax_amount
       };
-
-      analytics().logEvent('purchase', analytics_data)
+      //console.log("here firebase!!!!!!!!!!!!!");
+      //analytics().logEvent('purchase', analytics_data)
       AppEventsLogger.logPurchase(analytics_data.value, analytics_data.currency, analytics_data);
     }
   }, [order]);
