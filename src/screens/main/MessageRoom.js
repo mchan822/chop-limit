@@ -335,14 +335,14 @@ export const MessageRoomScreen = ({ navigation }) => {
             }
             </ScrollView>
         )}
-        {
+        {console.log("her!!!!!!!!!!!!!!!!!!!!",userImage),console.log("her!!!!!!!!!!!!!!!!!!!!",Constants.userDefaultAvatar ),
           //messageList.find( ({ is_new }) => is_new == false ) && (
           messageList.length > 0 && (userinfo.user_active == false || userImage == Constants.userDefaultAvatar || userImage == '' ) && (
         <View style={styles.container}>
             <DashedLine/>
             <AppText style={{padding: 10, fontWeight: String(400)}}>While you are waiting for a reply</AppText>
             <View style={{flexDirection: 'row', paddingBottom: 10}}>
-            {(userImage == Constants.userDefaultAvatar || userImage == '') && (
+            {console.log("her!!!!!!!!!!!!!!!!!!!!",userImage),(userImage == Constants.userDefaultAvatar || userImage == '') && (
             <TouchableOpacity
               style={{ flex: 1, marginLeft: 10 ,alignItems: 'flex-start', justifyContent: 'center' }}
               onPress={() => {

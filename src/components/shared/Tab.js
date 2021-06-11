@@ -23,6 +23,7 @@ const token = useSelector((state) => state.account.token);
 const [contentSizeChanged, setContentSizeChanged] = useState(false);
 const [contentsize, setContentsize] = useState(0);
 const windowWidth = Dimensions.get('window').width;
+const banner_url = useSelector((state) => state.account.banner_url);
 const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
     const paddingToBottom = 500;
     console.log("this is content size+++++++", contentSize);    
@@ -118,7 +119,7 @@ const [activeTabIndex, setActiveTabIndex] = useState(0);
             </View> }
         {categoryScreen != true &&
           <ImageBackground
-            source={require('~/assets/images/banner.png')}
+            source={banner_url ? {uri:banner_url} : require('~/assets/images/banner.png')}
             style={styles.banner}>
           </ImageBackground> 
           }
@@ -143,7 +144,7 @@ const [activeTabIndex, setActiveTabIndex] = useState(0);
             {/* <FoodSVG width={120} height={120} />              */}
         </View>
         <AppText style={[styles.subTitle, GlobalStyles.formControl]}>
-          We don't have any restaurant in your area, right now.
+          We don't have any restaurants in your area, right now.
         </AppText>
         <AppText
           style={[
@@ -151,7 +152,7 @@ const [activeTabIndex, setActiveTabIndex] = useState(0);
             GlobalStyles.formControl,
             { marginBottom: 20 },
           ]}>
-          Chow Local® recently launched, and more restaurant should get onboard
+          Chow Local® recently launched. More restaurant should get onboard
           soon.
         </AppText>
         <>

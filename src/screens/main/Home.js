@@ -51,43 +51,7 @@ export const HomeScreen = ({ navigation }) => {
 
   const dispatch = useDispatch();
 
-  const chooseSellerCategory = (category) => {  
-    AppEventsLogger.logEvent('USER TAPS ON '+category.toUpperCase())
-    dispatch(setTerritoryType({ territory_type: "restaurants" }));
-    if (openOrder) {
-      NavigationService.navigate('OpenOrder', { orderId: openOrder });
-    } else {
-      if (token) {
-        setLoading(true);
-        fetchAPI(`/myaccount/addresses`, {
-          method: 'GET',
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        })
-          .then((res) => { 
-            if(res.data.addresses.length == 0)
-            {              
-              NavigationService.navigate("SelectDelivery1",{addressCnt: 0});
-            } else {
-              NavigationService.navigate(lastAddress ? 'Sellers' : 'Location', {
-                title: category === 'restaurants' ? 'restaurants' : 'shops',
-              });
-            }
-          })
-          .catch((err) =>
-            dispatch(showNotification({ type: 'error', message: err.message })),
-          )
-          .finally(() => setLoading(false));
-      } else {
-        if(lastAddress){
-          NavigationService.navigate("Sellers");
-        } else {
-          NavigationService.navigate("SelectDelivery1");
-        }
-      }     
-    }
-  };
+  
 
   // const chooseDealsList = () => {
   //   console.log(lastAddress);
@@ -147,11 +111,14 @@ export const HomeScreen = ({ navigation }) => {
   });
 
   const lastAddress = useMemo(() => {   
-    if (order && order.address && order.cancelled == 0) {      
+    if (order && order.address && order.cancelled == 0) { 
+      console.log("1");
       return order.address;
     } else if (explorer && explorer.address) {
+      console.log("2");
       return explorer.address;
     } else if (address) {
+      console.log("3");
       return address;
     } else {
       return false;
@@ -235,7 +202,10 @@ export const HomeScreen = ({ navigation }) => {
           { 
             dispatch(setTerritoryType({ territory_type: "restaurants" }));        
             NavigationService.reset("SelectDelivery1",{addressCnt: 0});
-          } 
+          } else if(res.data.addresses.length == 1)
+          {
+            setAddress(res.data.addresses[0])
+          }
         })
         .catch((err) =>
           dispatch(showNotification({ type: 'error', message: err.message })),
@@ -386,33 +356,36 @@ export const HomeScreen = ({ navigation }) => {
             dispatch(showNotification({ type: 'error', message: err.message }));
           })
           .finally(() => setLoading(false));    
-      } else {
-        console.log("explorer.address++++++++++++" ,explorer.address);
-        setLoading(true);       
-            fetchAPI(
-              `/territories/by_address?address=${explorer.address}&type=restaurants&deliverable=1&&filter_by=products_totals${sellersFilter}&size=4&page=${page}&sort_by_extra=is-operational`,
-              {
-                method: 'POST',
-              },
-            ).then((res) => {
-              setTotalPages(res.data.total_pages);
-              if(page == 0){
-                setSellersDelivery(res.data.territories.filter((item) => Boolean(item.app_image)));
-                setOpenDeliveryCnt(res.data.total_operational);
-                setCloseDeliveryCnt(res.data.total_not_operational);      
-              } else {
-                setSellersDelivery((existing) => [...existing, ...res.data.territories.filter((item) => Boolean(item.app_image))]);
-                // setOpenDeliveryCnt(res.data.total_operational);
-                // setCloseDeliveryCnt(res.data.total_not_operational);      
-              }
+      } else { 
+        if(explorer && explorer.address != null) {
+          console.log("explorer.address++++++++++++" ,explorer.address);
+          setLoading(true);       
+              fetchAPI(
+                `/territories/by_address?address=${explorer.address}&type=restaurants&deliverable=1&&filter_by=products_totals${sellersFilter}&size=4&page=${page}&sort_by_extra=is-operational`,
+                {
+                  method: 'POST',
+                },
+              ).then((res) => {
+                setTotalPages(res.data.total_pages);
+                if(page == 0){
+                  console.log("ssssssssssssssssss",res.data.territories);
+                  setSellersDelivery(res.data.territories.filter((item) => Boolean(item.app_image)));
+                  setOpenDeliveryCnt(res.data.total_operational);
+                  setCloseDeliveryCnt(res.data.total_not_operational);      
+                } else {
+                  setSellersDelivery((existing) => [...existing, ...res.data.territories.filter((item) => Boolean(item.app_image))]);
+                  // setOpenDeliveryCnt(res.data.total_operational);
+                  // setCloseDeliveryCnt(res.data.total_not_operational);      
+                }
 
-            })
-            .catch((err) => {
-              dispatch(showNotification({ type: 'error', message: err.message }));
-            })
-            .finally(() => setLoading(false));       
+              })
+              .catch((err) => {
+                dispatch(showNotification({ type: 'error', message: err.message }));
+              })
+              .finally(() => setLoading(false));       
+        }
       }
-  }, [page,lastAddress]);
+  }, [page,lastAddress,explorer]);
   const selectCategory = useCallback((selectedCategory)=>{
     if(selectedCategory != false){
       var categoryName = "";

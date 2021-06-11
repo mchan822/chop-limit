@@ -62,11 +62,11 @@ export const StartSellingScreen = ({ navigation }) => {
     return (
         <Screen isLoading={isLoading} keyboardAware={true}>
             <View style={styles.container}>
-                <AppText style={styles.formHeading}>Want to start selling on Chow Local?</AppText>
+                <AppText style={styles.formHeading}>Chow Local® is exclusively for locally owned and operated restaurants. Unlike other delivery apps we don't charge restaurants crazy commissions. We charge a one-time setup fee of $500 and a monthly fee of $199/month. Sign up below for a 30-day free trial. No credit card required. Cancel anytime.</AppText>
                 <Input
                 style={GlobalStyles.formControl}
-                title="Business"
-                placeholder="Business Name"
+                title="Restaurant"
+                placeholder="Restaurant Name"
                 value={businessName}
                 onChange={setBusinessName}
                 />
@@ -83,7 +83,7 @@ export const StartSellingScreen = ({ navigation }) => {
                 type="accent" 
                 style={styles.button}
                 onClick={send}>
-                Start Selling</Button>
+                Sign Up</Button>
             </View>
         </Screen>
     );
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
       textAlign: 'center',
       fontSize: 14,
       // textTransform: 'uppercase',
-      width: '80%',
+      width: '90%',
       alignSelf: 'center',
       marginBottom: 10
   },
@@ -144,6 +144,6 @@ StartSellingScreen.navigationOptions = ({ navigation }) =>
   MainNavigationOptions({
     navigation,
     options: {
-      headerTitle: 'Business',
+      headerTitle: 'Restaurant',
     },
   });
