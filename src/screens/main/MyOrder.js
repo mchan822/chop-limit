@@ -384,7 +384,7 @@ export const MyOrderScreen = ({ navigation }) => {
 
   const payButtonText = useMemo(
     () =>
-      (userInfo.creditcard && orderDetail ? 'Pay' : 'Checkout') +
+      (userInfo && userInfo.creditcard && orderDetail ? 'Pay' : 'Checkout') +
       (orderDetail &&
         ' - ' +
           orderDetail.currency_icon +

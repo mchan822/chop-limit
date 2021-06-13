@@ -130,6 +130,10 @@ const styles = StyleSheet.create({
     minWidth: 60,
   },
 
+  nameSelector: {
+  fontWeight:'bold'
+  },
+  
   picker: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -157,7 +161,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginBottom: 10,
     paddingTop:8,
-    color:'black'
+    color:'black',
   },
 
   labelSelector: {
