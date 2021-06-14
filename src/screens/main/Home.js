@@ -198,7 +198,7 @@ export const HomeScreen = ({ navigation }) => {
         .then((res) => { 
           if(res.data.addresses.length == 0)
           { 
-            dispatch(setTerritoryType({ territory_type: "restaurants" }));        
+            dispatch(setTerritoryType({ territory_type: "restaurants" }));
             NavigationService.reset("SelectDelivery1",{addressCnt: 0});
           } else if(res.data.addresses.length == 1)
           {
@@ -245,7 +245,7 @@ export const HomeScreen = ({ navigation }) => {
                title: "New Message",
                subtitle: res.data.last_time_checked + 'New message received!',
                body : 'new message received.',              
-               sound : "default",
+               sound : "alert.mp3",
                isSilent : false,
              });
              
@@ -261,7 +261,7 @@ export const HomeScreen = ({ navigation }) => {
                vibrate: true,
                vibration: 300,
                playSound: true,
-               soundName: 'default',
+               soundName: 'alert.mp3',
              });
            }
          } 
