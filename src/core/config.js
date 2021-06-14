@@ -1,5 +1,5 @@
 export const Config = {
-  shareURL: 'https://live.chowlocal.com',
+  shareURL: ' https://chowlocal.com',
   signUpURL: 'https://live.chowlocal.com/start-selling',
   // apiBaseURL: 'https://account.chowlocal-dev.com/api/v1',
   apiBaseURL: 'https://live.chowlocal.com/api/v1',

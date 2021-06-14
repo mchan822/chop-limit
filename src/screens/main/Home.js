@@ -25,7 +25,6 @@ import {
   setUnreadMessages
 } from '~/store/actions';
 
-
 import { AppEventsLogger } from "react-native-fbsdk-next";
 import { FlatList } from 'react-native-gesture-handler';
 
@@ -37,7 +36,6 @@ export const HomeScreen = ({ navigation }) => {
   // const [orderDetail, setOrderDetail] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const token = useSelector((state) => state.account.token);
-  const banner_url = useSelector((state) => state.account.banner_url);
   const guestToken = useSelector((state) => state.account.guestToken);
   const unread = useSelector((state) => state.notification.unreadMessages);
   const order = useSelector((state) => state.order.order);
@@ -285,7 +283,7 @@ export const HomeScreen = ({ navigation }) => {
           {
             lastMessageChecked_var = res.data.last_time_checked
           }
-          dispatch(setUnreadMessages(res.data.total));  
+          dispatch(setUnreadMessages(res.data.total)); 
         })
          .catch((err) =>
           {}//dispatch(showNotification({ type: 'error', message: err.message })),
