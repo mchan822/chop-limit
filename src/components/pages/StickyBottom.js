@@ -29,7 +29,7 @@ export const StickyBottom = ({ }) => {
     (state) => state.order.order && state.order.order.cart_amount,
   );
     return (
-      <View style={{flexDirection:'row',paddingBottom:10,backgroundColor:'transparent',paddingHorizontal:10}}>
+      <View style={{flexDirection:'row',paddingBottom:10,backgroundColor:'transparent',paddingHorizontal:20}}>
          <LinearGradient
      colors={['transparent',  '#b6b6b6ff']}
       style={{
@@ -96,7 +96,7 @@ export const StickyBottom = ({ }) => {
           {
             backgroundColor: Theme.color.accentColor,
             height: 60,
-            width:  Dimensions.get("window").width - 240,          
+            width:  Dimensions.get("window").width - 250,          
             flexDirection:'row'
           },
         ]}
@@ -112,7 +112,7 @@ export const StickyBottom = ({ }) => {
          {
            backgroundColor: 'black',
            height: 60,
-           width:  Dimensions.get("window").width - 240,           
+           width:  Dimensions.get("window").width - 250,           
            flexDirection:'row'
          },
        ]}
@@ -128,7 +128,7 @@ export const StickyBottom = ({ }) => {
 const styles = StyleSheet.create({
   menuButton: {    
     height: 120,
-    marginHorizontal:5,
+    marginRight:10,
     marginVertical:5,
     alignItems: 'center',
     justifyContent: 'center',

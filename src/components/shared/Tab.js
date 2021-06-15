@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
 
     menuButtonAddress: {    
         height: 120,
-        marginHorizontal:5,
+        marginHorizontal:10,
         marginVertical:5,
         alignItems: 'center',
         justifyContent: 'center',

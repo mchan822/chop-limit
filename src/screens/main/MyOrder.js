@@ -692,7 +692,7 @@ export const MyOrderScreen = ({ navigation }) => {
                       {orderDetail.promo_code_name}
                     </AppText> 
                   </View>
-                  <View style={{flexDirection:'column', backgroundColor:'#e1e1e1', marginLeft:10, marginRight:10}}>
+                  <View style={{flexDirection:'column', backgroundColor:'#e1e1e1', marginLeft:20, marginRight:20}}>
                     {((cards && cards.length) != 0) &&
                     <View>
                     <AppText style={{fontSize:13,paddingTop:10,width:'100%', paddingLeft:10}} >                    

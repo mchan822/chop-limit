@@ -775,8 +775,8 @@ export const ProductScreen = ({ navigation }) => {
                     value={sku}
                     title={product.options_name == "" ? "Options" : product.options_name}
                     header="Select an available option"
-                    options={product.options.map((item) => ({
-                      label: item.name,
+                    options={product.options.map((item) => (console.log(item),{
+                      label: item.name + " +"+territory.currency.icon + item.price,
                       value: item.sku,
                     }))}
                     onChange={setSku}

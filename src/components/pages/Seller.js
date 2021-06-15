@@ -37,9 +37,14 @@ export const Seller = ({ seller }) => (
         {seller.name}
       </AppText>
       {seller.type_slug !='services' ? <View>
-        <AppText style={styles.products} numberOfLines={1}>
-          {seller.warehouse_address_line == '' ? seller.warehouse_address_city : seller.warehouse_address_line} • {seller.base_delivery_fee == '0.00' ? 'Free' : seller.currency.icon+seller.base_delivery_fee} Delivery{seller.offer_pickup == '1' && ' • Free Pickup'}
-        </AppText> 
+          {+seller.address_distance <= +seller.delivery_area_radius
+                  ? <AppText style={styles.products} numberOfLines={1}>
+                  {seller.warehouse_address_line == '' ? seller.warehouse_address_city : seller.warehouse_address_line} • {seller.base_delivery_fee == '0.00' ? 'Free' : seller.currency.icon+seller.base_delivery_fee} Delivery{seller.offer_pickup == '1' && ' • Free Pickup'}
+                </AppText> 
+                  : <AppText style={styles.products} numberOfLines={1}>
+                  {seller.warehouse_address_line == '' ? seller.warehouse_address_city : seller.warehouse_address_line} • Pickup Only{seller.offer_pickup == '1' && ' • Free Pickup'}
+                </AppText> }
+        
       </View>:
       <View>
         <AppText style={styles.products} numberOfLines={1}>

@@ -110,7 +110,7 @@ export const MainNavigationOptions = ({
     headerRight: () =>
       navigation.getParam('action') && navigation.getParam('actionTitle') ? (
         <TouchableOpacity
-          style={{ marginRight: 10 }}
+          style={{ marginRight: 5 }}
           onPress={navigation.getParam('action')}>
           <AppText
             style={{

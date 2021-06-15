@@ -497,9 +497,11 @@ export const ProductsScreen = ({ navigation }) => {
                     style={territory.app_overview_display != 'products'? {
                       flexDirection: 'column',
                       paddingTop: index === 0 ? 20 : 40,
+                      paddingHorizontal: 10
                     }:{
                       flexDirection: 'column',
                       paddingTop: index === 0 ? 20 : 10,
+                      paddingHorizontal: 10
                     }}
                     >
                     {territory.app_overview_display != 'products'? <AppText style={styles.categorytitle}>{item.name}</AppText> : <></> }
@@ -573,6 +575,7 @@ export const ProductsScreen = ({ navigation }) => {
                     style={{
                       flexDirection: 'column',
                       paddingTop: index === 0 ? 20 : 40,
+                      paddingHorizontal: 20
                     }}>
                       {territory.type_slug == 'services' ?  <AppText style={styles.categorytitle4Services}>All Services</AppText>
                       :
@@ -645,7 +648,7 @@ export const ProductsScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingBottom:80
+    paddingBottom:80,    
   },
 
   list: {
@@ -778,7 +781,7 @@ const styles = StyleSheet.create({
   },
 
   controllerWrapper: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
     marginVertical: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -836,7 +839,7 @@ const styles = StyleSheet.create({
   },
 
   quoteButton: {
-    marginHorizontal: 10
+    marginHorizontal: 20
   },
 
   dealItem: {
@@ -851,7 +854,7 @@ const styles = StyleSheet.create({
     height: 50,
     marginTop:10,
     marginBottom:5,
-    marginHorizontal: 10,
+    marginHorizontal: 20,
     paddingVertical:10,    
   },
 
