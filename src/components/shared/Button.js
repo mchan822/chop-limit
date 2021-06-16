@@ -42,6 +42,8 @@ export const Button = ({
         return styles.borderedBlack;
       case 'bordered-grey':
         return styles.borderedGrey;
+      case 'selected-green':
+        return styles.selectedGreen;
       default:
         return null;
     }
@@ -99,6 +101,13 @@ export const Button = ({
           />
         </View>
       )}
+      { type == 'selected-green' && (<View style={styles.icon}>
+          <Icon
+            size={Controls.button.iconSize}
+            name={'check'}
+            color={iconColor ? iconColor : 'black'}
+          />
+        </View>)}
       <AppText style={[styles.text, textStyle, titleStyle]}>{children}</AppText>
       {rightText ? (
         <View style={styles.right}>
@@ -192,6 +201,11 @@ const styles = StyleSheet.create({
 
   borderedGrey: {
     borderColor: '#ccc',
+  },
+
+  selectedGreen: {
+    borderColor: 'black',
+    backgroundColor: "#00dd0055",
   },
 
   fullWidth: {

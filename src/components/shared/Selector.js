@@ -12,6 +12,7 @@ export const Selector = ({
   nameSelector,
   labelSelector,
   typeSelector,
+  addonSelector,
   header,
   title,
   value,
@@ -46,7 +47,30 @@ export const Selector = ({
         </AppText>
       ) : null}
       {nameSelector ? (<AppText style={[styles.textStyle, styles.nameSelector]}>{nameSelector} </AppText>) : null}
-      {!hideSelector && !typeSelector && (
+      
+      {!hideSelector && !typeSelector && addonSelector && (
+        <TouchableOpacity
+          style={[styles.item, styles.picker, style]}
+          activeOpacity={0.8}
+          onPress={() => {
+            NavigationService.navigate('SelectorPageAddon', {
+              title,
+              header,
+              options,
+              action: onChange,
+              noOptionsText: noOptionsText
+                ? noOptionsText
+                : 'No Options Available',
+            });
+          }}>
+          <AppText style={styles.textStyle}>
+            {label ? label.toString() : placeholder && placeholder}
+          </AppText>
+
+          <Icon size={20} name="menu-swap" />
+        </TouchableOpacity>
+      )}
+      {!hideSelector && !typeSelector && !addonSelector && (
         <TouchableOpacity
           style={[styles.item, styles.picker, style]}
           activeOpacity={0.8}

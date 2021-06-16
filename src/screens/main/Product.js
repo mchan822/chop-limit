@@ -24,7 +24,6 @@ import {
 import HTML from "react-native-render-html";
 import { NavigationService } from '~/core/services/NavigationService';
 import { MainNavigationOptions, GlobalStyles, Theme } from '~/styles';
-
 import { fetchAPI, renderHTML } from '~/core/utility';
 import {
   showNotification,
@@ -36,7 +35,7 @@ import {
   setBanner
 } from '~/store/actions';
 import { Controls } from '~/styles';
-
+import CartSVG from '~/assets/images/cart-solid.svg';
 import { AppEventsLogger } from "react-native-fbsdk-next";
 
 export const ProductScreen = ({ navigation }) => {
@@ -364,7 +363,8 @@ export const ProductScreen = ({ navigation }) => {
                         {/* <View style={{ position: 'absolute', top: 5, right: -20 }}>
                           <Price style={{ height: 35, width: 120 }} />
                         </View> */}
-                        <Icon size={120} color='red' name={'alert'}/>
+                        <CartSVG height={120} width={120}/> 
+                        {/* <Icon size={120} color='red' name={'alert'}/> */}
                           <AppText
                           style={{
                             fontSize: 15,
@@ -411,7 +411,8 @@ export const ProductScreen = ({ navigation }) => {
                           <Price style={{ height: 35, width: 120 }} />
                         </View> */}
                         <View>
-                          <Icon size={60} color="white" name="cart" />
+                        <CartSVG height={60} width={60}/> 
+                          {/* <Icon size={60} color="white" name="cart" /> */}
                         </View>
                         <AppText
                           style={{
@@ -776,7 +777,7 @@ export const ProductScreen = ({ navigation }) => {
                     title={product.options_name == "" ? "Options" : product.options_name}
                     header="Select an available option"
                     options={product.options.map((item) => (console.log(item),{
-                      label: item.name + " +"+territory.currency.icon + item.price,
+                      label: item.name + " "+territory.currency.icon + item.price,
                       value: item.sku,
                     }))}
                     onChange={setSku}
@@ -840,6 +841,7 @@ export const ProductScreen = ({ navigation }) => {
                       style={[styles.flexRowBetween, GlobalStyles.formControl]}>
                       <Selector
                         hideSelector={allowNoMoreOptions}
+                        addonSelector={product_extra.multiple ? true :false}
                         noOptionsText={
                           allowNoMoreOptions &&
                           'You have already selected all the options'
