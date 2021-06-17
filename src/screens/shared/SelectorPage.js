@@ -65,7 +65,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textTransform: 'uppercase',
   },
-
+  list:{
+    marginBottom:20
+  },  
   textStyle: {
     fontSize: 16,
     textAlign: 'center',

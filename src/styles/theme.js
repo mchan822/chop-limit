@@ -4,7 +4,8 @@ export const Theme = {
     backgroundColor: '#e6e6e6',
     borderColor: '#b8b8b8',
     redColor: '#ec1a25',
-    grayColor:'gray'
+    grayColor:'gray',
+    accentGreenColor:'#31D457'
   },
 
   font: {},

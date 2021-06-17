@@ -835,8 +835,7 @@ export const ProductScreen = ({ navigation }) => {
                   product_extra.multiple === true &&
                   product_extra.multipletimes === false;
 
-                return (
-                  <>
+                return (<>                  
                     <View
                       style={[styles.flexRowBetween, GlobalStyles.formControl]}>
                       <Selector
@@ -863,7 +862,7 @@ export const ProductScreen = ({ navigation }) => {
                         }
                         header={'Select an available option'}
                         options={product_extra_options}
-                        onChange={(value) => {
+                        onChange={(value) => {                          
                           // let existingExtras = extras;
                           // setExtras({...existingExtras,  [product_extra.sku]: value,
                           // })
@@ -872,40 +871,40 @@ export const ProductScreen = ({ navigation }) => {
                             tempMax = product_extra.maxnum;
                           }
                           let existingChosenExtras = extrasChosen;
-                          
                          
                           if (product_extra.multiple === true) {
-                            /////////////// multiple options with checking the limit of maxnum
-                            if ( JSON.stringify(existingChosenExtras) != '{}' && existingChosenExtras[product_extra.sku]) {
-                              console.log("here!!!!");
-                              if (tempMax > existingChosenExtras[product_extra.sku].length) {
+                            /////////////// multiple options with checking the limit of maxnum                            
+                              if ( JSON.stringify(existingChosenExtras) != '{}' && existingChosenExtras[product_extra.sku]) {
+                                console.log("here!!!!");
+                                if (tempMax > existingChosenExtras[product_extra.sku].length + value.length) {
+                                  let previousVal = existingChosenExtras.hasOwnProperty(
+                                    product_extra.sku,
+                                  )
+                                    ? existingChosenExtras[product_extra.sku]
+                                    : [];
+                                    value.map((item)=> {
+                                      previousVal.push(item);
+                                    });
+                                  chooseExtras({
+                                    ...existingChosenExtras,
+                                    [product_extra.sku]: previousVal,
+                                  });
+                                }
+                              } else {                             
                                 let previousVal = existingChosenExtras.hasOwnProperty(
                                   product_extra.sku,
                                 )
                                   ? existingChosenExtras[product_extra.sku]
                                   : [];
-
-                                previousVal.push(value);
-
+                                value.map((item)=> {
+                                    previousVal.push(item);
+                                  });
                                 chooseExtras({
                                   ...existingChosenExtras,
                                   [product_extra.sku]: previousVal,
                                 });
                               }
-                            } else {
-                              let previousVal = existingChosenExtras.hasOwnProperty(
-                                product_extra.sku,
-                              )
-                                ? existingChosenExtras[product_extra.sku]
-                                : [];
-
-                              previousVal.push(value);
-
-                              chooseExtras({
-                                ...existingChosenExtras,
-                                [product_extra.sku]: previousVal,
-                              });
-                            }
+                          
                             ////////////////////
                           } else {
                             chooseExtras({

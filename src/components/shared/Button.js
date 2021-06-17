@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { AppText } from '~/components';
 import { Theme, Controls } from '~/styles';
-
+import CheckedSVG from '~/assets/images/checked-solid.svg';
 // Available Types:
 // accent
 // bordered-light
@@ -25,6 +25,8 @@ export const Button = ({
 }) => {
   const wrapperStyle = useMemo(() => {
     switch (type) {
+      case 'accentGreen':
+        return styles.accentGreen;
       case 'accent':
         return styles.accent;
       case 'bordered-light':
@@ -67,6 +69,10 @@ export const Button = ({
         return styles.whiteText;
       case 'bordered-grey':
         return styles.greyText;
+      case 'selected-green':
+        return styles.blackText;
+     case 'accentGreen':
+        return styles.whiteText;
       default:
         return null;
     }
@@ -101,12 +107,8 @@ export const Button = ({
           />
         </View>
       )}
-      { type == 'selected-green' && (<View style={styles.icon}>
-          <Icon
-            size={Controls.button.iconSize}
-            name={'check'}
-            color={iconColor ? iconColor : 'black'}
-          />
+      {type == 'selected-green' && (<View style={styles.icon}>
+          <CheckedSVG  height={25} width={25}></CheckedSVG>
         </View>)}
       <AppText style={[styles.text, textStyle, titleStyle]}>{children}</AppText>
       {rightText ? (
@@ -153,6 +155,11 @@ const styles = StyleSheet.create({
   accent: {
     borderColor: Theme.color.accentColor,
     backgroundColor: Theme.color.accentColor,
+  },
+
+  accentGreen: {
+    borderColor: Theme.color.accentGreenColor,
+    backgroundColor: Theme.color.accentGreenColor,
   },
 
   bordered: {
@@ -205,7 +212,7 @@ const styles = StyleSheet.create({
 
   selectedGreen: {
     borderColor: 'black',
-    backgroundColor: "#00dd0055",
+    backgroundColor: "#00dd0044",
   },
 
   fullWidth: {
