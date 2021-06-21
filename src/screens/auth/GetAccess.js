@@ -50,7 +50,7 @@ export const GetAccessScreen = () => {
   const animStart = useCallback(() => {
     // Will change anim value to 500 in 1 second
     Animated.timing(anim, {
-      toValue: 150,
+      toValue: 60,
       duration: 200,
       easing: Easing.linear,
       useNativeDriver: false,
@@ -64,43 +64,45 @@ export const GetAccessScreen = () => {
   return (
     <Screen
       align="center"
-      isLoading={isLoading}      
-      >
+      isLoading={isLoading}
+      backgroundImage={require('~/assets/images/back5.png')}>
       <View style={[styles.container]}>
-      <AppText style={[styles.whiteText, styles.title]}>Get Started</AppText>
-        <AppText style={[styles.grayText, styles.subTitle]}>
-          Enter your phone number below to get started
-        </AppText>
-        {/* <Animated.View style={[styles.inputWrapper, { maxHeight: anim }]}> */}
-       
-          <Input
-            title="Phone #"
-            placeholder="XXX XXX XXXX"
-            value={phoneNumber}
-            style={{marginTop:20}}
-            onChange={(e) => setPhoneNumber(formatPhoneNumber(e))}
-            keyboardType="number-pad"
-            actionIcon="chevron-right"
-            actionHandler={() => sendVerification(phoneNumber)}
-          />
-        {/* </Animated.View> */}
-       
-        <Button
+      <Button
             type="borderless"
             style={styles.button}
             titleStyle={{fontSize: 14}}
             onClick={() => {
               AppEventsLogger.logEvent('SIGN-IN SKIPPED')
               dispatch(signOut());     
-              dispatch(setTerritoryType({ territory_type: "restaurants" }));
+              dispatch(setTerritoryType({ territory_type: "address" }));
               //if(!token){
               NavigationService.reset('SelectDelivery1',{addressCnt: 0});
               //} else {
                 //NavigationService.reset('Home');
               //}
             }}>
-            SKIP
+            Skip
           </Button>
+        <AppText style={[styles.whiteText, styles.title]}>
+          SUPPORT{'\n'}Locally-owned{'\n'}Restaurants.
+        </AppText>
+        <AppText style={[ styles.subTitle]}>
+          Unlike other food delivery apps, Chow Local™ does not charge restaurants crazy commissions.
+        </AppText>
+        <Animated.View style={[styles.inputWrapper, { maxHeight: anim }]}>
+          <Input
+            title="Phone #"
+            placeholder="XXX XXX XXXX"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(formatPhoneNumber(e))}
+            keyboardType="number-pad"
+            actionIcon="chevron-right"
+            actionHandler={() => sendVerification(phoneNumber)}
+          />
+        </Animated.View>
+        <AppText style={[ styles.subTitle]}>
+          Enter your phone number above to get access. Order some food, and feel good knowing you're doing your part to help keep profits in the pockets of local restauranteurs.
+        </AppText>
       </View>
     </Screen>
   );
@@ -113,16 +115,15 @@ GetAccessScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: Theme.layout.screenPaddingHorizontal,
-    paddingTop: 30,
+    paddingTop: Theme.layout.screenPaddingTop,
     paddingBottom: Theme.layout.screenPaddingBottom,
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     flex: 1,
-    alignItems: 'center',
     width: '100%',
   },
 
   whiteText: {
-    color: Theme.color.redColor,
+    color: 'white',
     textAlign: 'center',
     textTransform: 'uppercase',
   },
@@ -133,7 +134,7 @@ const styles = StyleSheet.create({
   },
 
   greenText: {
-    color: '#31D457',
+    color: 'white',
     textAlign: 'center',
     textTransform: 'uppercase',
   },
@@ -145,20 +146,22 @@ const styles = StyleSheet.create({
   },
 
   subTitle: {
-    fontSize: 14,
+    fontSize: 17,
     marginTop: 10,
+    color: 'white',
+    textAlign:'center'
   },
 
   inputWrapper: {
-    marginTop: 40,
+    marginTop: 20,
     flexGrow: 1,
     overflow: 'hidden',
     width: '100%',
   },
 
   button: {
-    top:  20,
-    justifyContent: 'flex-start',
-    textTransform: 'uppercase',
+    top:  40,
+    right: Theme.layout.screenPaddingHorizontal,
+    position: 'absolute'
   },
 });
