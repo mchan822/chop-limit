@@ -65,7 +65,7 @@ export const GetAccessScreen = () => {
     <Screen
       align="center"
       isLoading={isLoading}
-      backgroundImage={require('~/assets/images/back5.png')}>
+      backgroundImage={require('~/assets/images/back.jpg')}>
       <View style={[styles.container]}>
       <Button
             type="borderless"

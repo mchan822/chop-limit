@@ -42,7 +42,9 @@ import {
   setBanner
 } from '~/store/actions';
 import { DashedLine } from '../../components';
-
+import FingerSVG from '~/assets/images/finger.svg';
+import OrderSVG from '~/assets/images/invoice_black.svg';
+import DealSVG from '~/assets/images/deal.svg';
 import { AppEventsLogger } from "react-native-fbsdk-next";
 
 export const MyOrderScreen = ({ navigation }) => {
@@ -67,9 +69,35 @@ export const MyOrderScreen = ({ navigation }) => {
   const isUpdateCard = useSelector((state) => state.notification.isUpdateCard);
   const [note, setNote] =  useState();
   const [noteLink, setNoteLink] =  useState();
+  const [screenMode, setScreenMode] =  useState('myorder');
+  const _pay_cash = useCallback(() => {
+    if(orderDetail)
+    AppEventsLogger.logEvent('Initiate Checkout',orderDetail.cart_total_amount,{
+      NUM_ITEMS : orderDetail.cart_quantity,
+      CURRENCY : orderDetail.currency
+    })
+
+    if (!userInfo || !userInfo.email && userInfo.user_verified == false) {
+        NavigationService.navigate('GetAccessGuest', {
+          deliveryMode: deliveryMode,
+          tip_percentage: tipValue,
+        });  
+    }else if(!userInfo.email && userInfo.user_verified == true){
+      NavigationService.navigate('ProfileGuest', {
+        deliveryMode: deliveryMode,
+        tip_percentage: tipValue,
+        signup_already: true,
+      });
+    } else {
+      setLoading(true);    
+      dispatch(setUserInfo({ totalOrders: +userInfo.totalOrders + 1 }));
+      dispatch(cancelOrder());
+      NavigationService.reset('OrderSuccess', {
+        orderId: orderDetail.order_id,
+      });
+    }
+  }, [userInfo, deliveryMode, tipValue, orderDetail]);
   const _pay = useCallback(() => {
-
-
     if(orderDetail)
     AppEventsLogger.logEvent('Initiate Checkout',orderDetail.cart_total_amount,{
       NUM_ITEMS : orderDetail.cart_quantity,
@@ -350,8 +378,40 @@ export const MyOrderScreen = ({ navigation }) => {
   }, [dispatch, isUpdateCard]);
 
   useEffect(() => {
-    navigation.setParams({ action: _pay, actionTitle: 'Pay' });
-  }, [_pay]);
+    if(screenMode != "myorder"){
+      navigation.setParams({ action: _pay, actionTitle: 'Pay' });
+      navigation.setParams({
+        backAction: () => setScreenMode('myorder'),
+      });
+      MyOrderScreen.navigationOptions = ({ navigation }) =>
+        MainNavigationOptions({
+          navigation,
+          options: {
+            headerTitle: 'CHECKOUT',
+            headerTintColors: 'black',
+          },
+          headerTitleStyle: {
+            color: 'black',
+          },
+        });
+    } else {
+      navigation.setParams({ action: null, actionTitle: null });
+      navigation.setParams({
+        backAction: () => navigation.goBack(),
+      });
+      MyOrderScreen.navigationOptions = ({ navigation }) =>
+      MainNavigationOptions({
+        navigation,
+        options: {
+          headerTitle: 'My Order',
+          headerTintColors: 'black',
+        },
+        headerTitleStyle: {
+          color: 'black',
+        },
+      });
+    }
+  }, [_pay,screenMode]);
 
   useEffect(() => getOrderDetails(), [updated,updatedNote,addedPromoCode]);
 
@@ -384,7 +444,7 @@ export const MyOrderScreen = ({ navigation }) => {
 
   const payButtonText = useMemo(
     () =>
-      (userInfo && userInfo.creditcard && orderDetail ? 'Pay' : 'Checkout') +
+      (userInfo && userInfo.creditcard && orderDetail ? 'Pay Now' : 'Checkout') +
       (orderDetail &&
         ' - ' +
           orderDetail.currency_icon +
@@ -419,8 +479,81 @@ export const MyOrderScreen = ({ navigation }) => {
     }
   },[orderDetail])
 
-  return (
-    <Screen hasList isLoading={isLoading} showHeaderOverLayOnScroll>
+  const StickyButton = () => {   
+    return (screenMode == 'myorder') ? (
+      <View>
+        {orderDetail && 
+        <View style={styles.summaryRowStikcy}>
+          <AppText style={[styles.summaryKey,{color:'gray'}]}>
+            Food & Beverage Subtotal
+            {/* ({orderDetail.taxes_percentage}%) */}
+          </AppText>
+          <AppText style={styles.summaryValue}>
+            {deliveryMode === 'deliver'
+              ? `${
+                  orderDetail.currency_icon
+                } ${(+orderDetail.total_amount_with_delivery).toFixed(
+                  2,
+                )}`
+              : `${
+                  orderDetail.currency_icon
+                } ${(+orderDetail.total_amount_without_delivery).toFixed(
+                  2,
+                )}`}
+          </AppText>
+        </View>}
+      <Button
+        type="accent"
+        style={styles.myCartButton}      
+        onClick={() => setScreenMode('checkout')}>
+        CHECKOUT
+      </Button>
+      </View>
+    ) : (
+      <View style={{flexDirection: 'row'}}>       
+        <Button
+          style={styles.doorButton}      
+          type="black"
+          onClick={_pay_cash}>
+          PAY AT THE DOOR
+        </Button>
+        <Button
+          style={styles.payButton}      
+          type="accent"
+          onClick={_pay}>
+          {payButtonText}
+        </Button>
+    </View>
+    );
+  };
+ 
+  return (  screenMode == "myorder" ? (
+   <Screen hasList isLoading={isLoading} showHeaderOverLayOnScroll stickyBottom={(<StickyButton/>)}>    
+    <View style={styles.container}>
+      {orderDetail && (
+        <FlatList
+          data={orderDetail.products}
+          alwaysBounceVertical={false}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <CartItem
+              orderDetail={orderDetail}
+              product={item}
+              
+              updateQuantity={(e) => updateQuantity(item, e)}
+              removeProduct={() => removeProduct(item)}
+            />
+          )} 
+          />       
+      )}
+      <DashedLine/>
+      <View style={styles.swipe}>
+        <FingerSVG height={25} width={25}/>
+        <AppText numberofLines={2} style={styles.swipeText}>Swipe left to remove an item from your order</AppText>
+      </View>         
+    </View>
+  </Screen>)
+  :   ( <Screen hasList isLoading={isLoading} showHeaderOverLayOnScroll stickyBottom={(<StickyButton/>)}> 
       <View style={styles.container}>
         {orderDetail && (
           <FlatList
@@ -428,13 +561,7 @@ export const MyOrderScreen = ({ navigation }) => {
             alwaysBounceVertical={false}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
-              <CartItem
-                orderDetail={orderDetail}
-                product={item}
-                
-                updateQuantity={(e) => updateQuantity(item, e)}
-                removeProduct={() => removeProduct(item)}
-              />
+             <></>
             )}            
             ListHeaderComponent={() => (
               <>
@@ -467,8 +594,8 @@ export const MyOrderScreen = ({ navigation }) => {
                         <AppText style={[styles.summaryTotal]}>
                           {orderDetail.currency_icon}
                           {(deliveryMode === 'deliver'
-                            ? +orderDetail.total_amount_with_delivery
-                            : +orderDetail.total_amount_without_delivery
+                            ? +orderDetail.total_amount_with_delivery*(1+tipValue/100)
+                            : +orderDetail.total_amount_without_delivery*(1+tipValue/100)
                           ).toFixed(2)}
                         </AppText>
                       </View>
@@ -568,6 +695,17 @@ export const MyOrderScreen = ({ navigation }) => {
               
               <View style={styles.footer}>
                 <View style={styles.summary}>
+                 <TouchableOpacity activeOpacity={0.7} style={styles.viewOrder} onPress={() => setScreenMode('myorder')}>
+                   <OrderSVG height={25} width={25}></OrderSVG>
+                   <AppText style={{fontSize:15,fontWeight:'bold', width:'100%', paddingLeft:10}} >View your Order</AppText>
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.7} style={styles.viewPromoCode} onPress={() => NavigationService.navigate('PromoCodeEdit')}>
+                   <DealSVG height={25} width={25}></DealSVG>
+                   <AppText style={{fontSize:15,fontWeight:'bold', paddingLeft:10}} >Add A Promo Code</AppText>
+                   <AppText style={styles.promoCodeText} numberOfLines={1}>{' '}
+                      {orderDetail.promo_code_name}
+                    </AppText> 
+                </TouchableOpacity>
                 {territory && territory.activate_tip == '1' ? <View style={styles.tipTitle}>
                     <AppText style={styles.summaryKey}>
                       Add a Tip?                      
@@ -599,6 +737,26 @@ export const MyOrderScreen = ({ navigation }) => {
                   </View> : <></>
                 }
                  { territory &&  territory.activate_tip == '1' && <DashedLine styleContainer={{ marginBottom: 15,borderRadius: 1, }}/>}
+                 {orderDetail && 
+                  <View style={styles.summaryRow}>
+                    <AppText style={styles.summaryKey}>
+                      Food & Beverage Subtotal
+                      {/* ({orderDetail.taxes_percentage}%) */}
+                    </AppText>
+                    <AppText style={styles.summaryValue}>
+                      {deliveryMode === 'deliver'
+                        ? `${
+                            orderDetail.currency_icon
+                          } ${((+orderDetail.total_amount_with_delivery)*(1+tipValue/100)).toFixed(
+                            2,
+                          )}`
+                        : `${
+                            orderDetail.currency_icon
+                          } ${((+orderDetail.total_amount_without_delivery)*(1+tipValue/100)).toFixed(
+                            2,
+                          )}`}
+                    </AppText>
+                  </View>}
                  {orderDetail &&  orderDetail.promo_code_used == true ? <View style={styles.summaryRow}>
                     <AppText style={styles.summaryKey}>
                       Discount
@@ -675,14 +833,14 @@ export const MyOrderScreen = ({ navigation }) => {
                         {noteLink}
                       </AppText> 
                     </TouchableOpacity>
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                       activeOpacity={0.2}
                       style={{width:'40%', paddingRight:20}}
                       onPress={() =>  NavigationService.navigate('PromoCodeEdit')}>
                       <AppText style={styles.specialPromoCode} >
                         {'+ Promo Code'}
                       </AppText> 
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                   </View>
                   <View style={{flexDirection:'row',width:'100%'}}>
                     <AppText style={styles.specialNoteText} numberOfLines={2}>
@@ -712,13 +870,7 @@ export const MyOrderScreen = ({ navigation }) => {
                   </View>
                   
                 </View>               
-                <View style={styles.actions}>
-                  <Button
-                    style={GlobalStyles.formControl}
-                    type="accent"
-                    onClick={_pay}>
-                    {payButtonText}
-                  </Button>
+                <View style={styles.actions}>                
                   {order.has_subscription_products != true &&
                   <Button
                     style={GlobalStyles.formControl}
@@ -741,7 +893,7 @@ export const MyOrderScreen = ({ navigation }) => {
           />       
         )}
       </View>
-    </Screen>
+      </Screen>)
   );
 };
 
@@ -780,6 +932,43 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 
+  summaryRowStikcy: {
+    paddingHorizontal: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 5,
+    position:'absolute',
+    bottom:70,
+    display: 'flex',
+    right:0,
+    left:0,
+  },
+
+  viewOrder: {
+    flexDirection:'row',
+    backgroundColor:'#e1e1e1',
+    marginLeft:20,
+    marginRight:20,
+    marginBottom:10,
+    marginTop:10, 
+    paddingHorizontal:15,
+    paddingTop:15,
+    paddingBottom:10
+  },
+
+  viewPromoCode: {
+    flexDirection:'row',
+    backgroundColor:'#e1e1e1',
+    marginLeft:20,
+    marginRight:20,
+    marginBottom:10,
+    marginTop: -5, 
+    paddingHorizontal:15,
+    paddingTop:15,
+    paddingBottom:10
+  },
+
   summaryKey: {
     fontSize: 16,
   },
@@ -808,6 +997,7 @@ const styles = StyleSheet.create({
 
   actions: {
     paddingHorizontal: 20,
+    marginBottom: 50
   },
 
   deliveryInfo: {
@@ -858,6 +1048,48 @@ const styles = StyleSheet.create({
   imageWrapper: {
     width: 60,
     alignItems: 'center',
+  },
+
+  swipe: {
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    paddingVertical: 20,    
+    marginBottom: 130
+  },
+
+  swipeText: {
+    fontSize: 14,
+    color: 'gray',
+    marginLeft: 20,
+    textAlign: 'center',
+  },
+
+  
+  myCartButton: {
+    marginHorizontal: 18,    
+    marginVertical: 15,  
+    position:'absolute',
+    bottom:0,
+    display: 'flex',
+    right:0,
+    left:0,
+  },
+
+  payButton: {
+    marginLeft: 10,    
+    marginVertical: 15, 
+    marginRight:20,   
+    bottom:0,
+    flex:1,
+    display: 'flex',
+  },
+
+  doorButton: {
+    flex:1,
+    marginLeft: 20,    
+    marginVertical: 15,
+    bottom:0,
+    display: 'flex',
   },
 
   image: {
@@ -922,14 +1154,12 @@ const styles = StyleSheet.create({
   },
 
   promoCodeText: {
-    width: '40%',
     color:'black',
     fontSize:16,
-    textAlign:'right',
-    paddingVertical:10,
+    
     marginLeft:0,
     paddingRight:20,
-    marginTop:-15
+    marginTop:0
   },
 
   orderInfoTotal: {
@@ -944,7 +1174,7 @@ MyOrderScreen.navigationOptions = ({ navigation }) =>
   MainNavigationOptions({
     navigation,
     options: {
-      headerTitle: 'My Cart',
+      headerTitle: 'My Order',
       headerTintColors: 'black',
     },
     headerTitleStyle: {
