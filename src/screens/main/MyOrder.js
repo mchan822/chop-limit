@@ -89,12 +89,30 @@ export const MyOrderScreen = ({ navigation }) => {
         signup_already: true,
       });
     } else {
-      setLoading(true);    
-      dispatch(setUserInfo({ totalOrders: +userInfo.totalOrders + 1 }));
-      dispatch(cancelOrder());
-      NavigationService.reset('OrderSuccess', {
-        orderId: orderDetail.order_id,
-      });
+      setLoading(true);
+
+      const formData = new FormData();
+      formData.append('delivery_type', deliveryMode);
+      formData.append('tip_percentage', tipValue);
+
+      fetchAPI('/order/cash_on_delivery', {
+        method: 'POST',
+        headers: {
+          authorization: `Bearer ${token ? token : guestToken}`,
+        },
+        body: formData,
+      })
+        .then((res) => {
+          dispatch(setUserInfo({ totalOrders: +userInfo.totalOrders + 1 }));
+          dispatch(cancelOrder());
+          NavigationService.reset('OrderSuccess', {
+            orderId: res.data.order_id,
+          });
+        })
+        .catch((err) => {
+          dispatch(showNotification({ type: 'error', message: err.message}));        
+        })
+        .finally(() => setLoading(false));
     }
   }, [userInfo, deliveryMode, tipValue, orderDetail]);
   const _pay = useCallback(() => {
