@@ -153,7 +153,7 @@ export const SubscriptionScreen = ({ navigation }) => {
                             onPress={() => {
                                 NavigationService.navigate('SelectorPercentPage', {
                                 title: 'Tip',
-                                header: 'HOW MUCH WOULD YOU LIKE TO TIP?',
+                                header: 'How much would you like to tip?',
                                 options: [5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100].map((item) => ({
                                     label: item+'%',
                                     value: item,

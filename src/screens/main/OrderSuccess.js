@@ -25,6 +25,7 @@ export const OrderSuccessScreen = ({ navigation }) => {
 
   const token = useSelector((state) => state.account.token);
   const orderId = useMemo(() => navigation.getParam('orderId'), []);
+  const paymentType = useMemo(() => navigation.getParam('paymentType'), []);
   const order = useSelector((state) => state.order && state.order.order);
   const explorer = useSelector((state) => state.explorer);
 
@@ -131,11 +132,15 @@ export const OrderSuccessScreen = ({ navigation }) => {
           <View><Icon size={120} color={ Theme.color.accentColor} name="emoticon-happy-outline" /></View>
 
           <AppText style={styles.successTitle}>ORDER RECEIVED!</AppText>
-
-          <AppText style={styles.successSubtitle}>Your credit card has been charged successfully.</AppText>
-          <AppText style={styles.successSubtitle}>Check your e-mail for a copy of your Order.</AppText>
-          <AppText style={styles.successSubtitle}>On behalf of {order.territory.name}, thanks for shopping local!</AppText>
-
+          {paymentType == 'credit_card' ? <View>
+            <AppText style={styles.successSubtitle}>Your credit card was charged successfully.</AppText>
+            <AppText style={styles.successSubtitle}>Check your email for a copy of your order.</AppText>
+            <AppText style={styles.successSubtitle}>On behalf of {order.territory.name}, thanks for supporting local!</AppText>
+          </View> : <View>
+            <AppText style={styles.successSubtitle}>Check your email for a copy of your order.</AppText>
+            <AppText style={styles.successSubtitle}>On behalf of {order.territory.name}, thanks for supporting local!</AppText>
+          </View> 
+          }
           <Button
             type="accent"
             fullWidth

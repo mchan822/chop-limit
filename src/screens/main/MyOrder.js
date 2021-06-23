@@ -108,6 +108,7 @@ export const MyOrderScreen = ({ navigation }) => {
           dispatch(cancelOrder());
           NavigationService.reset('OrderSuccess', {
             orderId: res.data.order_id,
+            paymentType:'cash'
           });
         })
         .catch((err) => {
@@ -154,6 +155,7 @@ export const MyOrderScreen = ({ navigation }) => {
           dispatch(cancelOrder());
           NavigationService.reset('OrderSuccess', {
             orderId: res.data.order_id,
+            paymentType: "credit_card"
           });
         })
         .catch((err) => {
@@ -734,7 +736,7 @@ export const MyOrderScreen = ({ navigation }) => {
                           onPress={() => {
                           NavigationService.navigate('SelectorPercentPage', {
                             title: 'Tip',
-                            header: 'HOW MUCH WOULD YOU LIKE TO TIP?',
+                            header: 'How much would you like to tip?',
                             options: [5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100].map((item) => ({
                               label: item+'%',
                               value: item,
@@ -890,7 +892,7 @@ export const MyOrderScreen = ({ navigation }) => {
                     </AppText>
                 <View style={styles.radio}>
                   <CheckBox containerStyle={styles.radioBackground} title="Pay Now(Credit Card)" checkedColor={Theme.color.accentColor} checked={paymentType=='1' ? true : false} checkedIcon='dot-circle-o'  onPress = {() => {setPaymentType('1');}}  uncheckedIcon='circle-o'/>
-                  <CheckBox containerStyle={styles.radioBackground} title="Pay At The Door" checkedColor={Theme.color.accentColor} checked={paymentType=='2' ? true : false} checkedIcon='dot-circle-o'  onPress = {() => {setPaymentType('2');}}  uncheckedIcon='circle-o'/>
+                  <CheckBox containerStyle={styles.radioBackground} title="Pay In Person" checkedColor={Theme.color.accentColor} checked={paymentType=='2' ? true : false} checkedIcon='dot-circle-o'  onPress = {() => {setPaymentType('2');}}  uncheckedIcon='circle-o'/>
                   </View>
                 </View>      
                 <View style={styles.actions}>                
