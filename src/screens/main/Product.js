@@ -623,7 +623,7 @@ export const ProductScreen = ({ navigation }) => {
               style={[styles.option, { flex: 2 }, styles.optionLeft]}
               value={quantity}
               title="Quantity"
-              header="How many do you want"
+              header="How many do you want?"
               options={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => ({
                 label: item,
                 value: item,
