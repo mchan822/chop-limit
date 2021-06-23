@@ -69,7 +69,6 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     fontSize: 16,
     textAlign: 'center',
-    textTransform: 'uppercase',
   },
 
   list : {    

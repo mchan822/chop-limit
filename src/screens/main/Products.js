@@ -87,7 +87,7 @@ export const ProductsScreen = ({ navigation }) => {
       const params = {
         territory: territory ? territory.tid : null,
         category: category ? category.cid : null,
-        out_stock: 0
+        // out_stock: 0
       };
 
       query = Object.keys(params)
@@ -180,9 +180,10 @@ export const ProductsScreen = ({ navigation }) => {
       method: 'GET',
     })
       .then((res) => {
-         const productsData = res.data.products.filter(
-           (item) => !item.out_stock,
-        );
+         const productsData = res.data.products;
+        //  .filter(
+        //    (item) => !item.out_stock,
+        // );
         setTotalPages(res.data.total_pages);
         if (page === 0) {
           setProducts(productsData);
@@ -204,7 +205,7 @@ export const ProductsScreen = ({ navigation }) => {
     fetchAPI(
       `/categories?territory=${
         token ? territory.tid : explorer.territory.tid
-      }&with_products=1&size=${categoriesSize}&page=${page}&out_stock=0`,
+      }&with_products=1&size=${categoriesSize}&page=${page}`,
       {
         method: 'GET',
       },

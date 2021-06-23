@@ -43,10 +43,10 @@ export const OrderSuccessScreen = ({ navigation }) => {
   ) => {
     dispatch(setTerritoryType({ territory_type : category }));
     dispatch(cancelOrder());
-
-    NavigationService.navigate('Home',{
-      title : category == 'restaurants' ? 'restaurants' : category == 'shops' ? 'shops' : 'services' 
-    })
+    NavigationService.navigate('Products');
+    // NavigationService.navigate('Home',{
+    //   title : category == 'restaurants' ? 'restaurants' : category == 'shops' ? 'shops' : 'services' 
+    // })
   }
 
   useEffect(() => {

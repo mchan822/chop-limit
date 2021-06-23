@@ -233,7 +233,7 @@ export const SellersScreen = ({ navigation }) => {
     }
     navigation.setParams({
       backIcon: 'home',
-      backAction: () => NavigationService.navigate('Home'),
+      backAction: () => NavigationService.reset('Home'),
     });
   }, [sellersDelivery]);
 

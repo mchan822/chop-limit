@@ -258,7 +258,7 @@ export const ProductEditScreen = ({ navigation }) => {
               .finally(() => setLoading(false));  
           }
         }
-        NavigationService.navigate('Home');
+        NavigationService.reset('Home');
         }
       })
       .catch((err) =>

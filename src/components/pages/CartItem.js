@@ -140,8 +140,7 @@ export const CartItem = ({
                 <>
                 {product.option_name != 'Default' &&                  
                   <AppText style={[styles.item, styles.optionName]}>
-
-                    {product.options_name}:{product.option_name}
+                    {product.options_name}: {product.option_name}
                   </AppText>
                 }
                 </>

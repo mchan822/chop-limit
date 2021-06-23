@@ -62,6 +62,7 @@ export const MyOrderScreen = ({ navigation }) => {
   const userInfo = useSelector((state) => state.account.userInfo);
   const territory = useSelector((state) => state.order.territory);
   const [tipValue, setChecked] = useState('');
+  const [paymentType, setPaymentType] = useState('1');
   const [checked, setOther] = useState('');
   const updated = useSelector((state) => state.notification.updated);
   const updatedNote = useSelector((state) => state.notification.updatedNote);
@@ -250,7 +251,6 @@ export const MyOrderScreen = ({ navigation }) => {
         setOrderDetail(res.data);
         if(res.data.cart_quantity == '0'){
           NavigationService.reset('Home');
-          NavigationService.navigate('Home');
         }
         dispatch(updatedNotes(res.data.notes));
         setNote(res.data.notes);
@@ -297,7 +297,7 @@ export const MyOrderScreen = ({ navigation }) => {
         //dispatch(showNotification({ type: 'error', message: err.message })),
         {
           dispatch(showNotification({ type: 'error', message: err.message }))
-          NavigationService.navigate('Home');
+          NavigationService.reset('Home');
           dispatch(cancelOrder())
         }
         
@@ -368,7 +368,7 @@ export const MyOrderScreen = ({ navigation }) => {
               .finally(() => setLoading(false));  
           }
         }
-        NavigationService.navigate('Home');
+        NavigationService.reset('Home');
       })
       .catch((err) =>
         dispatch(showNotification({ type: 'error', message: res.message })),
@@ -462,14 +462,14 @@ export const MyOrderScreen = ({ navigation }) => {
 
   const payButtonText = useMemo(
     () =>
-      (userInfo && userInfo.creditcard && orderDetail ? 'Pay Now' : 'Checkout') +
+      (userInfo && userInfo.creditcard && orderDetail ? 'PLACE ORDER' : 'Checkout') +
       (orderDetail &&
-        ' - ' +
+        ' ( ' +
           orderDetail.currency_icon +
           (deliveryMode === 'deliver'
             ? +orderDetail.total_amount_with_delivery*(1+tipValue/100)
             : +orderDetail.total_amount_without_delivery*(1+tipValue/100)
-          ).toFixed(2) + (orderDetail.has_subscription_products == true  ? (' ' + orderDetail.products[0].subscription_type_name_every): '')),
+          ).toFixed(2) + (orderDetail.has_subscription_products == true  ? (' ' + orderDetail.products[0].subscription_type_name_every): ''))  + ' )',
     [userInfo, orderDetail, deliveryMode, tipValue],
   );
   const showTaxLine = useMemo(() => {
@@ -528,17 +528,12 @@ export const MyOrderScreen = ({ navigation }) => {
       </Button>
       </View>
     ) : (
-      <View style={{flexDirection: 'row'}}>       
-        <Button
-          style={styles.doorButton}      
-          type="black"
-          onClick={_pay_cash}>
-          PAY AT THE DOOR
-        </Button>
+      <View style={{flexDirection: 'row'}}>  
+       
         <Button
           style={styles.payButton}      
           type="accent"
-          onClick={_pay}>
+          onClick={paymentType == '1' ? _pay : _pay_cash}>
           {payButtonText}
         </Button>
     </View>
@@ -567,7 +562,7 @@ export const MyOrderScreen = ({ navigation }) => {
       <DashedLine/>
       <View style={styles.swipe}>
         <FingerSVG height={25} width={25}/>
-        <AppText numberofLines={2} style={styles.swipeText}>Swipe left to remove an item from your order</AppText>
+        <AppText numberofLines={2} style={styles.swipeText}>Swipe left to remove an item.</AppText>
       </View>         
     </View>
   </Screen>)
@@ -724,8 +719,9 @@ export const MyOrderScreen = ({ navigation }) => {
                       {orderDetail.promo_code_name}
                     </AppText> 
                 </TouchableOpacity>
+                <DashedLine/>
                 {territory && territory.activate_tip == '1' ? <View style={styles.tipTitle}>
-                    <AppText style={styles.summaryKey}>
+                    <AppText style={styles.summaryKey_tip}>
                       Add a Tip?                      
                     </AppText>
                     
@@ -840,7 +836,7 @@ export const MyOrderScreen = ({ navigation }) => {
                     </AppText>
                   </View>: <></> }
                 </View>
-                <View>
+                <View style={{paddingBottom:10}}>
                   <View style={{flexDirection:'row'}}>
                     <TouchableOpacity
                       activeOpacity={0.2}
@@ -864,9 +860,9 @@ export const MyOrderScreen = ({ navigation }) => {
                     <AppText style={styles.specialNoteText} numberOfLines={2}>
                       {note}
                     </AppText> 
-                    <AppText style={styles.promoCodeText} numberOfLines={1}>
+                    {/* <AppText style={styles.promoCodeText} numberOfLines={1}>
                       {orderDetail.promo_code_name}
-                    </AppText> 
+                    </AppText>  */}
                   </View>
                   <View style={{flexDirection:'column', backgroundColor:'#e1e1e1', marginLeft:20, marginRight:20}}>
                     {((cards && cards.length) != 0) &&
@@ -885,9 +881,18 @@ export const MyOrderScreen = ({ navigation }) => {
                     </TouchableOpacity>
                     </View>
                    }
+                  </View>                  
+                </View>
+                <DashedLine/>
+                <View style={styles.tipTitle}>
+                    <AppText style={styles.summaryKey_tip}>
+                      Payment Type 
+                    </AppText>
+                <View style={styles.radio}>
+                  <CheckBox containerStyle={styles.radioBackground} title="Pay Now(Credit Card)" checkedColor={Theme.color.accentColor} checked={paymentType=='1' ? true : false} checkedIcon='dot-circle-o'  onPress = {() => {setPaymentType('1');}}  uncheckedIcon='circle-o'/>
+                  <CheckBox containerStyle={styles.radioBackground} title="Pay At The Door" checkedColor={Theme.color.accentColor} checked={paymentType=='2' ? true : false} checkedIcon='dot-circle-o'  onPress = {() => {setPaymentType('2');}}  uncheckedIcon='circle-o'/>
                   </View>
-                  
-                </View>               
+                </View>      
                 <View style={styles.actions}>                
                   {order.has_subscription_products != true &&
                   <Button
@@ -989,6 +994,11 @@ const styles = StyleSheet.create({
 
   summaryKey: {
     fontSize: 16,
+  },
+
+  summaryKey_tip: {
+    fontSize:16,
+    marginTop:10
   },
 
   tipTitle: {
@@ -1094,7 +1104,7 @@ const styles = StyleSheet.create({
   },
 
   payButton: {
-    marginLeft: 10,    
+    marginLeft: 20,    
     marginVertical: 15, 
     marginRight:20,   
     bottom:0,
@@ -1163,10 +1173,10 @@ const styles = StyleSheet.create({
   },
 
   specialNoteText: {
-    width: '60%',
+    width: '100%',
     color:'black',
     fontSize:14,
-    paddingVertical:10,
+    paddingTop:10,
     paddingLeft: 20,
     marginTop:-15
   },

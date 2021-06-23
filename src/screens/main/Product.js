@@ -227,7 +227,7 @@ export const ProductScreen = ({ navigation }) => {
               .finally(() => setLoading(false));  
           }
         }
-        NavigationService.navigate('Home');
+        NavigationService.reset('Home');
         }
       })
       .catch((err) =>
@@ -382,7 +382,7 @@ export const ProductScreen = ({ navigation }) => {
                             dispatch(clearNotification());
                             NavigationService.navigate('MyOrder');
                           }}>
-                          Checkout
+                         View My Order
                         </Button>
                         <Button
                           type="white"
@@ -433,7 +433,7 @@ export const ProductScreen = ({ navigation }) => {
                             dispatch(clearNotification());
                             NavigationService.navigate('MyOrder');
                           }}>
-                          Checkout
+                          View My Order
                         </Button>
 
                         <Button
