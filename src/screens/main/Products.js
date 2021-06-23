@@ -42,7 +42,6 @@ export const ProductsScreen = ({ navigation }) => {
   const order = useSelector((state) => state.order && state.order.order);
   const territory = useSelector((state) => state.order.territory);
   const explorer = useSelector((state) => state.explorer);
-  console.log("territory---",territory.free_delivery_cutoff);
   
   useEffect(() => {
     territory &&

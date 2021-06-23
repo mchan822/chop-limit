@@ -50,7 +50,7 @@ export const StickyBottom = ({ }) => {
           },
         ]}
         onPress={() => {
-          NavigationService.navigate('Home');
+          NavigationService.reset('Home');
         }}>      
          
         <RestaurantSVG height={30} width={30}/>

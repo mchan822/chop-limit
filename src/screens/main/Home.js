@@ -40,6 +40,7 @@ export const HomeScreen = ({ navigation }) => {
   const unread = useSelector((state) => state.notification.unreadMessages);
   const order = useSelector((state) => state.order.order);
   const explorer = useSelector((state) => state.explorer);
+  const explorerAddress = useSelector((state) => state.explorer.address);
   const [address, setAddress] = useState('');
   const windowWidth = Dimensions.get('window').width;
   const [indexButton,setIndexButton] = useState('');
@@ -108,20 +109,20 @@ export const HomeScreen = ({ navigation }) => {
     }
   });
 
-  const lastAddress = useMemo(() => {   
+  const lastAddress = useMemo(() => {
     if (order && order.address && order.cancelled == 0) { 
       console.log("1");
       return order.address;
-    } else if (explorer && explorer.address) {
+    } else if (explorerAddress && explorerAddress) {
       console.log("2");
-      return explorer.address;
+      return explorerAddress;
     } else if (address) {
       console.log("3");
       return address;
     } else {
       return false;
     }
-  }, [order, explorer, address]);
+  }, [order, explorerAddress, address]);
 
   // useEffect(() =>{
   //   fetchAPI(
@@ -311,11 +312,10 @@ export const HomeScreen = ({ navigation }) => {
   //const [selectedCategory, selectCategory] = useState(false);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  
   const [sellersFilter, setSellersFilter] = useState('&sort_by=most-orders');
   //const territory_type = useState("restaurants");
  
-  useEffect(() => {    
+  useEffect(() => {
       if (token && order && order.address_id && order.address_id != '0' && order.cancelled == '0') {
         setLoading(true);
         const formData = new FormData();
@@ -381,9 +381,9 @@ export const HomeScreen = ({ navigation }) => {
                 dispatch(showNotification({ type: 'error', message: err.message }));
               })
               .finally(() => setLoading(false));       
-        }
-      }
-  }, [page,lastAddress,explorer]);
+        }        
+    }
+  }, [page,lastAddress]);
   const selectCategory = useCallback((selectedCategory)=>{
     if(selectedCategory != false){
       var categoryName = "";
@@ -395,9 +395,6 @@ export const HomeScreen = ({ navigation }) => {
       NavigationService.navigate("SellersWithCategory",{selectedCategory: selectedCategory,categoryName:categoryName});
     }
   });
-  // useEffect(() => {
-    
-  // },[selectedCategory])
 
   useEffect(() => { 
     fetchAPI(
@@ -428,11 +425,12 @@ export const HomeScreen = ({ navigation }) => {
   );
  const loadMore = useCallback((page,totalPages) => {
   if (page < totalPages-1) {           
-     setPage(page + 1);                  
+     setPage(page + 1);
   }
  });
 
   const tabData = useMemo(() => {
+   
     let tabData = [];
     tabData.push({
       title: 'Delivery',
