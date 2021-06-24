@@ -33,6 +33,7 @@
 		DF4A338DF1A8490E8E1F275E /* Montserrat-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18A8642C75474FA193EE761A /* Montserrat-SemiBoldItalic.ttf */; };
 		E5714035BAA04B0D899E3755 /* Montserrat-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5681E6E2543645ED9541CC71 /* Montserrat-ThinItalic.ttf */; };
 		F5259F2C266FC5AD000F526F /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5259F2B266FC5AD000F526F /* File.swift */; };
+		F5CD96912677308700BF2327 /* alert.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F5CD96902677308700BF2327 /* alert.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,7 @@
 		F5259F2A266FC5AC000F526F /* chowlocal-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "chowlocal-Bridging-Header.h"; sourceTree = "<group>"; };
 		F5259F2B266FC5AD000F526F /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		F596382B266F6B68003FF837 /* chowlocal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = chowlocal.entitlements; path = chowlocal/chowlocal.entitlements; sourceTree = "<group>"; };
+		F5CD96902677308700BF2327 /* alert.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = alert.mp3; path = chowlocal/alert.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 		13B07FAE1A68108700A75B9A /* chowlocal */ = {
 			isa = PBXGroup;
 			children = (
+				F5CD96902677308700BF2327 /* alert.mp3 */,
 				F596382B266F6B68003FF837 /* chowlocal.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -323,6 +326,7 @@
 				80F7046DBC9B45E89AADA1B1 /* Montserrat-ExtraLight.ttf in Resources */,
 				43587CABD4BF4E84ABA8D775 /* Montserrat-ExtraLightItalic.ttf in Resources */,
 				3187A669668A4C11A7B189B7 /* Montserrat-Italic.ttf in Resources */,
+				F5CD96912677308700BF2327 /* alert.mp3 in Resources */,
 				D9B61EE4210F412B9F930C95 /* Montserrat-Light.ttf in Resources */,
 				99BF709B6B1846A0AF73DB89 /* Montserrat-LightItalic.ttf in Resources */,
 				D337E7C321114E61A6FE0F01 /* Montserrat-Medium.ttf in Resources */,
@@ -585,7 +589,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = chowlocal/chowlocal.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = YM5YVH2886;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = chowlocal/Info.plist;
@@ -593,6 +597,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -614,13 +619,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = chowlocal/chowlocal.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = YM5YVH2886;
 				INFOPLIST_FILE = chowlocal/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
