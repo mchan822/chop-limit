@@ -131,7 +131,7 @@ export const CartItem = ({
             <AppText            
               onPress={()=> { dispatch(setOrderProduct(product)),NavigationService.navigate("OrderProductDetails")}}
               style={[styles.item, styles.productName]}
-              numberOfLines={1}>
+              numberOfLines={2}>
               {product.product_name}            
             </AppText>
             {product.extras.length === 0 ? (

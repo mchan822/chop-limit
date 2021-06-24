@@ -29,7 +29,12 @@ export const MessageTerritoryListScreen = ({ navigation }) => {
     })
     .then((res) => {
       console.log("chats data ++ ",res.data.chats);
-      setTerritoryList(res.data.chats);
+      let messages =  res.data.chats.filter(
+        (item) => item.territory.length !== 0 
+      );
+      messages.sort((a, b) => (a.is_new < b.is_new) ? 1 : -1)
+      console.log("chats data ++ ",messages);
+      setTerritoryList(messages);
     })
     .catch((err) =>
       dispatch(showNotification({ type: 'error', message: err.message })),
