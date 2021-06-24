@@ -615,7 +615,6 @@ export const MyOrderScreen = ({ navigation }) => {
                         </AppText>
                       </View>
                     </View>
-
                     {!isDeliveryDisabled && !isPickupDisabled && (
                       <View style={styles.deliveryInfo}>
                         <DeliveryMode
@@ -866,7 +865,7 @@ export const MyOrderScreen = ({ navigation }) => {
                       {orderDetail.promo_code_name}
                     </AppText>  */}
                   </View>
-                  <View style={{flexDirection:'column', backgroundColor:'#e1e1e1', marginLeft:20, marginRight:20}}>
+                  <View style={{flexDirection:'column', backgroundColor:'#e1e1e1', marginLeft:20, marginRight:20,marginBottom:10}}>
                     {((cards && cards.length) != 0) &&
                     <View>
                     <AppText style={{fontSize:13,paddingTop:10,width:'100%', paddingLeft:10}} >                    
@@ -987,7 +986,7 @@ const styles = StyleSheet.create({
     backgroundColor:'#e1e1e1',
     marginLeft:20,
     marginRight:20,
-    marginBottom:10,
+    marginBottom:20,
     marginTop: -5, 
     paddingHorizontal:15,
     paddingTop:15,
@@ -1000,7 +999,7 @@ const styles = StyleSheet.create({
 
   summaryKey_tip: {
     fontSize:16,
-    marginTop:10
+    marginTop:15
   },
 
   tipTitle: {
