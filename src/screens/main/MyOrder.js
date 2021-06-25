@@ -615,8 +615,9 @@ export const MyOrderScreen = ({ navigation }) => {
                         </AppText>
                       </View>
                     </View>
-                    {!isDeliveryDisabled && !isPickupDisabled && (
+                    {!isPickupDisabled && (
                       <View style={styles.deliveryInfo}>
+                        {!isDeliveryDisabled ?
                         <DeliveryMode
                           name="Get it delivered"
                           price={`${orderDetail.currency_icon}${(
@@ -625,7 +626,10 @@ export const MyOrderScreen = ({ navigation }) => {
                           checked={deliveryMode === 'deliver'}
                           onPress={() => setDeliveryMode('deliver')}
                           disabled={isDeliveryDisabled}
-                        />
+                        /> : <View style={styles.deliveryWrapper}>
+                            <AppText style={styles.deliveryNotText}>Delivery Not Available</AppText>
+                            <AppText style={styles.notAvailableText}>Address outside delivery zone</AppText>
+                          </View>}
 
                         <View style={styles.verticalSeparator} />
                         <DeliveryMode
@@ -692,7 +696,7 @@ export const MyOrderScreen = ({ navigation }) => {
                           </View>
                           <View style={styles.locationWrapper}>
                             <AppText style={styles.sellerName}>
-                              Directions to Seller's Location
+                              Directions to restaurant
                             </AppText>
                           </View>
                           <View style={styles.iconWrapper}>
@@ -1197,6 +1201,26 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'center',
   },
+
+  deliveryWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    position: 'relative',
+    
+  },
+
+  deliveryNotText: {
+    fontWeight: 'bold',
+    fontSize: 14,
+    paddingLeft:20,
+  },
+  notAvailableText: {
+    color: Theme.color.accentColor,
+    fontWeight: 'bold',
+    fontSize:10,
+    paddingLeft:20,
+  }
 });
 
 MyOrderScreen.navigationOptions = ({ navigation }) =>

@@ -42,6 +42,7 @@ export const HomeScreen = ({ navigation }) => {
   const explorer = useSelector((state) => state.explorer);
   const explorerAddress = useSelector((state) => state.explorer.address);
   const [address, setAddress] = useState('');
+  const [changedTime, setTimeChanged] = useState('');
   const windowWidth = Dimensions.get('window').width;
   const [indexButton,setIndexButton] = useState('');
   //const [unread, setUnread] = useState('');
@@ -144,7 +145,15 @@ export const HomeScreen = ({ navigation }) => {
   //   })
   //   .finally(() => setLoading(false));
   // },[lastAddress])
-
+  const [sellersDelivery, setSellersDelivery] = useState(false);
+  const [openDeliveryCnt, setOpenDeliveryCnt] = useState(false);
+  const [closeDeliveryCnt, setCloseDeliveryCnt] = useState(false);
+  const [categoryData, setCategoryData] =  useState(false);
+  //const [selectedCategory, selectCategory] = useState(false);
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [sellersFilter, setSellersFilter] = useState('&sort_by=most-orders');
+  //const territory_type = useState("restaurants");
   useEffect(() => {
      if(Platform.OS === 'ios') {
       PushNotificationIOS.addEventListener('register', (token) => {});
@@ -214,7 +223,7 @@ export const HomeScreen = ({ navigation }) => {
     BackgroundTimer.stopBackgroundTimer();
     var lastMessageChecked_var = '';
     BackgroundTimer.runBackgroundTimer(()=>{
-    
+      
       if(token && lastMessageChecked_var != ''){
         console.log("calling lty",lastMessageChecked_var);
        fetchAPI(`/messages/list_last_activity?last_time_checked=${lastMessageChecked_var}`, {
@@ -239,7 +248,6 @@ export const HomeScreen = ({ navigation }) => {
              }); 
          if(byTetCnt > 0) {      
       
-           console.log("sssssss",res.data.chats);
            if(Platform.OS === 'ios') {
              PushNotificationIOS.addNotificationRequest({
                id: "default",
@@ -290,6 +298,7 @@ export const HomeScreen = ({ navigation }) => {
           {}//dispatch(showNotification({ type: 'error', message: err.message })),
          )
       }
+      setTimeChanged(new Date().toLocaleString());
     },10000);
    },[]);
 
@@ -305,17 +314,61 @@ export const HomeScreen = ({ navigation }) => {
     }
   },[unread]);
 
-  const [sellersDelivery, setSellersDelivery] = useState(false);
-  const [openDeliveryCnt, setOpenDeliveryCnt] = useState(false);
-  const [closeDeliveryCnt, setCloseDeliveryCnt] = useState(false);
-  const [categoryData, setCategoryData] =  useState(false);
-  //const [selectedCategory, selectCategory] = useState(false);
-  const [page, setPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
-  const [sellersFilter, setSellersFilter] = useState('&sort_by=most-orders');
-  //const territory_type = useState("restaurants");
+  useEffect(() => {
+    if (token && order && order.address_id && order.address_id != '0' && order.cancelled == '0') {
+      
+      const formData = new FormData();
+      formData.append('address_id', order.address_id);   
+        fetchAPI(
+          `/territories/by_address_id?type=restaurants&deliverable=1&filter_by=products_totals${sellersFilter}&size=${(page+1)*4}&page=0&sort_by_extra=is-operational`,
+          {
+            method: 'POST',
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+            body: formData,
+          },
+        ).then((res) => {
+      
+          setSellersDelivery(
+            res.data.territories.filter((territory) =>
+              Boolean(territory.app_image),
+            ),
+          );
+          setOpenDeliveryCnt(res.data.total_operational);
+          setCloseDeliveryCnt(res.data.total_not_operational);           
+     
+        })
+        .catch((err) => {
+          dispatch(showNotification({ type: 'error', message: err.message }));
+        })
+        .finally(() => setLoading(false));    
+    } else { 
+      if(explorer && explorer.address != null) {
+       
+        setLoading(true);       
+            fetchAPI(
+              `/territories/by_address?address=${explorer.address}&type=restaurants&deliverable=1&&filter_by=products_totals${sellersFilter}&size=${(page+1)*4}&page=0&sort_by_extra=is-operational`,
+              {
+                method: 'POST',
+              },
+            ).then((res) => {              
+                setSellersDelivery(res.data.territories.filter((item) => Boolean(item.app_image)));
+                setOpenDeliveryCnt(res.data.total_operational);
+                setCloseDeliveryCnt(res.data.total_not_operational);      
+          
+
+            })
+            .catch((err) => {
+              dispatch(showNotification({ type: 'error', message: err.message }));
+            })
+            .finally(() => setLoading(false));       
+      }        
+  }
+  },[changedTime]);
  
   useEffect(() => {
+    console.log("explorer.addressdfsdfsdfs@@@@@@@@@@@@@@@@s++++++++++++" ,token);
       if (token && order && order.address_id && order.address_id != '0' && order.cancelled == '0') {
         setLoading(true);
         const formData = new FormData();

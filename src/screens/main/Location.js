@@ -168,7 +168,7 @@ export const LocationScreen = ({navigation}) => {
                     }
                   
                     // if (res.data.has_address_info) {
-                      NavigationService.navigate('Home');
+                      NavigationService.reset('Home');
                     // } else {
                     //   NavigationService.navigate('LocationType');
                     // }
@@ -200,7 +200,7 @@ export const LocationScreen = ({navigation}) => {
                     if (addressFull) {
                       dispatch(setAddressFullAction(addressFull));
                     }
-                    NavigationService.navigate('Home');
+                    NavigationService.reset('Home');
                     // if (res.data.has_address_info) {
                     //   NavigationService.navigate('Home');
                     // } else {
@@ -218,7 +218,7 @@ export const LocationScreen = ({navigation}) => {
                   .finally(() => setLoading(false));
                 dispatch(setAddressAction(address));
                 dispatch(setAddressFullAction(addressFull));
-                NavigationService.navigate('Home');
+                NavigationService.reset('Home');
               }
             })
             .catch((err) =>
@@ -250,7 +250,7 @@ export const LocationScreen = ({navigation}) => {
                 }
               
                 // if (res.data.has_address_info) {
-                  NavigationService.navigate('Home');
+                  NavigationService.reset('Home');
                 // } else {
                 //   NavigationService.navigate('LocationType');
                 // }
@@ -282,7 +282,7 @@ export const LocationScreen = ({navigation}) => {
                 if (addressFull) {
                   dispatch(setAddressFullAction(addressFull));
                 }
-                NavigationService.navigate('Home');
+                NavigationService.reset('Home');
                 // if (res.data.has_address_info) {
                 //   NavigationService.navigate('Home');
                 // } else {
@@ -300,7 +300,7 @@ export const LocationScreen = ({navigation}) => {
               .finally(() => setLoading(false));
             dispatch(setAddressAction(address));
             dispatch(setAddressFullAction(addressFull));
-            NavigationService.navigate('Home');
+            NavigationService.reset('Home');
           }
         }
       }
