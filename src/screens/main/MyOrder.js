@@ -869,8 +869,20 @@ export const MyOrderScreen = ({ navigation }) => {
                       {orderDetail.promo_code_name}
                     </AppText>  */}
                   </View>
-                  <View style={{flexDirection:'column', backgroundColor:'#e1e1e1', marginLeft:20, marginRight:20,marginBottom:10}}>
-                    {((cards && cards.length) != 0) &&
+                    
+                </View>
+                <DashedLine/>
+                <View style={styles.tipTitle}>
+                    <AppText style={styles.summaryKey_tip}>
+                      Payment Type 
+                    </AppText>
+                <View style={styles.radio}>
+                  <CheckBox containerStyle={styles.radioBackground} title="Pay Now(Credit Card)" checkedColor={Theme.color.accentColor} checked={paymentType=='1' ? true : false} checkedIcon='dot-circle-o'  onPress = {() => {setPaymentType('1');}}  uncheckedIcon='circle-o'/>
+                  <CheckBox containerStyle={styles.radioBackground} title="Pay In Person" checkedColor={Theme.color.accentColor} checked={paymentType=='2' ? true : false} checkedIcon='dot-circle-o'  onPress = {() => {setPaymentType('2');}}  uncheckedIcon='circle-o'/>
+                  </View>
+                </View> 
+                <View style={{flexDirection:'column', backgroundColor:'#e1e1e1', marginLeft:20, marginRight:20,marginBottom:10}}>
+                    {((paymentType=='1' && cards && cards.length) != 0) &&
                     <View>
                     <AppText style={{fontSize:13,paddingTop:10,width:'100%', paddingLeft:10}} >                    
                       {(!cards || (cards && cards.length) == 0)?'':'We\'ll charge your credit card ending in '}{(cards && (cards && cards.length) != 0)&&<AppText style={{fontWeight:'bold'}}>{userInfo.creditcard.split(" ").pop()}</AppText>}
@@ -886,18 +898,7 @@ export const MyOrderScreen = ({ navigation }) => {
                     </TouchableOpacity>
                     </View>
                    }
-                  </View>                  
-                </View>
-                <DashedLine/>
-                <View style={styles.tipTitle}>
-                    <AppText style={styles.summaryKey_tip}>
-                      Payment Type 
-                    </AppText>
-                <View style={styles.radio}>
-                  <CheckBox containerStyle={styles.radioBackground} title="Pay Now(Credit Card)" checkedColor={Theme.color.accentColor} checked={paymentType=='1' ? true : false} checkedIcon='dot-circle-o'  onPress = {() => {setPaymentType('1');}}  uncheckedIcon='circle-o'/>
-                  <CheckBox containerStyle={styles.radioBackground} title="Pay In Person" checkedColor={Theme.color.accentColor} checked={paymentType=='2' ? true : false} checkedIcon='dot-circle-o'  onPress = {() => {setPaymentType('2');}}  uncheckedIcon='circle-o'/>
-                  </View>
-                </View>      
+                  </View>                    
                 <View style={styles.actions}>                
                   {order.has_subscription_products != true &&
                   <Button
