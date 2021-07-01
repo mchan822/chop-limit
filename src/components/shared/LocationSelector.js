@@ -37,15 +37,15 @@ export const LocationSelector = ({
       fetchDetails={true}
       keyboardShouldPersistTaps="always"
       listViewDisplayed={false}     
-      query={country ? {
+      query={ {
         key: Config.googleAPIKey,
         language: 'en',
         types: "address",
-        components: 'country:' + country,
-      } : {
-        key: Config.googleAPIKey,
-        types: "address",
-      }}
+      //   components: 'country:' + country,
+      // } : {
+      //   key: Config.googleAPIKey,
+      //   types: "address",
+       }}
       GooglePlacesSearchQuery={{
         rankby: 'distance',
       }}

@@ -35,11 +35,9 @@ useEffect(() => {
         <LocationSVG height={100} width={100}/>
         </View>}
         <AppText style={{marginTop:30,color:'grey'}}>{'Please add your delivery address in order to view ' + (territory_type && territory_type != "address" ? territory_type : 'businesses') + ' located nearby.'} <AppText style={{fontWeight: "bold", color:'black'}}>Start by selecting your country</AppText></AppText>
-        <TouchableOpacity
-            onPress={()=> NavigationService.navigate('SelectDelivery2')}
-        >
+      
         <View>
-          <Input
+          {/* <Input
             style={GlobalStyles.formControl}
             title="Country"
             type="address_country"
@@ -47,10 +45,15 @@ useEffect(() => {
             value={country}
             editable={false}
             actionIcon="chevron-down"
-            actionHandler= {()=> NavigationService.navigate('SelectDelivery2')}
-          />
+            actionHandler= {()=> NavigationService.navigate('SelectDelivery3')}
+          /> */}
+            <Button
+            type="bordered-dark"
+            style={{marginTop:30}}
+            onClick={() => navigation.navigate('SelectDelivery3')}>
+            <AppText style={{ textTransform:'uppercase',fontWeight: "bold"}}>Add An Address</AppText>
+          </Button>
         </View>
-        </TouchableOpacity>
 
         {addressCnt < 1 && ((userInfo && userInfo.user_verified) 
           ? <AppText style={{marginTop:20, color:'grey'}}>

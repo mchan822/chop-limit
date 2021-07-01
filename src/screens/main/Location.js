@@ -512,7 +512,7 @@ export const LocationScreen = ({navigation}) => {
               style={{marginTop: 10}}
               fullWidth
               onClick={() => {
-                NavigationService.navigate('SelectDelivery1',{addressCnt: addresses.length});
+                NavigationService.navigate('SelectDelivery3',{addressCnt: addresses.length});
               }}>
               ADD AN ADDRESS
             </Button>

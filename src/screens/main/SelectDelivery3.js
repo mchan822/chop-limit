@@ -32,7 +32,7 @@ export const SelectDeliveryScreen3 = ({ navigation }) => {
     const [addressFull, setAddressFull] = useState(null);
     const [dlgVisible, setDlgVisible] = useState(false);
     const order = useSelector((state) => state.order.order);
-    const country = navigation.getParam('country');
+    const [country, setCountry] = useState('');
     const mapRef = useRef();
     const token = useSelector((state) => state.account.token);
     const guestToken = useSelector((state) => state.account.guestToken);
@@ -315,11 +315,12 @@ const _cancelOrder = useCallback(async () => {
           />
         }
         </View>
+    
         <View>  
           <LocationSelector
             mapRef={mapRef}
             value={address}
-            country={country != 'other' ? country : undefined}
+            //country={country != 'other' ? country : undefined}
             onChange={(data) => {
               console.log("changed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
               parseAddress(data.formatted_address, (err, addressObj) => {
@@ -329,11 +330,12 @@ const _cancelOrder = useCallback(async () => {
                 setCity(addressObj.city);
                 setProvince(addressObj.state);
                 setPostalCode(addressObj.postal_code);
-                mapRef.current?.setAddressText(addressObj.street_address1);
-                
+                setCountry(addressObj.country);
+                addressObj.street_address1 ? mapRef.current?.setAddressText(addressObj.street_address1) : mapRef.current?.setAddressText("") ;          
               });
               setCompleted(true);
               setAddressFull(data);
+              console.log("data.formatted_addressdata.formatted_address",data.formatted_address);
               setAddress(data.formatted_address);
             }}
             style={{...GlobalStyles.formControl, backgroundColor: '#dedede'}}
@@ -364,7 +366,7 @@ const _cancelOrder = useCallback(async () => {
             onChange={(e) => setUnit(e)}
           />
         )}
-        {onceComplete == true && <View>
+        {onceComplete == true && <View>       
         <Input
           style={GlobalStyles.formControl}
           title="City"
@@ -372,22 +374,30 @@ const _cancelOrder = useCallback(async () => {
           value={city}
           editable={true}
           onChange={(e) => setCity(e)}
-        />
+        />     
         <Input
           style={GlobalStyles.formControl}
-          title={navigation.getParam('country') ==  'usa' ? "State" : "Province"}
-          placeholder={navigation.getParam('country') ==  'usa' ? "Enter your state name" : "Enter your province name"}
+          title={country ==  'USA' ? "State" : "Province"}
+          placeholder={country ==  'USA' ? "Enter your state name" : "Enter your province name"}
           value={province}
           editable={true}
           onChange={(e) => setProvince(e)}
         />
         <Input
           style={GlobalStyles.formControl}
-          title={navigation.getParam('country') ==  'usa' ? "ZIP Code" : "Postal Code"}
-          placeholder={navigation.getParam('country') ==  'usa' ? "Enter your ZIP code" : "Enter your postal code"}
+          title={country ==  'USA' ? "ZIP Code" : "Postal Code"}
+          placeholder={country ==  'USA' ? "Enter your ZIP code" : "Enter your postal code"}
           value={postalCode}
           editable={true}
           onChange={(e) => setPostalCode(e)}
+        />
+        <Input
+          style={GlobalStyles.formControl}
+          title="Country"
+          placeholder="Enter your Country"
+          value={country}
+          editable={true}
+          onChange={(e) => setCountry(e)}
         />
         <Input
           style={GlobalStyles.formControl}
