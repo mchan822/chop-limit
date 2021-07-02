@@ -166,26 +166,32 @@ export const ProductEditScreen = ({ navigation }) => {
     .finally(() => setLoading(false));     
   }, [dispatch, reviewUpdated]);
 
+  var dayNames = ["Sunday","Monday","Tuesday","Wednesday",
+  "Thursday","Friday","Saturday"];
+  var nextWorkingDay = [ 1, 2, 3, 4, 5, 6, 0 ];
+  var now = new Date();
+
   const Closed = () => {
-    const territoryState = territory.operation_state;
+  const territoryState = territory.operation_state;
     return territoryState == 'closed' ? (
       <View style={styles.closedStore}>
         <Image
-            style={styles.closedImage}
-            source={require('~/assets/images/closed.png')
-            }
-          />
-          <View style={styles.closedTextContainer}>
-            <AppText style={styles.closedText}>
-              Sorry We're Closed
-            </AppText>
-            <AppText style={styles.closedTime}>
-              We open at {territory.operation_time}
-            </AppText> 
-          </View>
+        style={styles.closedImage}
+        source={require('~/assets/images/closed.png')
+        }
+        />
+        <View style={styles.closedTextContainer}>
+          <AppText style={styles.closedText}>
+          Sorry We're Closed
+          </AppText>
+        <AppText style={styles.closedTime}>
+          {territory.operation_time == "" ? "Check Back on " + dayNames[nextWorkingDay[now.getDay()]] :          
+          "We open at " + territory.operation_time}
+          </AppText> 
+        </View>
       </View>
     ) : (
-      <></>
+    <></>
     );
   };
 

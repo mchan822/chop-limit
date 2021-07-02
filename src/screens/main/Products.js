@@ -271,7 +271,10 @@ export const ProductsScreen = ({ navigation }) => {
       </View>
     );
   }, [categories]);
-
+  var dayNames = ["Sunday","Monday","Tuesday","Wednesday",
+                "Thursday","Friday","Saturday"];
+  var nextWorkingDay = [ 1, 2, 3, 4, 5, 6, 0 ];
+  var now = new Date();
   
   const Closed = () => {
     const territoryState = territory.operation_state;
@@ -287,7 +290,8 @@ export const ProductsScreen = ({ navigation }) => {
               Sorry We're Closed
             </AppText>
             <AppText style={styles.closedTime}>
-              We open at {territory.operation_time}
+            {territory.operation_time == "" ? "Check Back on " + dayNames[nextWorkingDay[now.getDay()]] :          
+              "We open at " + territory.operation_time}
             </AppText> 
           </View>
       </View>
