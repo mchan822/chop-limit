@@ -101,7 +101,7 @@ export const GetAccessScreen = () => {
           />
         </Animated.View>
         <AppText style={[ styles.subTitle]}>
-          Enter your phone number above to get access. Order some food, and feel good knowing you're doing your part to help keep profits in the pockets of local restauranteurs.
+          Enter your phone number above to get access.
         </AppText>
       </View>
     </Screen>
