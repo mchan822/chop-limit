@@ -70,7 +70,7 @@ export const GetAccessScreen = () => {
       <Button
             type="borderless"
             style={styles.button}
-            titleStyle={{fontSize: 14}}
+            titleStyle={{fontSize: 14, fontWeight:100}}
             onClick={() => {
               AppEventsLogger.logEvent('SIGN-IN SKIPPED')
               dispatch(signOut());     
@@ -82,6 +82,15 @@ export const GetAccessScreen = () => {
               //}
             }}>
             Skip
+          </Button>
+          <Button
+            type="borderless"
+            style={styles.button_right}
+            titleStyle={{fontSize: 14, color: 'white'}}
+            onClick={() => {              
+              sendVerification(phoneNumber)
+            }}>
+            Next
           </Button>
         <AppText style={[styles.whiteText, styles.title]}>
           SUPPORT{'\n'}Locally-owned{'\n'}Restaurants.
@@ -96,13 +105,22 @@ export const GetAccessScreen = () => {
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(formatPhoneNumber(e))}
             keyboardType="number-pad"
-            actionIcon="chevron-right"
+            // actionIcon="chevron-right"
             actionHandler={() => sendVerification(phoneNumber)}
           />
         </Animated.View>
-        <AppText style={[ styles.subTitle]}>
+        <Button
+            type="accent"
+            style={styles.button_getAccess}
+            titleStyle={{ color: 'white'}}
+            onClick={() => {              
+              sendVerification(phoneNumber)
+            }}>
+            Get Access
+          </Button>
+        {/* <AppText style={[ styles.subTitle]}>
           Enter your phone number above to get access.
-        </AppText>
+        </AppText> */}
       </View>
     </Screen>
   );
@@ -160,8 +178,15 @@ const styles = StyleSheet.create({
   },
 
   button: {
+    top:  40,   
+    left: Theme.layout.screenPaddingHorizontal,
+    position: 'absolute'
+
+  },
+  button_right: {
     top:  40,
     right: Theme.layout.screenPaddingHorizontal,
     position: 'absolute'
+
   },
 });

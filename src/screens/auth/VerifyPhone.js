@@ -153,10 +153,16 @@ export const VerifyPhoneScreen = ({navigation}) => {
             value={verificationCode}
             onChange={setVerificationCode}
             keyboardType="number-pad"
-            actionIcon="chevron-right"
-            actionHandler={() => checkPhone(token, verificationCode)}
+            // actionIcon="chevron-right"
+            // actionHandler={() => checkPhone(token, verificationCode)}
           />
         </View>
+        <Button
+          type="accent"
+          style={styles.button_verify}
+          onClick={() => checkPhone(token, verificationCode)}>
+          Verify
+        </Button>
         <Button
           type="borderlessred"
           style={styles.button}
@@ -228,5 +234,9 @@ const styles = StyleSheet.create({
 
   button: {
     marginTop: 30,
+  },
+
+  button_verify: {
+    marginTop: 10,
   },
 });

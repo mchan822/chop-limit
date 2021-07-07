@@ -128,10 +128,18 @@ export const CheckPasswordScreen = ({ navigation }) => {
             value={password}
             onChange={setPassword}
             style={GlobalStyles.formControl}
-            actionIcon="chevron-right"
-            actionHandler={() => signIn(password)}
+            // actionIcon="chevron-right"
+            // actionHandler={() => signIn(password)}
           />
         </View>
+        <Button
+          type="accent"
+          style={[styles.button_verify]}
+          onClick={() => {
+            signIn(password);
+          }}>
+         Sign In
+        </Button>
         <Button
           type="borderlessred"
           style={[styles.button]}
@@ -165,6 +173,10 @@ const styles = StyleSheet.create({
 
   button: {
     marginTop: 30,
+  },
+
+  button_verify: {
+    marginTop: 10,
   },
 
   whiteText: {

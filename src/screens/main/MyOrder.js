@@ -442,25 +442,25 @@ export const MyOrderScreen = ({ navigation }) => {
     }
   }, [updatedNote]);
   
-  const removeNote = useCallback((note) => {
-    setLoading(true);
-    const formData = new FormData();
-    formData.append('notes', note);  
-    fetchAPI('/order/notes', {
-      method: 'POST',
-      headers: {
-        authorization: `Bearer ${token ? token : guestToken}`,
-      },
-      body: formData,
-    })
-      .then((res) => {
-        dispatch(updatedNotes(''));
-        getOrderDetails();
-        //NavigationService.navigate('MyOrder');
-      })
-      .catch((err) => dispatch({ type: 'error', message: err.message }))
-      .finally(() => setLoading(false));
-  }, []);
+  // const removeNote = useCallback((note) => {
+  //   setLoading(true);
+  //   const formData = new FormData();
+  //   formData.append('notes', note);  
+  //   fetchAPI('/order/notes', {
+  //     method: 'POST',
+  //     headers: {
+  //       authorization: `Bearer ${token ? token : guestToken}`,
+  //     },
+  //     body: formData,
+  //   })
+  //     .then((res) => {
+  //       dispatch(updatedNotes(''));
+  //       getOrderDetails();
+  //       //NavigationService.navigate('MyOrder');
+  //     })
+  //     .catch((err) => dispatch({ type: 'error', message: err.message }))
+  //     .finally(() => setLoading(false));
+  // }, []);
 
   const payButtonText = useMemo(
     () =>

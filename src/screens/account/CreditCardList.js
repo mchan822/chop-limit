@@ -2,32 +2,21 @@ import React, { useState, useRef, useMemo, useEffect, useCallback } from 'react'
 import {
   View,
   StyleSheet,
-  Text,
   FlatList,
   TouchableOpacity,
   Alert,
   Dimensions,
-  Platform,
 } from 'react-native';
-import Dialog from 'react-native-dialog';
-import GetLocation from 'react-native-get-location';
-import GeoCoder from 'react-native-geocoding';
 import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { NavigationService } from '~/core/services';
-import { Config } from '~/core/config';
 import { fetchAPI } from '~/core/utility';
 import { Screen, LocationSelector, CardItem,Button, AppText,StickyBottom } from '~/components';
 import { GlobalStyles, MainNavigationOptions, Theme } from '~/styles';
 
 import {
   showNotification,
-  setOrder,
-  setToken,
-  cancelOrder,
-  subscriptionAddressUpdated,
-  enterMessageRoom,
   setUserInfo,
   updateCard,
 } from '~/store/actions';
@@ -50,7 +39,7 @@ export const CreditCardListScreen = ({navigation}) => {
   const isUpdateCard = useSelector((state) => state.notification.isUpdateCard);
   const fromScreen = useMemo(() => navigation.getParam('fromScreen'), []);
   
-  fromScreen&&console.log(`+++++++++++++++++FromScreen:${fromScreen}`)
+  fromScreen && console.log(`+++++++++++++++++FromScreen:${fromScreen}`)
   const windowWidth = Dimensions.get("window").width;
   useEffect(() => {
     if(windowWidth < 400 ){
