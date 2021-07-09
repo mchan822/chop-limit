@@ -34,8 +34,7 @@ useEffect(() => {
         {addressCnt < 1 && <View style={{marginTop:30, textAlign:'center', alignSelf: 'center',}}>
         <LocationSVG height={100} width={100}/>
         </View>}
-        <AppText style={{marginTop:30,color:'grey'}}>{'Please add your delivery address in order to view ' + (territory_type && territory_type != "address" ? territory_type : 'businesses') + ' located nearby.'} <AppText style={{fontWeight: "bold", color:'black'}}>Start by selecting your country</AppText></AppText>
-      
+        <AppText style={{marginTop:30,color:'grey'}}>{'Please add your delivery address in order to view ' + (territory_type && territory_type != "address" ? territory_type : 'businesses') + ' located nearby.'}{addressCnt > 0 && <AppText style={{fontWeight: "bold", color:'black'}}>Start by selecting your country</AppText>}</AppText>
         <View>
           {/* <Input
             style={GlobalStyles.formControl}

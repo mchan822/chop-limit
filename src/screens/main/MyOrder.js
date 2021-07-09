@@ -509,17 +509,12 @@ export const MyOrderScreen = ({ navigation }) => {
             {/* ({orderDetail.taxes_percentage}%) */}
           </AppText>
           <AppText style={styles.summaryValue}>
-            {deliveryMode === 'deliver'
-              ? `${
+            {`${
                   orderDetail.currency_icon
-                } ${(+orderDetail.total_amount_with_delivery).toFixed(
+                } ${(+orderDetail.cart_amount).toFixed(
                   2,
                 )}`
-              : `${
-                  orderDetail.currency_icon
-                } ${(+orderDetail.total_amount_without_delivery).toFixed(
-                  2,
-                )}`}
+            }
           </AppText>
         </View>}
       <Button
