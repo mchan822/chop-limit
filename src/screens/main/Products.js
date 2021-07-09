@@ -330,10 +330,14 @@ export const ProductsScreen = ({ navigation }) => {
 
               <AppText style={styles.sellerName}>{territory.name}</AppText>
               {parsedAddress && (
+                 parsedAddress.street_address1 ? 
                 <AppText style={styles.sellerAddress}>
-                  {parsedAddress.city}, {parsedAddress.state},{' '}
-                  {parsedAddress.country}
-                </AppText>
+                 {parsedAddress.street_address1}                
+                </AppText> : 
+                <AppText style={styles.sellerAddress}>
+                 { parsedAddress.city}, {parsedAddress.state},{' '}
+                  {parsedAddress.country}                
+                </AppText>                 
               )}
             </View>
           </LinearGradient>
