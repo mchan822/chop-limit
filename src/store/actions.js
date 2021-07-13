@@ -23,6 +23,12 @@ export const updatedInstructions = (instructions) => ({
     instructions: instructions
   }
 });
+export const changedAddress = (addressChanged) => ({
+  type: 'CHANGED_ADDRESS',
+  payload: {
+    addressChanged: addressChanged
+  }
+});
 
 export const updatedNotes = (notes) => ({
   type: 'UPDATED_ORDERNOTE',

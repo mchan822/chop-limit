@@ -328,8 +328,7 @@ export const HomeScreen = ({ navigation }) => {
             },
             body: formData,
           },
-        ).then((res) => {
-      
+        ).then((res) => {  
           setSellersDelivery(
             res.data.territories.filter((territory) =>
               Boolean(territory.app_image),
@@ -368,7 +367,6 @@ export const HomeScreen = ({ navigation }) => {
   },[changedTime]);
  
   useEffect(() => {
-    console.log("explorer.addressdfsdfsdfs@@@@@@@@@@@@@@@@s++++++++++++" ,token);
       if (token && order && order.address_id && order.address_id != '0' && order.cancelled == '0') {
         setLoading(true);
         const formData = new FormData();

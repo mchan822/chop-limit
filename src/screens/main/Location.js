@@ -9,18 +9,18 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
-import Dialog from 'react-native-dialog';
-import GetLocation from 'react-native-get-location';
-import GeoCoder from 'react-native-geocoding';
+// import Dialog from 'react-native-dialog';
+// import GetLocation from 'react-native-get-location';
+// import GeoCoder from 'react-native-geocoding';
 import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import OrderSVG from '~/assets/images/invoice.svg';
-import RestaurantSVG from '~/assets/images/restaurant.svg';
-import UserSVG from '~/assets/images/user.svg';
-import ChatSVG from '~/assets/images/chat.svg';
+// import OrderSVG from '~/assets/images/invoice.svg';
+// import RestaurantSVG from '~/assets/images/restaurant.svg';
+// import UserSVG from '~/assets/images/user.svg';
+// import ChatSVG from '~/assets/images/chat.svg';
 import { NavigationService } from '~/core/services';
-import { Config } from '~/core/config';
-import LinearGradient from 'react-native-linear-gradient';
+// import { Config } from '~/core/config';
+// import LinearGradient from 'react-native-linear-gradient';
 import { fetchAPI } from '~/core/utility';
 import { Screen, LocationSelector, StoredAddress,Button, AppText,StickyBottom } from '~/components';
 import { GlobalStyles, MainNavigationOptions, Theme } from '~/styles';
@@ -34,7 +34,8 @@ import {
   cancelOrder,
   subscriptionAddressUpdated,
   enterMessageRoom,
-  setBanner
+  setBanner,
+  changedAddress
 } from '~/store/actions';
 
 process.nextTick = setImmediate;
@@ -53,9 +54,11 @@ export const LocationScreen = ({navigation}) => {
   const guestToken = useSelector((state) => state.account.guestToken);
   const order = useSelector((state) => state.order.order);
   const addressState = useSelector((state) => state.explorer.address);  
+  const order_addressChanged = useSelector((state) => state.notification.addressChanged);
   const editSubscription = useMemo(() => navigation.getParam('editSubscription'), []);
   const subscription_Sid = useMemo(() => navigation.getParam('subscription_id'), []);
   const territory_id = useMemo(() => navigation.getParam('territory_id'), []);
+  const changeAddress_Order = useMemo(() => navigation.getParam('changeAddress_Order'), []);
   const subscription_delivery_type = useMemo(() => navigation.getParam('delivery_type'), []);
 /*
   useEffect(() => {
@@ -134,6 +137,83 @@ export const LocationScreen = ({navigation}) => {
           ),
         )
         .finally(() => setLoading(false));
+      } else if(changeAddress_Order == true) {
+        setLoading(true);
+        if (token  && ( userInfo && userInfo.user_verified  && userInfo.user_verified == true)) {   
+          const formData = new FormData();
+          formData.append(type, address);
+          formData.append('from_device', Platform.OS);
+          fetchAPI('/order/address', {
+            method: 'POST',
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+            body: formData,
+          })
+            .then((res) => {
+              dispatch(setBanner(res.data.banner_url));
+              dispatch(setOrder(res.data));
+              console.log("address setted+++++++++",res.data);
+              dispatch(setAddressAction(res.data.address));
+              if (addressFull) {
+                dispatch(setAddressFullAction(addressFull));
+              }
+              dispatch(changedAddress(!order_addressChanged));
+              // if (res.data.has_address_info) {
+              NavigationService.goBack();
+              // } else {
+              //   NavigationService.navigate('LocationType');
+              // }
+            })
+            .catch((err) =>
+              dispatch(
+                showNotification({
+                  type: 'error',
+                  message: err.message,
+                }),
+              ),
+            )
+            .finally(() => setLoading(false));                  
+        } else {
+          setLoading(true);
+          const formData = new FormData();
+          formData.append(type, address);
+          formData.append('as_guest', 1);
+          formData.append('from_device', Platform.OS);
+          fetchAPI('/order/address', {
+            method: 'POST',
+            body: formData,
+          })
+            .then((res) => {       
+              dispatch(setBanner(res.data.banner_url));   
+              dispatch(setOrder(res.data));
+              console.log("address setted+ as guest ++++++++",res.data);
+              dispatch(setToken(res.data.token));
+              if (addressFull) {
+                dispatch(setAddressFullAction(addressFull));
+              }
+              dispatch(changedAddress(!order_addressChanged));
+              NavigationService.goBack();
+              // if (res.data.has_address_info) {
+              //   NavigationService.navigate('Home');
+              // } else {
+              //   NavigationService.navigate('LocationType');
+              // }
+            })
+            .catch((err) =>
+              dispatch(
+                showNotification({
+                  type: 'error',
+                  message: err.message,
+                }),
+              ),
+            )
+            .finally(() => setLoading(false));
+          dispatch(setAddressAction(address));
+          dispatch(setAddressFullAction(addressFull));
+          dispatch(changedAddress(!order_addressChanged));
+          NavigationService.goBack();
+        }
       } else {
         if(lastAddress != address &&  (order && order.cart_amount> 0 ) && ( token || guestToken)){
           setLoading(true);
@@ -391,6 +471,8 @@ export const LocationScreen = ({navigation}) => {
         },
       })
         .then((res) => {         
+          console.log("ssssssssssssssssssssssssssssssssssssssss", res.data);
+          console.log("ssssssssssssssssssssssssssssssssssssssss", territory_id);          
           setAddresses(res.data.addresses); 
           if (order && order.address_id) {
             const currentAddress = res.data.addresses.find(
@@ -407,54 +489,13 @@ export const LocationScreen = ({navigation}) => {
         )
         .finally(() => setLoading(false));
     }
-  }, [dispatch, order, mapRef]);
+  }, [dispatch, order, mapRef,territory_id]);
 
   return (
-    <Screen isLoading={isLoading} hasList stickyBottom={<StickyBottom />} >
-      <Dialog.Container visible={dlgVisible}>
-        <Dialog.Description>{address}</Dialog.Description>
-        <Dialog.Button
-          label="Cancel"
-          onPress={() => {
-            setDlgVisible(false);
-          }}
-        />
-        <Dialog.Button
-          label="Edit"
-          onPress={() => {
-            mapRef.current.setAddressText(address);
-            setDlgVisible(false);
-          }}
-        />
-        <Dialog.Button
-          label="Continue"
-          onPress={() => {
-            setDeliveryAddress(address);
-            setDlgVisible(false);
-          }}
-        />
-      </Dialog.Container>
+    <Screen isLoading={isLoading} hasList stickyBottom={<StickyBottom />} >    
+     
       
-      <View style={styles.container}>
-      {/*
-        <AppText style={styles.text}>
-          Please enter your delivery address to view local{' '}
-          {territory_type === 'restaurants' ? 'restaurants' : 'shops'}
-        </AppText>
-        <LocationSelector
-          mapRef={mapRef}
-          value={address}
-          onChange={(data) => {
-            setAddressFull(data);
-            setAddress(data.formatted_address);
-          }}
-          style={GlobalStyles.formControl}
-          actionHandler={() => {
-            setDeliveryAddress(address, 'address', addressFull);
-          }}
-          selectCurrentLocation={selectCurrentLocation}
-        />
-      */}
+      <View style={styles.container}>       
         {addresses && addresses.length > 0 && (
           <>
             <View style={{marginTop: 10, marginBottom: 10}}><AppText style={styles.formHeading}>Delivery Address</AppText></View>
@@ -512,7 +553,11 @@ export const LocationScreen = ({navigation}) => {
               style={{marginTop: 10}}
               fullWidth
               onClick={() => {
-                NavigationService.navigate('SelectDelivery3',{addressCnt: addresses.length});
+                if(changeAddress_Order == true) {
+                  NavigationService.navigate('SelectDelivery3',{changeAddress:true, territory_id: territory_id});
+                } else {
+                  NavigationService.navigate('SelectDelivery3');
+                }
               }}>
               ADD AN ADDRESS
             </Button>

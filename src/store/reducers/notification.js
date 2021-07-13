@@ -9,6 +9,7 @@ const InitialState = {
   buttonText : false,
   buttonAction : false,
   updated : false,
+  addressChanged : false,
   updatedReview: null,
   descriptionUpdatedGuest: null,
   updatedNote: null,
@@ -29,11 +30,8 @@ const reducer = (state = InitialState, action) => {
         title: action.payload.title,
         message: action.payload.message,
         options: action.payload.options,
-
         autoHide: action.payload.autoHide,
-
         visible: true,
-
         buttonText : action.payload.buttonText,
         buttonAction : action.payload.buttonAction
       };
@@ -41,6 +39,11 @@ const reducer = (state = InitialState, action) => {
       return {
         ...state,
         updated: action.payload.instructions,
+      };
+    case 'CHANGED_ADDRESS':
+      return {
+        ...state,
+        addressChanged: action.payload.addressChanged,
       };
     case 'UPDATE_CARD':
     return {

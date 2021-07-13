@@ -68,6 +68,7 @@ export const MyOrderScreen = ({ navigation }) => {
   const updatedNote = useSelector((state) => state.notification.updatedNote);
   const addedPromoCode = useSelector((state) => state.notification.updatePromoCode);
   const isUpdateCard = useSelector((state) => state.notification.isUpdateCard);
+  const order_addressChanged = useSelector((state) => state.notification.addressChanged)
   const [note, setNote] =  useState();
   const [noteLink, setNoteLink] =  useState();
   const [screenMode, setScreenMode] =  useState('myorder');
@@ -250,6 +251,7 @@ export const MyOrderScreen = ({ navigation }) => {
     })
       .then((res) => {        
         dispatch(setOrder(res.data));
+        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", res.data);
         setOrderDetail(res.data);
         if(res.data.cart_quantity == '0'){
           NavigationService.reset('Home');
@@ -433,7 +435,7 @@ export const MyOrderScreen = ({ navigation }) => {
     }
   }, [_pay,screenMode]);
 
-  useEffect(() => getOrderDetails(), [updated,updatedNote,addedPromoCode]);
+  useEffect(() => getOrderDetails(), [updated,updatedNote,addedPromoCode,order_addressChanged]);
 
   useEffect(() => {
     if(updatedNote != ''){
@@ -651,8 +653,10 @@ export const MyOrderScreen = ({ navigation }) => {
                         style={{ flex: 1 }}
                         activeOpatity={0.8}
                         onPress={() => {
-                          NavigationService.navigate('DeliveryLocation', {
-                            addressId: orderDetail.address_id,
+                          NavigationService.navigate('Location', {
+                            // addressId: orderDetail.address_id,
+                            territory_id: orderDetail.territory_id,
+                            changeAddress_Order: true
                           });
                         }}>
                         <View style={styles.locationInfo}>

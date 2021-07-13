@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Screen, Input, Button, LocationSelector, MessageTerritoryItem, LoadingGIF,Selector } from '~/components';
 import { GlobalStyles, MainNavigationOptions, Theme } from '~/styles';
 import { fetchAPI } from '~/core/utility';
-import { showNotification, enterMessageRoom, cancelOrder,setOrder,setBanner, setToken,setGuestToken, setAddress as setAddressdata, setAddressFull as setAddressFullAction } from '~/store/actions';
+import { showNotification, enterMessageRoom, cancelOrder,setOrder,setBanner, 
+  changedAddress ,setGuestToken, setAddress as setAddressdata, setAddressFull as setAddressFullAction } from '~/store/actions';
 import { NavigationService } from '~/core/services';
 import { DashedLine, AppText} from '../../components';
 import { Constants } from '~/core/constant';
@@ -32,6 +33,9 @@ export const SelectDeliveryScreen3 = ({ navigation }) => {
     const [addressFull, setAddressFull] = useState(null);
     const [dlgVisible, setDlgVisible] = useState(false);
     const order = useSelector((state) => state.order.order);
+    const territory_id = useMemo(() => navigation.getParam('territory_id'), []);
+    const changeAddress_Order = useMemo(() => navigation.getParam('changeAddress'), []);
+    const order_addressChanged = useSelector((state) => state.notification.addressChanged);
     const [country, setCountry] = useState('');
     const mapRef = useRef();
     const token = useSelector((state) => state.account.token);
@@ -72,8 +76,8 @@ export const SelectDeliveryScreen3 = ({ navigation }) => {
 
     const saveDelivery = useCallback(() => {
       console.log("here",address);
-      if(address === '') return;   
-      if( (order && order.cart_amount> 0 ) && ( token || guestToken)) {
+      if(address === '') return;
+      if( (order && order.cart_amount> 0 ) && ( token || guestToken) && changeAddress_Order != true) {
         setLoading(true);
         fetchAPI('/order/cancel', {
           method: 'POST',
@@ -196,7 +200,11 @@ export const SelectDeliveryScreen3 = ({ navigation }) => {
                 dispatch(setAddressFullAction(addressFull));                      
               }
               console.log("territory clcicked",territory_type);
-              if(territory_type && territory_type != 'address'){
+              if(changeAddress_Order == true) {
+                dispatch(changedAddress(!order_addressChanged));
+                NavigationService.goBack(); // to location
+                NavigationService.goBack(); // to myorder
+              } else if(territory_type && territory_type != 'address'){
                 NavigationService.reset('Home');
               } else {
                 NavigationService.reset('Home');
@@ -229,7 +237,11 @@ export const SelectDeliveryScreen3 = ({ navigation }) => {
                     dispatch(setAddressdata(address));
                   }
                   //dispatch(setAddress(address));
-                  if(territory_type && territory_type != 'address'){
+                  if(changeAddress_Order == true) {
+                    dispatch(changedAddress(!order_addressChanged));
+                    NavigationService.goBack(); // to location
+                    NavigationService.goBack(); // to myorder
+                  } else if(territory_type && territory_type != 'address'){
                     NavigationService.reset('Home');
                   } else {
                     NavigationService.reset('Home');
