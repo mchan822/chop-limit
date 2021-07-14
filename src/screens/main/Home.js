@@ -119,7 +119,7 @@ export const HomeScreen = ({ navigation }) => {
       return explorerAddress;
     } else if (address) {
       console.log("3");
-      return address;
+      return address.full_address;
     } else {
       return false;
     }
