@@ -765,12 +765,12 @@ export const MyOrderScreen = ({ navigation }) => {
                       {deliveryMode === 'deliver'
                         ? `${
                             orderDetail.currency_icon
-                          } ${((+orderDetail.cart_amount)*(1+tipValue/100)).toFixed(
+                          } ${((+orderDetail.cart_amount)).toFixed(
                             2,
                           )}`
                         : `${
                             orderDetail.currency_icon
-                          } ${((+orderDetail.cart_amount)*(1+tipValue/100)).toFixed(
+                          } ${((+orderDetail.cart_amount)).toFixed(
                             2,
                           )}`}
                     </AppText>
