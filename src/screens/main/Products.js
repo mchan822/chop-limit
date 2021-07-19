@@ -826,7 +826,7 @@ const styles = StyleSheet.create({
 
   closedTime: {
     color: 'grey',
-    fontSize: 15,
+    fontSize: 13,
     marginLeft: 25,
     fontWeight: 'bold',
   },

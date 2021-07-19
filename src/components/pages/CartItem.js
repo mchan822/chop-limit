@@ -134,17 +134,17 @@ export const CartItem = ({
               numberOfLines={2}>
               {product.product_name}            
             </AppText>
-            {product.extras.length === 0 ? (
+            {/* {product.extras.length === 0 ? (
                 <></>
               ) : (
-                <>
+                <> */}
                 {product.option_name != 'Default' &&                  
                   <AppText style={[styles.item, styles.optionName]}>
                     {product.options_name}: {product.option_name}
                   </AppText>
                 }
-                </>
-              )}
+                {/* </>
+              )} */}
             {products_extra.length > 0 && (
               products_extra.map((extra_option) => {
                 let products_choosen_options_array = [];

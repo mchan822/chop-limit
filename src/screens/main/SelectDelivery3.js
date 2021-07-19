@@ -347,7 +347,6 @@ const _cancelOrder = useCallback(async () => {
               });
               setCompleted(true);
               setAddressFull(data);
-              console.log("data.formatted_addressdata.formatted_address",data.formatted_address);
               setAddress(data.formatted_address);
             }}
             style={{...GlobalStyles.formControl, backgroundColor: '#dedede'}}
