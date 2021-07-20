@@ -10,16 +10,15 @@ import { Theme } from '~/styles';
 
 import { fetchAPI } from '~/core/utility';
 import { showNotification, setToken, signOut, setPhone, setTerritoryType} from '~/store/actions';
-
+import PhoneInput from "react-native-phone-number-input";
 import { AppEventsLogger } from "react-native-fbsdk-next";
-
 export const GetAccessScreen = () => {
   const dispatch = useDispatch();
 
   const [phoneNumber, setPhoneNumber] = useState('');
   const anim = useRef(new Animated.Value(0)).current;
   const [isLoading, setLoading] = useState(false);
-
+  const phoneInputa = useRef();
   const sendVerification = useCallback((phoneNumber) => {
     AppEventsLogger.logEvent('USER ENTERS PHONE NUMBER');
     setLoading(true);
@@ -87,8 +86,10 @@ export const GetAccessScreen = () => {
             type="borderless"
             style={styles.button_right}
             titleStyle={{fontSize: 14, color: 'white'}}
-            onClick={() => {              
-              sendVerification(phoneNumber)
+            onClick={() => {   
+              phoneInputa.current?.isValidNumber(phoneNumber) == true ?        
+              sendVerification(phoneNumber) : dispatch(showNotification({type:"error",message: "Please input valid phone number"}))          
+              
             }}>
             Next
           </Button>
@@ -97,9 +98,28 @@ export const GetAccessScreen = () => {
         </AppText>
         <AppText style={[ styles.subTitle]}>
           Unlike other food delivery apps, Chow Local™ does not charge restaurants crazy commissions.
-        </AppText>
-        <Animated.View style={[styles.inputWrapper, { maxHeight: anim }]}>
-          <Input
+        </AppText>      
+        <Animated.View style={[styles.inputWrapper, { maxHeight: 80 }]}>
+          <PhoneInput          
+            ref={phoneInputa}
+            defaultValue={phoneNumber}            
+            containerStyle={{height:60,width:"100%"}}
+            textContainerStyle={{height:60,fontSize:14,marginVertical:0}}
+            textInputStyle={{height:60}}
+            defaultCode="CA"
+            countryPickerProps={{withEmoji:false}}
+            onChangeFormattedText={(e) => {
+              console.log("e@@@@@@@@@@@@@",e);
+              setPhoneNumber(e);
+            }}
+            // onChangeText={(text) => {
+            //   console.log("e@@@@@@@@@@@@@",text);
+            //   setPhoneNumber(text);
+            // }}
+            withShadow
+            autoFocus
+          />
+          {/* <Input
             title="Phone #"
             placeholder="XXX XXX XXXX"
             value={phoneNumber}
@@ -107,14 +127,15 @@ export const GetAccessScreen = () => {
             keyboardType="number-pad"
             // actionIcon="chevron-right"
             actionHandler={() => sendVerification(phoneNumber)}
-          />
+          /> */}
         </Animated.View>
         <Button
             type="accent"
             style={styles.button_getAccess}
             titleStyle={{ color: 'white'}}
-            onClick={() => {              
-              sendVerification(phoneNumber)
+            onClick={() => {
+              phoneInputa.current?.isValidNumber(phoneNumber) == true ?        
+              sendVerification(phoneNumber) : dispatch(showNotification({type:"error",message: "Please input valid phone number"}))
             }}>
             Get Access
           </Button>
