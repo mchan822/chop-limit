@@ -383,35 +383,13 @@ export const ProductsScreen = ({ navigation }) => {
           <TouchableOpacity onPress={()=> {
             NavigationService.navigate("DealList",{territory_id: territory.tid});
           }}>
-          {territory.promo_codes_count != undefined && ( territory.promo_codes_count == 0 ?
-        territory.free_delivery_cutoff != '0.00'  && <View style={styles.details_delivery}>
+          {territory.deals_count != undefined && territory.deals_count > 0 && 
+          <View style={styles.details_delivery}>
           <View style={styles.details_row}>
             <PriceSVG style={styles.dealItem} height={17} width={17}/>
-        <AppText style={styles.products_freeDelivery} numberOfLines={1}>1 Deal Available
-        </AppText></View></View>:
-        territory.promo_codes_count == 1 ? 
-        territory.free_delivery_cutoff != '0.00' ? <View style={styles.details_delivery}>
-          <View style={styles.details_row}>
-            <PriceSVG style={styles.dealItem} height={17} width={17}/>
-            <AppText style={styles.products_freeDelivery} numberOfLines={1}>2 Deals Available
-            </AppText></View></View> : <View style={styles.details_delivery}>       
-            <View style={styles.details_row}>   
-            <PriceSVG style={styles.dealItem} height={17} width={17}/>
-            <AppText style={styles.products_freeDelivery} numberOfLines={1}>1 Deal Available
-            </AppText></View></View>
-         : 
-         territory.free_delivery_cutoff != '0.00' ? <View style={styles.details_delivery}>
-           <View style={styles.details_row}>
-          <PriceSVG style={styles.dealItem} height={17} width={17}/>
-         <AppText style={styles.products_freeDelivery} numberOfLines={1}>{territory.promo_codes_count+1} Deals Available
-         </AppText></View></View> : <View style={styles.details_delivery}>
-         <View style={styles.details_row}>
-         <PriceSVG style={styles.dealItem} height={17} width={17}/>  
-          <AppText style={styles.products_freeDelivery} numberOfLines={1}>{territory.promo_codes_count} Deals Available
-        </AppText></View></View>)
-        }
-        </TouchableOpacity>
-          
+        <AppText style={styles.products_freeDelivery} numberOfLines={1}>{territory.deals_count == 1 ? '1 Deal Available' : territory.deals_count + ' Deals Available'}
+        </AppText></View></View> }       
+        </TouchableOpacity>          
            <Button
               type="bordered_light"
               style={[GlobalStyles.formControl,styles.quoteButton]}
@@ -428,33 +406,12 @@ export const ProductsScreen = ({ navigation }) => {
           <TouchableOpacity onPress={()=> {
             NavigationService.navigate("DealList");
           }}>
-            {territory.promo_codes_count == 0 ?
-        territory.free_delivery_cutoff != '0.00'  && <View style={styles.details_delivery}>
+          {territory.deals_count != undefined && territory.deals_count > 0 && 
+          <View style={styles.details_delivery}>
           <View style={styles.details_row}>
             <PriceSVG style={styles.dealItem} height={17} width={17}/>
-        <AppText style={styles.products_freeDelivery} numberOfLines={1}>1 Deal Available
-        </AppText></View></View>:
-        territory.promo_codes_count == 1 ? 
-        territory.free_delivery_cutoff != '0.00' ? <View style={styles.details_delivery}>
-          <View style={styles.details_row}>
-            <PriceSVG style={styles.dealItem} height={17} width={17}/>
-            <AppText style={styles.products_freeDelivery} numberOfLines={1}>2 Deals Available
-            </AppText></View></View> : <View style={styles.details_delivery}>       
-            <View style={styles.details_row}>   
-            <PriceSVG style={styles.dealItem} height={17} width={17}/>
-            <AppText style={styles.products_freeDelivery} numberOfLines={1}>1 Deal Available
-            </AppText></View></View>
-         : 
-         territory.free_delivery_cutoff != '0.00' ? <View style={styles.details_delivery}>
-           <View style={styles.details_row}>
-          <PriceSVG style={styles.dealItem} height={17} width={17}/>
-         <AppText style={styles.products_freeDelivery} numberOfLines={1}>{territory.promo_codes_count+1} Deals Available
-         </AppText></View></View> : <View style={styles.details_delivery}>
-         <View style={styles.details_row}>
-         <PriceSVG style={styles.dealItem} height={17} width={17}/>  
-          <AppText style={styles.products_freeDelivery} numberOfLines={1}>{territory.promo_codes_count} Deals Available
-        </AppText></View></View>
-        }
+        <AppText style={styles.products_freeDelivery} numberOfLines={1}>{territory.deals_count == 1 ? '1 Deal Available' : territory.deals_count + ' Deals Available'}
+        </AppText></View></View> }      
         </TouchableOpacity>
           {
          token && territory && typeof territory.support_mail === 'string' && territory.support_mail.trim().length > 0 && <Button

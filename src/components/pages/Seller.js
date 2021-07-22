@@ -50,15 +50,15 @@ export const Seller = ({ seller }) => (
         <AppText style={styles.products} numberOfLines={1}>
           {seller.warehouse_address_line == '' ? seller.warehouse_address_city : seller.warehouse_address_line}
         </AppText> 
-      </View>}
-      {/* <TouchableOpacity 
-       onPress={() => NavigationService.navigate("dealslist")
-       }
-      > */}
-      {seller.promo_codes_count != undefined && (seller.promo_codes_count == 0 ?
+      </View>}    
+        {seller.deals_count != undefined && seller.deals_count > 0 && featured != true && 
+      <View style={styles.details_delivery}>
+      <PriceSVG style={styles.dealItem} height={15} width={15}/>
+            <AppText style={styles.products_freeDelivery} numberOfLines={1}>{seller.deals_count == 1 ? '1 Deal Available' : seller.deals_count + ' Deals Available'} 
+            </AppText></View> }
+      {/* {seller.promo_codes_count != undefined && (seller.promo_codes_count == 0 ?
         seller.free_delivery_cutoff != '0.00'  && <View style={styles.details_delivery}>
         <PriceSVG style={styles.dealItem} height={15} width={15}/>
-        {/* <AppText style={styles.products_freeDelivery} numberOfLines={1}>Spend {seller.currency.icon}{seller.free_delivery_cutoff} Get Free Delivery */}
         <AppText style={styles.products_freeDelivery} numberOfLines={1}>1 Deal Available
         </AppText></View>:
         seller.promo_codes_count == 1 ? 
@@ -77,8 +77,7 @@ export const Seller = ({ seller }) => (
         <PriceSVG style={styles.dealItem} height={15} width={15}/>
         <AppText style={styles.products_freeDelivery} numberOfLines={1}>{seller.promo_codes_count} Deals Available
         </AppText></View>
-      )}
-        {/* </TouchableOpacity> */}
+      )} */}
     </View>
     {/* <AppText style={styles.distance} numberOfLines={1}>
       {(+seller.address_distance_km || 0).toFixed(2)} KM
