@@ -51,7 +51,7 @@ export const Seller = ({ seller }) => (
           {seller.warehouse_address_line == '' ? seller.warehouse_address_city : seller.warehouse_address_line}
         </AppText> 
       </View>}    
-        {seller.deals_count != undefined && seller.deals_count > 0 && featured != true && 
+        {seller.deals_count != undefined && seller.deals_count > 0 &&  
       <View style={styles.details_delivery}>
       <PriceSVG style={styles.dealItem} height={15} width={15}/>
             <AppText style={styles.products_freeDelivery} numberOfLines={1}>{seller.deals_count == 1 ? '1 Deal Available' : seller.deals_count + ' Deals Available'} 
