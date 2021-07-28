@@ -512,7 +512,7 @@ export const ProductsScreen = ({ navigation }) => {
         hasList
         statusBar="light-content"
         showHeaderOverLayOnScroll
-        stickyBottom={<MyCart />}>
+        stickyBottom={territory.operation_state == 'closed' ? <Closed/> : <StickyBottom />}>
         <View style={styles.container}>
           {territory && (categories || products) ? ( 
             territory.app_overview_display != 'products' ?

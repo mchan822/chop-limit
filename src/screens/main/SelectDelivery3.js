@@ -24,6 +24,7 @@ export const SelectDeliveryScreen3 = ({ navigation }) => {
     const [buildType, setBuildType] = useState('');
     const [street, setStreet] = useState('');
     const [unit, setUnit] = useState('');
+    const [businessName, setBusinessName] = useState('');
     const [city, setCity] = useState('');
     const [province, setProvince] = useState('');
     const [postalCode, setPostalCode] = useState('');
@@ -178,6 +179,7 @@ export const SelectDeliveryScreen3 = ({ navigation }) => {
       formData.append("zipcode", postalCode);
       formData.append("country", country);
       formData.append("apartment_nr", unit);
+      formData.append("business_name", businessName);
       formData.append("type", buildType);
       formData.append("delivery_instructions", note);
       formData.append("address", street);
@@ -258,11 +260,10 @@ export const SelectDeliveryScreen3 = ({ navigation }) => {
               .finally(() => setLoading(false)); 
           }     
     }
-},[dispatch,address,addressFull,street,city,province,country,postalCode,unit,buildType,note]);
+},[dispatch,address,addressFull,street,city,province,country,postalCode,unit, businessName, buildType,note]);
     
 useEffect(() => {
   setLoading(true);
-  setBuildType('House');
 
   GeoCoder.init(Config.googleAPIKey);
 
@@ -322,12 +323,22 @@ const _cancelOrder = useCallback(async () => {
               label: item,
               value: item,
             }))}
-            placeholder="Please select a building type"
-            onChange={setBuildType}
+            placeholder="Select A Type"
+            onChange={console.log('##########################',buildType),setBuildType}
           />
         }
         </View>
-    
+        <View>
+        {buildType === 'Business' &&(
+          <Input
+            style={GlobalStyles.formControl}
+            title="Business Name"
+            placeholder="Enter your business name"
+            value={businessName}
+            onChange={(e) => setBusinessName(e)}
+          />
+        )}
+        </View>
         <View>  
           <LocationSelector
             mapRef={mapRef}
@@ -368,7 +379,7 @@ const _cancelOrder = useCallback(async () => {
           onChange={(e) => setStreet(e)}
         /> */}
         
-        {(buildType === 'Apartment' || buildType === 'Office Building') && onceComplete == true &&(
+        {(buildType === 'House' || buildType === 'Business' || buildType === 'Apartment' || buildType === 'Office Building') && onceComplete == true &&(
           <Input
             style={GlobalStyles.formControl}
             title="Unit#"

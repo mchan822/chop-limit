@@ -17,7 +17,6 @@ export const formatString = (str, length) =>
 export const fetchAPI = (url, options) => {
   return fetch(`${Config.apiBaseURL}${url}`, options)
     .then(async (res) => {
-      // console.log(res.status);
       if(res.status >= 200 && res.status <= 300){
         return res;
       }else{
@@ -25,8 +24,12 @@ export const fetchAPI = (url, options) => {
 
         console.log(`${Config.apiBaseURL}${url}`, options);
         console.log(json);
-
-        throw Error(json.message);
+        if(json.data && json.data.error == "order-expired") {
+          throw Error("order-expired");
+        } else  {
+          throw Error(json.message);
+        }
+        
       }
     })
     .then((res) => res.json())

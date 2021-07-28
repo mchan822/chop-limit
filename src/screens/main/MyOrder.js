@@ -113,7 +113,12 @@ export const MyOrderScreen = ({ navigation }) => {
           });
         })
         .catch((err) => {
-          dispatch(showNotification({ type: 'error', message: err.message}));        
+          if(err.message == "order-expired"){
+            dispatch(cancelOrder());
+            NavigationService.reset("Home");
+          } else {
+            dispatch(showNotification({ type: 'error', message: err.message}));        
+          }
         })
         .finally(() => setLoading(false));
     }
@@ -160,12 +165,19 @@ export const MyOrderScreen = ({ navigation }) => {
           });
         })
         .catch((err) => {
-          dispatch(showNotification({ type: 'error_card', message: err.message}));
-          NavigationService.navigate('Account/CreditCard', {
-            deliveryMode: deliveryMode,
-            tip_percentage: tipValue,
-            edit: true
-          });
+          console.log("aaaaaaaaaaaaaaaerrrrooooorrrrrrrrrraaaaaaaaaaaa",err.message);
+          if(err.message == "order-expired"){
+            dispatch(cancelOrder());
+            NavigationService.reset("Home");
+          } else {
+           
+            NavigationService.navigate('Account/CreditCard', {
+              deliveryMode: deliveryMode,
+              tip_percentage: tipValue,
+              edit: true
+            });
+            dispatch(showNotification({ type: 'error_card', message: err.message}));
+          }
         })
         .finally(() => setLoading(false));
     } else {
