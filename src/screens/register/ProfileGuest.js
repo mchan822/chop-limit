@@ -6,7 +6,7 @@ import { Screen, Input, Button, AppText } from '~/components';
 import { GlobalStyles, MainNavigationOptions, Theme } from '~/styles';
 
 import { fetchAPI } from '~/core/utility';
-import { showNotification, setUserInfo,setToken, setOrder,setBanner } from '~/store/actions';
+import { showNotification, setUserInfo,setToken,cancelOrder, setOrder,setBanner } from '~/store/actions';
 import { NavigationService } from '~/core/services';
 
 export const ProfileGuestScreen = ({ navigation }) => {
@@ -14,6 +14,7 @@ export const ProfileGuestScreen = ({ navigation }) => {
   const deliveryMode = useMemo(() => navigation.getParam('deliveryMode'), []);
   const tip_percentage = useMemo(() => navigation.getParam('tip_percentage'), []);
   const signup_already = useMemo(() => navigation.getParam('signup_already'), []);
+  const pay_cash = useMemo(() => navigation.getParam("pay_cash"), []);
   const [isLoading, setLoading] = useState(false);
   const [user, setUser] = useState({});
   const dispatch = useDispatch();
@@ -63,11 +64,38 @@ export const ProfileGuestScreen = ({ navigation }) => {
             user_active: res.data.user_active
           }),
         );
-
         const signupToken = res.data.token;
-
-        //dispatch(showNotification({ type: 'success', message: res.message }));
-        if(signup_already == true) {
+        if(signup_already == true && pay_cash == true) {
+          setLoading(true);
+          const formData = new FormData();
+          formData.append('delivery_type', deliveryMode);
+          formData.append('tip_percentage', tip_percentage);
+    
+          fetchAPI('/order/cash_on_delivery', {
+            method: 'POST',
+            headers: {
+              authorization: `Bearer ${token ? token : guestToken}`,
+            },
+            body: formData,
+          })
+            .then((res) => {
+              dispatch(setUserInfo({ totalOrders: +userInfo.totalOrders + 1 }));
+              dispatch(cancelOrder());
+              NavigationService.reset('OrderSuccess', {
+                orderId: res.data.order_id,
+                paymentType:'cash'
+              });
+            })
+            .catch((err) => {
+              if(err.message == "order-expired"){
+                dispatch(cancelOrder());
+                NavigationService.reset("Home");
+              } else {
+                dispatch(showNotification({ type: 'error', message: err.message}));        
+              }
+            })
+            .finally(() => setLoading(false));
+        } else if(signup_already == true) {
           dispatch(setToken(signupToken));
 
           NavigationService.navigate('Account/CreditCard', {

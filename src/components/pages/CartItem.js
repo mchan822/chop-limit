@@ -193,7 +193,7 @@ export const CartItem = ({
             />
           }
           <AppText numberOfLines={1} style={[styles.item, styles.price]}>
-            {orderDetail.currency_icon}
+            {orderDetail.territory.currency.icon+' '}
             {(+product.amount).toFixed(2)}
           </AppText>
         </View>

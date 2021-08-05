@@ -89,6 +89,7 @@ export const MyOrderScreen = ({ navigation }) => {
         deliveryMode: deliveryMode,
         tip_percentage: tipValue,
         signup_already: true,
+        pay_cash: true
       });
     } else {
       setLoading(true);
@@ -481,7 +482,7 @@ export const MyOrderScreen = ({ navigation }) => {
       (userInfo && userInfo.creditcard && orderDetail ? 'PLACE ORDER' : 'Checkout') +
       (orderDetail &&
         ' ( ' +
-          orderDetail.currency_icon +
+          orderDetail.territory.currency.icon +
           (deliveryMode === 'deliver'
             ? +orderDetail.total_amount_with_delivery*(1+tipValue/100)
             : +orderDetail.total_amount_without_delivery*(1+tipValue/100)
@@ -508,7 +509,7 @@ export const MyOrderScreen = ({ navigation }) => {
     if(orderDetail){
       AppEventsLogger.logEvent('USER VIEWS THE CART',orderDetail.cart_total_amount,{
         NUM_ITEMS : orderDetail.cart_quantity,
-        CURRENCY : orderDetail.currency
+        CURRENCY : orderDetail.territory.currency.icon
       })
     }
   },[orderDetail])
@@ -524,7 +525,7 @@ export const MyOrderScreen = ({ navigation }) => {
           </AppText>
           <AppText style={styles.summaryValue}>
             {`${
-                  orderDetail.currency_icon
+                  orderDetail.territory.currency.icon
                 } ${(+orderDetail.cart_amount).toFixed(
                   2,
                 )}`
@@ -616,7 +617,7 @@ export const MyOrderScreen = ({ navigation }) => {
                       </View>
                       <View style={styles.orderInfoTotal}>
                         <AppText style={[styles.summaryTotal]}>
-                          {orderDetail.currency_icon}
+                          {orderDetail.territory.currency.icon}
                           {(deliveryMode === 'deliver'
                             ? +orderDetail.total_amount_with_delivery*(1+tipValue/100)
                             : +orderDetail.total_amount_without_delivery*(1+tipValue/100)
@@ -629,7 +630,7 @@ export const MyOrderScreen = ({ navigation }) => {
                         {!isDeliveryDisabled ?
                         <DeliveryMode
                           name="Get it delivered"
-                          price={`${orderDetail.currency_icon}${(
+                          price={`${orderDetail.territory.currency.icon}${(
                             +orderDetail.delivery_amount || 0
                           ).toFixed(2)}`}
                           checked={deliveryMode === 'deliver'}
@@ -776,12 +777,12 @@ export const MyOrderScreen = ({ navigation }) => {
                     <AppText style={styles.summaryValue}>
                       {deliveryMode === 'deliver'
                         ? `${
-                            orderDetail.currency_icon
+                            orderDetail.territory.currency.icon
                           } ${((+orderDetail.cart_amount)).toFixed(
                             2,
                           )}`
                         : `${
-                            orderDetail.currency_icon
+                            orderDetail.territory.currency.icon
                           } ${((+orderDetail.cart_amount)).toFixed(
                             2,
                           )}`}
@@ -793,7 +794,7 @@ export const MyOrderScreen = ({ navigation }) => {
                       {/* ({orderDetail.taxes_percentage}%) */}
                     </AppText>
                     <AppText style={styles.summaryValue}>
-                      { `${orderDetail.currency_icon + '-'
+                      { `${orderDetail.territory.currency.icon + '-'
                             } ${(+orderDetail.promo_code_amount).toFixed(2)}`}
                     </AppText>
                   </View>: <></> }
@@ -806,7 +807,7 @@ export const MyOrderScreen = ({ navigation }) => {
                       {
                         deliveryMode === 'deliver'
                           ? `${
-                              orderDetail.currency_icon
+                              orderDetail.territory.currency.icon
                             } ${(+orderDetail.delivery_amount).toFixed(2)}`
                           : 'Free'
                         // `${orderDetail.currency_icon} ${(+orderDetail.pickup_total_amount).toFixed(2)}`
@@ -821,12 +822,12 @@ export const MyOrderScreen = ({ navigation }) => {
                     <AppText style={styles.summaryValue}>
                       {deliveryMode === 'deliver'
                         ? `${
-                            orderDetail.currency_icon
+                            orderDetail.territory.currency.icon
                           } ${(+orderDetail.tax_amount_with_delivery).toFixed(
                             2,
                           )}`
                         : `${
-                            orderDetail.currency_icon
+                            orderDetail.territory.currency.icon
                           } ${(+orderDetail.tax_amount_without_delivery).toFixed(
                             2,
                           )}`}
@@ -840,12 +841,12 @@ export const MyOrderScreen = ({ navigation }) => {
                     <AppText style={styles.summaryValue}>
                       {deliveryMode === 'deliver'
                         ? `${
-                            orderDetail.currency_icon
+                            orderDetail.territory.currency.icon
                           } ${(+orderDetail.total_amount_with_delivery*tipValue/100).toFixed(
                             2,
                           )}`
                         : `${
-                            orderDetail.currency_icon
+                            orderDetail.territory.currency.icon
                           } ${(+orderDetail.total_amount_without_delivery*tipValue/100).toFixed(
                             2,
                           )}`}

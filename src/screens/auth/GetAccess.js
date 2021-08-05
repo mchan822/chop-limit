@@ -31,7 +31,7 @@ export const GetAccessScreen = () => {
       body: formData,
     })
       .then((res) => {
-        if (res.data.existing_user) {
+        if (res.data.user_verified == true) {
           dispatch(setPhone(phoneNumber));
           NavigationService.navigate('CheckPassword');
           //NavigationService.navigate('CheckEmail');
