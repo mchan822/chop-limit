@@ -104,7 +104,7 @@ export const StickyBottom = ({ }) => {
           NavigationService.navigate('MyOrder');
         }}>          
           <OrderSVG height={30} width={30}/>
-          <AppText  style={{color:'white',fontWeight:'bold',paddingLeft:5,fontSize:16}}>{`${order.territory.currency != undefined ? order.territory.currency.icon : order.currency_icon}${(+price || 0).toFixed(2)}`}</AppText>
+          <AppText  style={{color:'white',fontWeight:'bold',paddingLeft:5,fontSize:16}}>{`${order && order.territory.length > 0 ? order.territory.currency.icon : order.currency_icon}${(+price || 0).toFixed(2)}`}</AppText>
       </TouchableOpacity>:   
        <TouchableOpacity
        style={[

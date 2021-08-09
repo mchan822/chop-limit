@@ -363,7 +363,7 @@ export const ProductsScreen = ({ navigation }) => {
                 )}
               </View>
               <AppText style={styles.detailName}>
-                {+territory.address_distance <= +territory.delivery_area_radius
+                {+territory.address_distance <= +territory.delivery_area_radius && territory.offer_pickup != '1'
                   ? 'We Deliver'
                   : 'Pickup Only'}
               </AppText>
