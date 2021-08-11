@@ -356,7 +356,7 @@ export const ProductsScreen = ({ navigation }) => {
             <View style={styles.sellerDetail}>
               <View style={styles.detailValueWrapper}>
                 {+territory.address_distance <=
-                +territory.delivery_area_radius ? (
+                +territory.delivery_area_radius && territory.offer_pickup != '1' ? (
                   <DeliverySVG width={35} height={35} />
                 ) : (
                   <PickupSVG width={35} height={35} />
@@ -365,7 +365,7 @@ export const ProductsScreen = ({ navigation }) => {
               <AppText style={styles.detailName}>
                 {+territory.address_distance <= +territory.delivery_area_radius && territory.offer_pickup != '1'
                   ? 'We Deliver'
-                  : 'Pickup Only'}
+                  : 'Pick Up'}
               </AppText>
             </View>
             <View style={styles.sellerDetail}>
