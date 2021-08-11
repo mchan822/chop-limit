@@ -46,7 +46,7 @@ export const SellersScreen = ({ navigation }) => {
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   
-  const [sellersFilter, setSellersFilter] = useState('&sort_by=most-orders');
+  const [sellersFilter, setSellersFilter] = useState('&1');
   
   const MyCart = () => {
     const price = useSelector(
