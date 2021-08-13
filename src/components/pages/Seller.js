@@ -38,20 +38,16 @@ export const Seller = ({ seller }) => (
       </AppText>
       {seller.type_slug !='services' ? <View>
           {+seller.address_distance <= +seller.delivery_area_radius 
-                  ? seller.offer_delivery == '1' ? <AppText style={styles.products} numberOfLines={1}>
-                      {seller.warehouse_address_line == '' ? seller.warehouse_address_city : seller.warehouse_address_line} • {seller.base_delivery_fee == '0.00' ? 'Free' : seller.currency.icon+seller.base_delivery_fee} Delivery{seller.offer_pickup == '1' && ' • Free Pickup'}
-                    </AppText> :
-                      <AppText style={styles.products} numberOfLines={1}>
-                      {seller.warehouse_address_line == '' ? seller.warehouse_address_city : seller.warehouse_address_line} • {(seller.address_distance_km)+(`km away`)} 
-                    </AppText> 
-                  : seller.offer_delivery == '1' ? <AppText style={styles.products} numberOfLines={1}>
-                      {seller.warehouse_address_line == '' ? seller.warehouse_address_city : seller.warehouse_address_line} • Pickup Only{seller.offer_pickup == '1' && ' • Free Pickup'}
-                    </AppText>:
+                  ?
                     <AppText style={styles.products} numberOfLines={1}>
-                    {seller.warehouse_address_line == '' ? seller.warehouse_address_city : seller.warehouse_address_line} • {(seller.address_distance_km)+(`km away  • Free Pickup`)} 
+                      {seller.warehouse_address_line == '' ? seller.warehouse_address_city : seller.warehouse_address_line} • {(parseFloat(seller.address_distance_km).toFixed(0))+(`km away`)} 
+                    </AppText> 
+                  : 
+                    <AppText style={styles.products} numberOfLines={1}>
+                    {seller.warehouse_address_line == '' ? seller.warehouse_address_city : seller.warehouse_address_line} • {(parseFloat(seller.address_distance_km).toFixed(0))+(`km away  • Free Pickup`)} 
                   </AppText>
                  }        
-      </View>:
+      </View> :
       <View>
         <AppText style={styles.products} numberOfLines={1}>
           {seller.warehouse_address_line == '' ? seller.warehouse_address_city : seller.warehouse_address_line}
