@@ -72,6 +72,15 @@ export const MyOrderScreen = ({ navigation }) => {
   const [note, setNote] =  useState();
   const [noteLink, setNoteLink] =  useState();
   const [screenMode, setScreenMode] =  useState('myorder');
+
+  useEffect(() => {
+    if(territory && territory.pay_type_pay_now_active == true) {
+      setPaymentType('1');
+    } else {
+      setPaymentType('2');
+    }
+  },[territory]);
+
   const _pay_cash = useCallback(() => {
     if(orderDetail)
     AppEventsLogger.logEvent('Initiate Checkout',orderDetail.cart_total_amount,{
@@ -274,7 +283,7 @@ export const MyOrderScreen = ({ navigation }) => {
         dispatch(setTerritory(res.data.territory));        
         setDeliveryDisabled(
           +res.data.territory_distance >
-            +res.data.territory.delivery_area_radius,
+            +res.data.territory.delivery_area_radius && res.data.territory.offer_delivery == '1',
         );
         setPickupDisabled(+res.data.territory.offer_pickup == 0);
         setDeliveryMode(
@@ -638,7 +647,11 @@ export const MyOrderScreen = ({ navigation }) => {
                           disabled={isDeliveryDisabled}
                         /> : <View style={styles.deliveryWrapper}>
                             <AppText style={styles.deliveryNotText}>Delivery Not Available</AppText>
+                            {orderDetail.territory.offer_delivery == '1' ?
                             <AppText style={styles.notAvailableText}>Address outside delivery zone</AppText>
+                            :
+                            <AppText style={styles.notAvailableText}>Not offer delivery </AppText>
+                          }
                           </View>}
 
                         <View style={styles.verticalSeparator} />
@@ -889,7 +902,9 @@ export const MyOrderScreen = ({ navigation }) => {
                       Payment Type 
                     </AppText>
                 <View style={styles.radio}>
+                  {territory && territory.pay_type_pay_now_active == true &&  
                   <CheckBox containerStyle={styles.radioBackground} title="Pay Now(Credit Card)" checkedColor={Theme.color.accentColor} checked={paymentType=='1' ? true : false} checkedIcon='dot-circle-o'  onPress = {() => {setPaymentType('1');}}  uncheckedIcon='circle-o'/>
+                  }
                   <CheckBox containerStyle={styles.radioBackground} title="Pay In Person" checkedColor={Theme.color.accentColor} checked={paymentType=='2' ? true : false} checkedIcon='dot-circle-o'  onPress = {() => {setPaymentType('2');}}  uncheckedIcon='circle-o'/>
                   </View>
                 </View> 
