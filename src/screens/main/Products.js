@@ -18,11 +18,13 @@ import { formatPhoneNumber } from '~/core/utility'
 import { GlobalStyles, MainNavigationOptions, Theme } from '~/styles';
 
 import { fetchAPI } from '~/core/utility';
-import { showNotification } from '~/store/actions';
+import { showNotification, clearNotification } from '~/store/actions';
 import { LoadingGIF } from '../../components';
 import DeliverySVG from '~/assets/images/delivery-truck.svg';
 import PickupSVG from '~/assets/images/package.svg';
 import PriceSVG from '~/assets/images/price-tag.svg';
+import PickupDisableSVG from '~/assets/images/package-disable.svg';
+import DeliveryDisableSVG from '~/assets/images/delivery-truck-disable.svg';
 import LinearGradient from 'react-native-linear-gradient';
 
 export const ProductsScreen = ({ navigation }) => {
@@ -44,6 +46,7 @@ export const ProductsScreen = ({ navigation }) => {
   const explorer = useSelector((state) => state.explorer);
   
   useEffect(() => {
+    console.log("territory*************************", territory);
     territory &&
       territory.warehouse_address &&
       parseAddress(territory.warehouse_address, (err, addressObj) => {
@@ -133,6 +136,62 @@ export const ProductsScreen = ({ navigation }) => {
         }
       });
   }, []);
+
+  const ContactUs_clicked = useCallback((sellerID)=>{    
+    dispatch(
+      showNotification({
+        type: 'fullScreen',
+        autoHide: false,
+        options: { align: 'right' },
+        message: (
+          <>
+            {/* <View style={{ position: 'absolute', top: 5, right: -20 }}>
+              <Price style={{ height: 35, width: 120 }} />
+            </View> */}
+            {territory && typeof territory.support_phone === 'string' && territory.support_phone.trim().length > 0 && <Button
+            type="white"
+            style={{ marginBottom: 10, marginTop: 20 }}
+            fullWidth
+            onClick={() => {
+                Linking.canOpenURL(`tel:${territory.support_phone}`).then((supported) => {
+                if (supported) {
+                    Linking.openURL(`tel:${territory.support_phone}`);
+                } else {
+                    dispatch(
+                    showNotification({
+                        type: 'error',
+                        message: `Don't know how to open URI: ${territory.support_phone}`,
+                    }),
+                    );
+                }
+                });
+            }}>
+            Call Us {formatPhoneNumber(territory.support_phone)}
+            </Button>}
+            <Button
+              type="white"
+              style={{ marginBottom: 10 }}
+              fullWidth
+              onClick={() => {
+                navigation.navigate('ContactSeller',{sellerID : sellerID});
+                dispatch(clearNotification());
+              }}>
+              Send A Message
+            </Button>
+
+            <Button
+              type="white"
+              fullWidth
+              onClick={() => {
+                dispatch(clearNotification());
+              }}>
+              Back
+            </Button>
+          </>
+        ),
+      }),
+    );
+  });
 
   const getProducts = useCallback((page) => {
     setLoading(true);
@@ -356,17 +415,36 @@ export const ProductsScreen = ({ navigation }) => {
             <View style={styles.sellerDetail}>
               <View style={styles.detailValueWrapper}>
                 {+territory.address_distance <=
-                +territory.delivery_area_radius && territory.offer_pickup != '1' ? (
+                +territory.delivery_area_radius && territory.offer_delivery == '1' ? (
                   <DeliverySVG width={35} height={35} />
                 ) : (
-                  <PickupSVG width={35} height={35} />
+                  <DeliveryDisableSVG width={35} height={35} />
                 )}
               </View>
-              <AppText style={styles.detailName}>
-                {+territory.address_distance <= +territory.delivery_area_radius && territory.offer_pickup != '1'
-                  ? 'We Deliver'
-                  : 'Pick Up'}
-              </AppText>
+              {+territory.address_distance <= +territory.delivery_area_radius && territory.offer_delivery == '1' ?  
+              <AppText style={styles.detailName}>                
+                  We Deliver
+              </AppText> :
+              <AppText style={styles.detailNameDisable}>                
+                  We Deliver
+              </AppText>}
+            </View>
+            <View style={styles.sellerDetail}>
+              <View style={styles.detailValueWrapper}>
+                {+territory.address_distance <=
+                +territory.delivery_area_radius && territory.offer_pickup == '1' ? (
+                  <PickupSVG width={35} height={35} />
+                ) : (
+                  <PickupDisableSVG width={35} height={35} />
+                )}
+              </View>
+              {+territory.address_distance <= +territory.delivery_area_radius && territory.offer_pickup == '1' ?  
+              <AppText style={styles.detailName}>                
+                  Pick Up
+              </AppText> :
+              <AppText style={styles.detailNameDisable}>                
+                  Pick Up
+              </AppText>}             
             </View>
             <View style={styles.sellerDetail}>
               <View style={styles.detailValueWrapper}>
@@ -393,9 +471,7 @@ export const ProductsScreen = ({ navigation }) => {
            <Button
               type="bordered_light"
               style={[GlobalStyles.formControl,styles.quoteButton]}
-              onClick={() => navigation.navigate('ContactSeller',{
-                  sellerID : territory.tid
-              })}>
+              onClick={() => ContactUs_clicked(territory.tid)}>
           Contact Us
           </Button> 
          </View>
@@ -708,6 +784,14 @@ const styles = StyleSheet.create({
   detailName: {
     fontSize: 10,
     marginTop: 5,
+    textAlign: 'center',
+    fontWeight: '500',
+  },
+
+  detailNameDisable: {
+    fontSize: 10,
+    marginTop: 5,
+    color: "#A0A0A0",
     textAlign: 'center',
     fontWeight: '500',
   },
