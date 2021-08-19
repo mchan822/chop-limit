@@ -116,6 +116,26 @@ const [activeTabIndex, setActiveTabIndex] = useState(0);
                   </AppText>
                 </View>
               </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.menuButtonAddress,
+                  {
+                    marginRight:10,
+                    marginLeft:0,
+                    height: 50,
+                    width:60,
+                    alignItems: 'flex-end',                    
+                  },
+                ]}
+                onPress={() => {
+                  NavigationService.navigate('DealList');
+                }}>
+                <Image
+                source={require('~/assets/images/icon-deal.png')}
+                style={styles.image_sale}        
+                resizeMode="cover"
+              />
+              </TouchableOpacity> 
             </View> }
         {categoryScreen != true &&
           <ImageBackground
@@ -284,9 +304,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
       },
       
-  awkward: {
-    paddingHorizontal: Theme.layout.screenPaddingHorizontal,
-  },
+    awkward: {
+      paddingHorizontal: Theme.layout.screenPaddingHorizontal,
+    },
+
+    image_sale: {   
+      position: 'absolute',
+      top: 10,
+      right: 15,
+      width: 30,
+      height: 30
+    },
+
     image_category: {
         backgroundColor: '#FFF',
         aspectRatio: 1,

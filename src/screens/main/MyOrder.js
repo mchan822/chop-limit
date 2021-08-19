@@ -288,7 +288,7 @@ export const MyOrderScreen = ({ navigation }) => {
         setPickupDisabled(+res.data.territory.offer_pickup == 0);
         setDeliveryMode(
           +res.data.territory_distance >
-            +res.data.territory.delivery_area_radius
+            +res.data.territory.delivery_area_radius || res.data.territory.offer_delivery == '0'
             ? 'pickup'
             : 'deliver',
         );
@@ -650,7 +650,7 @@ export const MyOrderScreen = ({ navigation }) => {
                             {orderDetail.territory.offer_delivery == '1' ?
                             <AppText style={styles.notAvailableText}>Address outside delivery zone</AppText>
                             :
-                            <AppText style={styles.notAvailableText}>Not offer delivery </AppText>
+                           <></>
                           }
                           </View>}
 

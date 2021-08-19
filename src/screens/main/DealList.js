@@ -20,7 +20,7 @@ export const DealListScreen = ({ navigation }) => {
   const explorer = useSelector((state) => state.explorer);
   const order = useSelector((state) => state.order.order);
   const windowHeight = Dimensions.get('window').height;
-  const territory_id = useMemo(() => navigation.getParam('territory_id'),[]);
+  const territory_id = useMemo(() => navigation.getParam('territory_id') ? navigation.getParam('territory_id') : '',[]);
   const dispatch = useDispatch();
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -46,10 +46,9 @@ export const DealListScreen = ({ navigation }) => {
         },
       })
       .then((res) => {
-        console.log("territ",res.data.territory);
-        
-          dispatch(setTerritory(res.data.territory));
-          NavigationService.navigate("Products");
+        console.log("territ",res.data.territory);        
+        dispatch(setTerritory(res.data.territory));
+        NavigationService.navigate("Products");
         
       })
       .catch((err) =>
@@ -65,9 +64,7 @@ export const DealListScreen = ({ navigation }) => {
         authorization: `Bearer ${token ? token : guestToken}`,
       },
     })
-    .then((res) => {
-      console.log("deals data ++ ",res.data);
-      
+    .then((res) => {      
       if(page == 0){
         setDealList(res.data.deals);
       } else {
