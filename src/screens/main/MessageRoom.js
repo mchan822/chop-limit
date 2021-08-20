@@ -24,6 +24,7 @@ export const MessageRoomScreen = ({ navigation }) => {
   const userinfo =  useSelector((state) => state.account.userInfo);
   const [userImage, setUserImage] = useState(Constants.userDefaultAvatar);
   const [territoryImage, setTerritoryImage] = useState('');
+  const [lastMessageID, setLastMessageID] = useState('');
   const [messagePage, setMessagePage] = useState(0);
   const [newMessage, setNewMessage] = useState('');
   const [loadingMessage, setLoadingMessage] = useState(false);
@@ -153,15 +154,15 @@ export const MessageRoomScreen = ({ navigation }) => {
   useEffect(() => {
     dispatch(enterMessageRoom(true));
     setLoading(true);
-    fetchAPI(`/messages?territory=${territory.tid}&size=10&page=0`, {
+    fetchAPI(`/messages?territory=${territory.tid}&size=1000&page=0`, {
       method: 'GET',
       headers: {
         authorization: `Bearer ${token ? token : guestToken}`,
       },
     })
       .then((res) => {
-        console.log("+++messages+++",res.data.messages);
-        
+        console.log("+++messa!!!!!!!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ges+++",res.data);
+        setLastMessageID(res.data.last_message_id);
         setMessageList(res.data.messages.reverse());
         if(res.data.user_image){
           setUserImage(res.data.user_image);
@@ -179,7 +180,39 @@ export const MessageRoomScreen = ({ navigation }) => {
       )
       .finally(() => setLoading(false));
   },[]);
+  const updateNewMessage = useCallback(() => {
+    console.log("lastMessagse ID ",lastMessageID);
+    if(lastMessageID > 0){
+      fetchAPI(`/messages/last_activity?territory=${territory.tid}&user=${userinfo.uuid}&last_message_id=${lastMessageID}`, {
+        method: 'GET',
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => {
+          console.log("messages update",res.data);       
+          if(res.data.messages.length > 0){
+            setMessageList((existing) => [...existing, ...res.data.messages.reverse()]);        
+            setLastMessageID(res.data.last_message_id);
 
+          }
+          if(scrollRef.current != undefined){
+            setTimeout(()=>{setLoading(false); scrollRef.current.scrollToEnd({animated: true})}, 100);
+          }
+          
+        })
+        .catch((err) =>
+          dispatch(showNotification({ type: 'error', message: err.message })),
+        )
+        .finally(() => setLoading(false));
+    }
+  },[lastMessageID]);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      updateNewMessage();
+    }, 5000 );
+    return () => clearInterval(interval);
+  });
   useEffect(() => {
     if(modalVisible == true)
     {
@@ -335,7 +368,7 @@ export const MessageRoomScreen = ({ navigation }) => {
             }
             </ScrollView>
         )}
-        {console.log("her!!!!!!!!!!!!!!!!!!!!",userImage),console.log("her!!!!!!!!!!!!!!!!!!!!",Constants.userDefaultAvatar ),
+       {
           //messageList.find( ({ is_new }) => is_new == false ) && (
           messageList.length > 0 && (userinfo.user_active == false || userImage == Constants.userDefaultAvatar || userImage == '' ) && (
         <View style={styles.container}>

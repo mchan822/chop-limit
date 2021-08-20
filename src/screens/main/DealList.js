@@ -100,7 +100,7 @@ export const DealListScreen = ({ navigation }) => {
     <Screen isLoading={isLoading}>
       <View style={styles.container}>
         {dealList === false && (<><LoadingGIF/></>)}
-        {dealList && dealList.length > 1 ? <AppText style={styles.heading}>{dealList.length} deals available</AppText> : <AppText style={styles.heading}>{dealList.length} deal available</AppText>}
+        {dealList && dealList.length == 0 || dealList.length > 1 ? <AppText style={styles.heading}>{dealList.length} deals available</AppText> : <AppText style={styles.heading}>{dealList.length} deal available</AppText>}
         {dealList && dealList.length > 0 && (
             <ScrollView onScroll={({nativeEvent}) => {           
               if (isCloseToBottom(nativeEvent)) {               
