@@ -291,7 +291,7 @@ export const MessageRoomScreen = ({ navigation }) => {
             style={styles.footer}
           />
           <TouchableOpacity
-            style={{ flex: 1, alignItems: 'center', justifyContent: 'center' ,marginTop:5}}
+            style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginTop:0}}
             onPress={() => {
               if(!newMessage) {
                 return;
