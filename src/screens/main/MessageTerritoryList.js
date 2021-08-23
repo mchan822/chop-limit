@@ -87,7 +87,7 @@ export const MessageTerritoryListScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: Theme.layout.screenPaddingHorizontal,
-    paddingTop: 90
+    paddingTop: Theme.layout.screenPaddingTop,
   },
 
   menuButton: {    

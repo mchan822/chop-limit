@@ -47,7 +47,7 @@ export const MessageItem = ({
                 />
             </View>
             <View style={styles.messageContainer}>
-                <AppText style={styles.message}> {message} </AppText>
+                <AppText style={styles.message}>{message}</AppText>
             </View>
         </View>
         }
