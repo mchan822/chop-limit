@@ -62,7 +62,7 @@ export const StartSellingScreen = ({ navigation }) => {
     return (
         <Screen isLoading={isLoading} keyboardAware={true}>
             <View style={styles.container}>
-                <AppText style={styles.formHeading}>Chow Local® is exclusively for locally owned and operated restaurants. Unlike other delivery apps we don't charge restaurants crazy commissions. We charge a one-time setup fee of $500 and a monthly fee of $199/month. Sign up below for a 30-day free trial. No credit card required. Cancel anytime.</AppText>
+                <AppText style={styles.formHeading}>Chow Local® is exclusively for locally owned and operated restaurants. Unlike other delivery apps we don't charge restaurants crazy commissions.</AppText>
                 <Input
                 style={GlobalStyles.formControl}
                 title="Restaurant"

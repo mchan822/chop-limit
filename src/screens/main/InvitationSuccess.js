@@ -27,7 +27,7 @@ export const InvitationSuccessScreen = ({ navigation }) => {
         fullWidth
         style={styles.successButton}
         onClick={() => NavigationService.navigate('Invite')}>
-        Invite Another Business</Button>
+        Invite Another Restaurant</Button>
         <Button 
         type="bordered-dark" 
         fullWidth
