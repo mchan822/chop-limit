@@ -344,7 +344,7 @@ export const SellersWithCategoryScreen = ({ navigation }) => {
                   //   }}}
                   ListHeaderComponent={ 
                     <AppText style={styles.subTitle}>
-                      {(closeDeliveryCnt == 1) ? closeDeliveryCnt + ' Restaurant is closed for the day' : (openDeliveryCnt == 0 ? 'All' : closeDeliveryCnt) +' Restaurants are closed for the day'}
+                      {(closeDeliveryCnt == 1) ? closeDeliveryCnt + ' Restaurant is closed right now' : (openDeliveryCnt == 0 ? 'All' : closeDeliveryCnt) +' Restaurants are closed right now'}
                     </AppText>}
                   renderItem={({ item }) => (
                     <TouchableOpacity
