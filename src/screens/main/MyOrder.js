@@ -646,7 +646,7 @@ export const MyOrderScreen = ({ navigation }) => {
                           onPress={() => setDeliveryMode('deliver')}
                           disabled={isDeliveryDisabled}
                         /> : <View style={styles.deliveryWrapper}>
-                            <AppText style={styles.deliveryNotText}>Delivery Not Available</AppText>
+                            <AppText style={styles.deliveryNotText}>Delivery Not{'\n'}  Available</AppText>
                             {orderDetail.territory.offer_delivery == '1' ?
                             <AppText style={styles.notAvailableText}>Address outside delivery zone</AppText>
                             :
@@ -1233,7 +1233,7 @@ const styles = StyleSheet.create({
   deliveryWrapper: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     position: 'relative',
     
   },
@@ -1242,6 +1242,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 14,
     paddingLeft:20,
+    alignItems:'center'
   },
   notAvailableText: {
     color: Theme.color.accentColor,

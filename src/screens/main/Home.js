@@ -15,6 +15,7 @@ import {setTerritoryType} from '~/store/actions';
 // import FoodSVG from '~/assets/images/burger.svg';
 // import ServiceSVG from '~/assets/images/services.svg';
 // import DealSVG from '~/assets/images/deal.svg';
+import messaging from '@react-native-firebase/messaging';
 import PushNotification,{Importance} from "react-native-push-notification";
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import BackgroundTimer from 'react-native-background-timer';
@@ -197,6 +198,29 @@ export const HomeScreen = ({ navigation }) => {
   }, [dispatch,enterMessageRoomValue]);
 
   useEffect(() => {
+      messaging().onNotificationOpenedApp(remoteMessage => {
+        console.log(
+          'Notification caused app to open from background state:',
+          remoteMessage.notification,
+        );
+       
+          NavigationService.navigate("MessageTerritoryList");
+      
+      });
+  
+      // Check whether an initial notification is available
+      messaging()
+        .getInitialNotification()
+        .then(remoteMessage => {
+          if (remoteMessage) {
+            console.log(
+              'Notification caused app to open from quit state:',
+              remoteMessage,
+            );          
+            NavigationService.navigate("MessageTerritoryList");         
+          }
+          
+        });
     if (token) {
       setLoading(true);
       fetchAPI(`/myaccount/addresses`, {
@@ -246,15 +270,14 @@ export const HomeScreen = ({ navigation }) => {
                 byTetCnt = byTetCnt + 1;
                }
              }); 
-         if(byTetCnt > 0) {      
-      
+         if(byTetCnt > 0) {
            if(Platform.OS === 'ios') {
              PushNotificationIOS.addNotificationRequest({
                id: "default",
                title: "New Message",
                subtitle: res.data.last_time_checked + 'New message received!',
                body : 'new message received.',              
-               sound : "alert.mp3",
+               sound : "message.mp3",
                isSilent : false,
              });
              
@@ -270,7 +293,7 @@ export const HomeScreen = ({ navigation }) => {
                vibrate: true,
                vibration: 300,
                playSound: true,
-               soundName: 'alert.mp3',
+               soundName: 'message.mp3',
              });
            }
          } 

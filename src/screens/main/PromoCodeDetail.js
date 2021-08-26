@@ -19,14 +19,14 @@ export const PromoCodeDetailScreen = ({ navigation }) => {
   const guestToken = useSelector((state) => state.account.guestToken);
   const dispatch = useDispatch();
   
-  return (
+  return ( console.log("#####@#@#@#@#@#@#@#", promoCode),
     <Screen isLoading={isLoading}>
       <View style={styles.container}>
         <DealItem
           item= {promoCode}
         />
         <AppText style={{marginTop:20,color: '#888'}}>
-        Use promo code <AppText style={{color: '#333',fontWeight:'bold'}}>{promoCode.name}</AppText> at checkout to save {promoCode.discount_formatted} on {!promoCode.has_products_only && !promoCode.has_categories_only?"everything.":"selected items including: "}
+        Use promo code <AppText style={{color: '#333',fontWeight:'bold'}}>{promoCode.promo_code.name}</AppText> at checkout to save {promoCode.promo_code.discount_formatted} on {!promoCode.promo_code.has_products_only && !promoCode.promo_code.has_categories_only?"everything.":"selected items including: "}
         <AppText style={{color: '#333'}}>
         {
           promoCode.promo_code.has_products_only &&   ",",
@@ -38,8 +38,8 @@ export const PromoCodeDetailScreen = ({ navigation }) => {
 
         }
          {
-          promoCode.has_categories_only &&
-          promoCode.these_categories_only.map((item, index) => {
+          promoCode.promo_code.has_categories_only &&
+          promoCode.promo_code.these_categories_only.map((item, index) => {
             return (
               (index >= 1 ? "," : "") + item.name
             );

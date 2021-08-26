@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -11,10 +11,13 @@ import { setToken, setUserInfo, showNotification, setOrder,setBanner } from '~/s
 import { RegisterNavigationOptions } from '~/styles';
 import { Platform } from 'react-native';
 
+import { firebase } from '@react-native-firebase/app';
+import messaging from '@react-native-firebase/messaging';
+
 export const CheckPasswordScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [isLoading, setLoading] = useState(false);
-
+  const [fcm_token, setFCMToken] = useState('');
   const phoneNumber = useSelector((state) => state.account.phone);
   const navigateTo = useMemo(() => navigation.getParam('navigateTo'), []);
   const signInToken = useMemo(() => navigation.getParam('token'), []);
@@ -22,13 +25,13 @@ export const CheckPasswordScreen = ({ navigation }) => {
 
   const dispatch = useDispatch();
 
-  const signIn = useCallback((password) => {
+  const signIn = useCallback((password, fcm_token) => {
     setLoading(true);
 
     const formData = new FormData();
     formData.append('id', phoneNumber);
     formData.append('password', password);
-    
+    formData.append('fcm_token', fcm_token);
     let headers = {};
     if(signInToken)
     headers = {
@@ -112,6 +115,19 @@ export const CheckPasswordScreen = ({ navigation }) => {
       .finally(() => setLoading(false));
   }, []);
 
+  useEffect(async () => {    
+    const authStatus = await messaging().requestPermission();
+      const enabled =
+        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+        authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+      if (enabled) {
+
+        const token_a = await firebase.messaging().getToken();
+        console.log("@@@@@@@@@@@@@@@@",token_a);
+        setFCMToken(token_a);  
+      }
+  },[]);
+
   return (
     <Screen
       isLoading={isLoading}>
@@ -136,7 +152,7 @@ export const CheckPasswordScreen = ({ navigation }) => {
           type="accent"
           style={[styles.button_verify]}
           onClick={() => {
-            signIn(password);
+            signIn(password,fcm_token);
           }}>
          Sign In
         </Button>

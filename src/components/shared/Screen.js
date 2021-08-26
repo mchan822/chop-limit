@@ -15,10 +15,12 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Theme } from '~/styles';
+import { DeviceInfo, getDeviceId, getModel } from 'react-native-device-info'; 
 import { Notification, Loading } from '..';
 
 const HEADER_MAX_HEIGHT = 0;
-const bottomMargin = Platform.OS === 'ios' ? 30 : 0;
+const test = getModel();
+const bottomMargin = Platform.OS === 'ios' ? test === 'iPhone 11' || test === 'iPhone 11 Pro' ? 0 : 30 : 0;
 const HEADER_MIN_HEIGHT = Platform.OS === 'ios' ? 100 : 70;
 const HEADER_SCROLL_DISTANCE = HEADER_MIN_HEIGHT - HEADER_MAX_HEIGHT;
 const windowHeight = Dimensions.get('window').height;
