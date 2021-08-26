@@ -271,31 +271,31 @@ export const HomeScreen = ({ navigation }) => {
                }
              }); 
          if(byTetCnt > 0) {
-           if(Platform.OS === 'ios') {
-             PushNotificationIOS.addNotificationRequest({
-               id: "default",
-               title: "New Message",
-               subtitle: res.data.last_time_checked + 'New message received!',
-               body : 'new message received.',              
-               sound : "message.mp3",
-               isSilent : false,
-             });
+          //  if(Platform.OS === 'ios') {
+          //    PushNotificationIOS.addNotificationRequest({
+          //      id: "default",
+          //      title: "New Message",
+          //      subtitle: res.data.last_time_checked + 'New message received!',
+          //      body : 'new message received.',              
+          //      sound : "message.mp3",
+          //      isSilent : false,
+          //    });
              
-           } else {
-               PushNotification.localNotification({
-               channelId: "default",
-               autoCancel: true,
-               bigText:
-                 'New message received!',
-               subText: 'new message received.',
-               title: 'New messages',
-               message: 'Expand me to see more',
-               vibrate: true,
-               vibration: 300,
-               playSound: true,
-               soundName: 'message.mp3',
-             });
-           }
+          //  } else {
+          //      PushNotification.localNotification({
+          //      channelId: "default",
+          //      autoCancel: true,
+          //      bigText:
+          //        'New message received!',
+          //      subText: 'new message received.',
+          //      title: 'New messages',
+          //      message: 'Expand me to see more',
+          //      vibrate: true,
+          //      vibration: 300,
+          //      playSound: true,
+          //      soundName: 'message.mp3',
+          //    });
+          //  }
          } 
          
        })
