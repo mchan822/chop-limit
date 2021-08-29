@@ -276,7 +276,8 @@ export const MyOrderScreen = ({ navigation }) => {
         console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", res.data.territory.offer_delivery );
         setOrderDetail(res.data);
         if(res.data.cart_quantity == '0'){
-          NavigationService.reset('Home');
+          //NavigationService.reset('Home');
+          NavigationService.navigate('Products');
         }
         dispatch(updatedNotes(res.data.notes));
         setNote(res.data.notes);
