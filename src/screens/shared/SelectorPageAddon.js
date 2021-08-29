@@ -10,6 +10,7 @@ export const SelectorPageAddonScreen = ({ navigation }) => {
   const header = useMemo(() => navigation.getParam('header'), []);
   const options = useMemo(() => navigation.getParam('options'), []);
   const action = useMemo(() => navigation.getParam('action'), []);
+  const maxnum = useMemo(() => navigation.getParam('maxnum'), []);
   const noOptionsText = useMemo(() => navigation.getParam('noOptionsText'));
   const selected = useMemo(() => navigation.getParam('selected'), [navigation]);
   const [selectedItem,selectItem] = useState('');
@@ -60,17 +61,23 @@ export const SelectorPageAddonScreen = ({ navigation }) => {
                         : 'bordered-black'
                     }
                     style={GlobalStyles.formControl}
-                    onClick={() => {          
+                    onClick={() => {
+
                       if(selectedItem){
+                        
                         if(selectedItem.filter((original) => original === item.value).length > 0 )
                         {
                           selectItem(selectedItem.filter((original) => original != item.value))
                           
                         } else {
-                          selectItem((existing)=> [...existing,item.value]);
+                          if(selectedItem.length < maxnum){
+                            selectItem((existing)=> [...existing,item.value]);
+                          }
                         }
                       } else {
-                        selectItem([item.value]);
+                        if(selectedItem.length < maxnum){
+                          selectItem([item.value]);
+                        }
                       }
                     }}>
                     {item.label}

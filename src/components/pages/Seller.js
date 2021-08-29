@@ -44,7 +44,7 @@ export const Seller = ({ seller }) => (
                     </AppText> 
                   : 
                     <AppText style={styles.products} numberOfLines={1}>
-                    {seller.warehouse_address_line == '' ? seller.warehouse_address_city : seller.warehouse_address_line} • {(parseFloat(seller.address_distance_km).toFixed(0))+(`km away  • Free Pickup`)} 
+                      {seller.warehouse_address_line == '' ? seller.warehouse_address_city : seller.warehouse_address_line} • {(parseFloat(seller.address_distance_km).toFixed(0))+(`km away`)} 
                   </AppText>
                  }        
       </View> :

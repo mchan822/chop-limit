@@ -18,6 +18,7 @@ export const Selector = ({
   value,
   onChange,
   options,
+  maxnum,
   style,
   placeholder,
   noOptionsText,
@@ -57,6 +58,7 @@ export const Selector = ({
               title,
               header,
               options,
+              maxnum,
               action: onChange,
               noOptionsText: noOptionsText
                 ? noOptionsText

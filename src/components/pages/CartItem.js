@@ -157,7 +157,7 @@ export const CartItem = ({
                     }
                   }
                 }
-                return <AppText style={[styles.item, styles.optionName]} numberOfLines={1}>
+                return <AppText style={[styles.item, styles.optionName]}>
                 {extra_option.name}: {products_choosen_options_array.map((item,index)=>{
                     return <AppText style={styles.optionDetailName}>{index > 0 && ', '}{item.name}</AppText>
                   })}

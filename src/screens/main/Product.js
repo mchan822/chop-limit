@@ -117,7 +117,6 @@ export const ProductScreen = ({ navigation }) => {
       navigation.setParams({ productName: res.data.product.name });
       setProduct(res.data.product);
       
-      console.log("product&&&&&&&&gcecking ", res.data.product.long_description);
       setQuantity(1);
       
       if(res.data.product.options.length > 0 ){
@@ -854,6 +853,7 @@ export const ProductScreen = ({ navigation }) => {
                         nameSelector={
                           product_extra.name ? product_extra.name : null
                         }
+                        maxnum={product_extra.maxnum != '' ? JSON.stringify(extrasChosen) != '{}' && extrasChosen.hasOwnProperty(product_extra.sku) ? parseInt(product_extra.maxnum) - extrasChosen[product_extra.sku].length : product_extra.maxnum : 999}
                         style={[styles.option]}
                         value={
                           product_extra.multiple
@@ -881,8 +881,7 @@ export const ProductScreen = ({ navigation }) => {
                           if (product_extra.multiple === true) {
                             /////////////// multiple options with checking the limit of maxnum                            
                               if ( JSON.stringify(existingChosenExtras) != '{}' && existingChosenExtras[product_extra.sku]) {
-                                console.log("here!!!!");
-                                if (tempMax > existingChosenExtras[product_extra.sku].length + value.length) {
+                                if (tempMax >= existingChosenExtras[product_extra.sku].length + value.length) {
                                   let previousVal = existingChosenExtras.hasOwnProperty(
                                     product_extra.sku,
                                   )
