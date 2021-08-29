@@ -128,12 +128,33 @@ export const CartItem = ({
       <Swipeable ref={ref} renderRightActions={renderLeftAction}>
         <View style={styles.container}>
           <View style={styles.name}>
+            <View style={{flexDirection:'row'}}>
             <AppText            
               onPress={()=> { dispatch(setOrderProduct(product)),NavigationService.navigate("OrderProductDetails")}}
               style={[styles.item, styles.productName]}
-              numberOfLines={2}>
-              {product.product_name}            
+              numberOfLines={2}>{product.product_name}            
             </AppText>
+            {<View style={{marginTop:15, flex:1}}>
+              <Selector
+                style={styles.selectorLabel}
+                labelSelector
+                value={quantity}
+                hideSelector={true}
+                title="Quantity"
+                header="How many do you want?"
+                options={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => ({
+                  label: item,
+                  value: item,
+                }))}
+                onChange={updateQuantity}
+              />
+              </View>
+              }
+              <AppText numberOfLines={1} style={[styles.item, styles.price]}>
+                {orderDetail.territory.currency.icon+' '}
+                {(+product.amount).toFixed(2)}
+              </AppText>
+          </View>
             {/* {product.extras.length === 0 ? (
                 <></>
               ) : (
@@ -177,25 +198,7 @@ export const CartItem = ({
             )}
             {extrasOptions ? extrasOptions : null}
           </View>
-          {
-            <Selector
-              style={styles.selectorLabel}
-              labelSelector
-              value={quantity}
-              hideSelector={true}
-              title="Quantity"
-              header="How many do you want?"
-              options={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => ({
-                label: item,
-                value: item,
-              }))}
-              onChange={updateQuantity}
-            />
-          }
-          <AppText numberOfLines={1} style={[styles.item, styles.price]}>
-            {orderDetail.territory.currency.icon+' '}
-            {(+product.amount).toFixed(2)}
-          </AppText>
+        
         </View>
       </Swipeable>
     </Fragment>
@@ -223,11 +226,11 @@ const styles = StyleSheet.create({
   },
 
   name: {
-    flex: 6,
+    flex: 10,
   },
 
   productName: {
-    flex: 1,
+    flex: 6,
     fontSize: 16,
     marginBottom: 0,
   },
