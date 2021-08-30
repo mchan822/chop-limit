@@ -350,7 +350,7 @@ export const ProductsScreen = ({ navigation }) => {
             </AppText>
             <AppText style={styles.closedTime}>
             {territory.operation_time == "" ? "Check Back on " + dayNames[nextWorkingDay[now.getDay()]] :          
-              "We open at " + territory.operation_time}
+              "We open " + territory.operation_time}
             </AppText> 
           </View>
       </View>
