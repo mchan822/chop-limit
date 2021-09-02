@@ -8,6 +8,7 @@ export const DealItem = ({
     item,
     onPress
  }) => (
+     console.log("##################",item),
      item.type == "promo_code" ?
     <View style={{backgroundColor: "#EFEFEF", flexDirection: "row", padding: 10, justifyContent:"space-between",marginTop: 10}}>
         <View style={{flexDirection: "row", flex: 0.6}}>
@@ -32,7 +33,7 @@ export const DealItem = ({
                 </View>
                 : */}
                 <View style={{marginTop: 3}}>
-                    <AppText style={{fontSize: 12, color: '#777', height: 16}} numberOfLine={1}>{item.promo_code.discount_formatted} OFF {!item.promo_code.has_products_only && !item.promo_code.has_categories_only?'everything':'selected items...'}</AppText>
+                    <AppText style={{fontSize: 12, color: '#777', height: 16}} numberOfLine={1}>{item.promo_code.discount_formatted} OFF {item.promo_code.only_for_first_order == '1' ? "your first order": !item.promo_code.has_products_only && !item.promo_code.has_categories_only ?'everything' : 'selected items...'}</AppText>
                 </View>
                 {/* } */}
             </View>
@@ -40,7 +41,7 @@ export const DealItem = ({
                
         <View style={{flex: 0.4}}>
             
-            <View style={{flex: 1}}><AppText style={{fontSize: 11, fontWeight: String(400), textAlign: 'right'}}> {item.promo_code.has_expiry_date == false ? "NO EXPIARY" : item.promo_code.expires_in} </AppText></View>
+            <View style={{flex: 1}}><AppText style={{fontSize: 11, fontWeight: String(400), textAlign: 'right'}}> {item.promo_code.has_expiry_date == false ? "NO EXPIRY" : item.promo_code.expires_in} </AppText></View>
             <View style={{marginTop: 3, flex: 1}}><AppText numberOfLines={1} style={{fontSize: 13, color: '#31D457', fontWeight: String(400), textAlign: 'right'}}> {item.promo_code.name} </AppText></View>
         </View>             
     </View> :
@@ -75,7 +76,7 @@ export const DealItem = ({
                
         <View style={{flex: 0.4}}>
             
-            <View style={{flex: 1}}><AppText style={{fontSize: 11, fontWeight: String(400), textAlign: 'right'}}>NO EXPIARY</AppText></View>
+            <View style={{flex: 1}}><AppText style={{fontSize: 11, fontWeight: String(400), textAlign: 'right'}}>NO EXPIRY</AppText></View>
             <View style={{marginTop: 3, flex: 1}}><AppText numberOfLines={1} style={{fontSize: 13, color: '#31D457', fontWeight: String(400), textAlign: 'right'}}></AppText></View>
         </View>             
     </View> :
@@ -112,7 +113,7 @@ export const DealItem = ({
                 
             <View style={{flex: 0.4}}>
                 
-                <View style={{flex: 1}}><AppText style={{fontSize: 11, fontWeight: String(400), textAlign: 'right'}}>NO EXPIARY</AppText></View>
+                <View style={{flex: 1}}><AppText style={{fontSize: 11, fontWeight: String(400), textAlign: 'right'}}>NO EXPIRY</AppText></View>
                 
             </View>    
         </View>    
