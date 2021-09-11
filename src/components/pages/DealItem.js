@@ -119,7 +119,7 @@ export const DealItem = ({
         </View>    
         <View style={{flexDirection: "row", flex:1}}>
             <View style={{marginTop: 3,marginLeft:15 }}>
-                <AppText style={{fontSize: 12, color: '#777', height: 16}} numberOfLine={1}>Spend {item.free_delivery_cutoff} Get Free Delivery</AppText>
+                <AppText style={{fontSize: 12, color: '#777', height: 16}} numberOfLine={1}>Spend {item.free_delivery_cutoff} get free delivery</AppText>
             </View>
         </View>
     </View>
