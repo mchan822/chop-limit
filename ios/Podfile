@@ -19,6 +19,7 @@ target 'chowlocal' do
 
   pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways.podspec"
   pod 'Permission-Camera', :path => "../node_modules/react-native-permissions/ios/Camera.podspec"
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
   target 'chowlocalTests' do
     inherit! :complete
     # Pods for testing
