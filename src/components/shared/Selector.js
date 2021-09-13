@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     marginTop: -15,
     textAlign: 'center',
-    borderRadius:  100,
+    borderRadius:  30,
     backgroundColor:  Theme.color.backgroundColor,
     borderColor:Theme.color.borderColor,
     paddingTop: 5

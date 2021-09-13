@@ -360,7 +360,7 @@ export const ProductsScreen = ({ navigation }) => {
   };
 
   const sellerInfo = useMemo(() => {
-    return territory ? (
+    return territory ? (console.log("@@@@@@@@@@@@@################%%%%%%%%%%", territory),
       <View>
         <View style={styles.sellerInfo}>
           <Image
@@ -414,14 +414,13 @@ export const ProductsScreen = ({ navigation }) => {
             </View>
             <View style={styles.sellerDetail}>
               <View style={styles.detailValueWrapper}>
-                {+territory.address_distance <=
-                +territory.delivery_area_radius && territory.offer_delivery == '1' ? (
+                { territory.offer_delivery == '1' ? (
                   <DeliverySVG width={35} height={35} />
                 ) : (
                   <DeliveryDisableSVG width={35} height={35} />
                 )}
               </View>
-              {+territory.address_distance <= +territory.delivery_area_radius && territory.offer_delivery == '1' ?  
+              { territory.offer_delivery == '1' ?  
               <AppText style={styles.detailName}>                
                   We Deliver
               </AppText> :
@@ -431,14 +430,13 @@ export const ProductsScreen = ({ navigation }) => {
             </View>
             <View style={styles.sellerDetail}>
               <View style={styles.detailValueWrapper}>
-                {+territory.address_distance <=
-                +territory.delivery_area_radius && territory.offer_pickup == '1' ? (
+                {territory.offer_pickup == '1' ? (
                   <PickupSVG width={35} height={35} />
                 ) : (
                   <PickupDisableSVG width={35} height={35} />
                 )}
               </View>
-              {+territory.address_distance <= +territory.delivery_area_radius && territory.offer_pickup == '1' ?  
+              { territory.offer_pickup == '1' ?  
               <AppText style={styles.detailName}>                
                   Pick Up
               </AppText> :

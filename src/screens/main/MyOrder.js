@@ -273,15 +273,10 @@ export const MyOrderScreen = ({ navigation }) => {
     })
       .then((res) => {        
         dispatch(setOrder(res.data));
-        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", res.data.territory.offer_delivery );
-        setOrderDetail(res.data);
-        if(res.data.cart_quantity == '0'){
-          //NavigationService.reset('Home');
-          NavigationService.navigate('Products');
-        }
+        setOrderDetail(res.data);       
         dispatch(updatedNotes(res.data.notes));
         setNote(res.data.notes);
-        dispatch(setTerritory(res.data.territory));  
+        dispatch(setTerritory(res.data.territory));       
         setDeliveryDisabled(
           +res.data.territory_distance >
             +res.data.territory.delivery_area_radius || res.data.territory.offer_delivery == '0',
@@ -293,6 +288,10 @@ export const MyOrderScreen = ({ navigation }) => {
             ? 'pickup'
             : 'deliver',
         );
+        if(res.data.cart_quantity == '0'){
+          //NavigationService.reset('Home');
+          NavigationService.navigate('Products');
+        }
         MyOrderScreen.navigationOptions = ({ navigation }) =>
         MainNavigationOptions({
           navigation,
