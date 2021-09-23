@@ -477,8 +477,7 @@ export const HomeScreen = ({ navigation }) => {
         method: 'POST',
       },
     ).then((res) => {
-      setCategoryData(res.data.categories);    
-
+      setCategoryData(res.data.categories.filter((item) =>item.image != ''));
     })
     .catch((err) => {
       dispatch(showNotification({ type: 'error', message: err.message }));

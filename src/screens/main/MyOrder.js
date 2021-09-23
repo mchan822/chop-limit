@@ -905,7 +905,7 @@ export const MyOrderScreen = ({ navigation }) => {
                   {territory && territory.pay_type_pay_now_active == true &&  
                   <CheckBox containerStyle={styles.radioBackground} title="Pay Now(Credit Card)" checkedColor={Theme.color.accentColor} checked={paymentType=='1' ? true : false} checkedIcon='dot-circle-o'  onPress = {() => {setPaymentType('1');}}  uncheckedIcon='circle-o'/>
                   }
-                  <CheckBox containerStyle={styles.radioBackground} title="Pay In Person" checkedColor={Theme.color.accentColor} checked={paymentType=='2' ? true : false} checkedIcon='dot-circle-o'  onPress = {() => {setPaymentType('2');}}  uncheckedIcon='circle-o'/>
+                  {deliveryMode === 'pickup' && <CheckBox containerStyle={styles.radioBackground} title="Pay In Person" checkedColor={Theme.color.accentColor} checked={paymentType=='2' ? true : false} checkedIcon='dot-circle-o'  onPress = {() => {setPaymentType('2');}}  uncheckedIcon='circle-o'/>}
                   </View>
                 </View> 
                 <View style={{flexDirection:'column', backgroundColor:'#e1e1e1', marginLeft:20, marginRight:20,marginBottom:10}}>
