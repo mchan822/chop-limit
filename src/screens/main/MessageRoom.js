@@ -154,7 +154,7 @@ export const MessageRoomScreen = ({ navigation }) => {
   useEffect(() => {
     dispatch(enterMessageRoom(true));
     setLoading(true);
-    fetchAPI(`/messages?territory=${territory.tid}&size=1000&page=0`, {
+    fetchAPI(`/messages?territory=${territory.tid}&size=10&page=0`, {
       method: 'GET',
       headers: {
         authorization: `Bearer ${token ? token : guestToken}`,
@@ -194,11 +194,11 @@ export const MessageRoomScreen = ({ navigation }) => {
           if(res.data.messages.length > 0){
             setMessageList((existing) => [...existing, ...res.data.messages.reverse()]);        
             setLastMessageID(res.data.last_message_id);
-
+            if(scrollRef.current != undefined){
+              setTimeout(()=>{setLoading(false); scrollRef.current.scrollToEnd({animated: true})}, 100);
+            }
           }
-          if(scrollRef.current != undefined){
-            setTimeout(()=>{setLoading(false); scrollRef.current.scrollToEnd({animated: true})}, 100);
-          }
+         
           
         })
         .catch((err) =>
