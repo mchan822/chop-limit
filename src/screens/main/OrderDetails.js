@@ -40,7 +40,7 @@ export const OrderDetailsScreen = ({ navigation }) => {
       .finally(() => setLoading(false));
   }, [orderId]);
 
-  console.log(orderDetail);
+  console.log("################",orderDetail);
 
   return (
     <Screen hasList isLoading={isLoading}>
@@ -83,21 +83,23 @@ export const OrderDetailsScreen = ({ navigation }) => {
                 {orderDetail.user.name + '\n' + orderDetail.user.phone}
               </AppText>
             </View>
+            {orderDetail.delivery_type != 'pickup' &&
             <View style={styles.part}>
               <AppText style={styles.field}>Deliver To:</AppText>
               <AppText style={styles.value}>
                 {orderDetail.address.address}, {orderDetail.address.city}, {orderDetail.address.province}
               </AppText>
-            </View>
+            </View>}
           </View>
           <View style={styles.orderInfo}>
+            {orderDetail.stripe_card != "" &&
             <View style={styles.part}>
               <AppText style={styles.field}>Credit Card</AppText>
-              <AppText style={styles.value}>{orderDetail.card}</AppText>
-            </View>
+              <AppText style={styles.value}>{orderDetail.stripe_card}</AppText>
+            </View>}
             <View style={styles.part}>
               <AppText style={styles.field}>Order Date</AppText>
-              <AppText style={styles.value}>{orderDetail.payment_date}</AppText>
+              <AppText style={styles.value}>{orderDetail.date}</AppText>
             </View>
           </View>
           <FlatList
