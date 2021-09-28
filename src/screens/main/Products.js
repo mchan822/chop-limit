@@ -360,7 +360,7 @@ export const ProductsScreen = ({ navigation }) => {
   };
 
   const sellerInfo = useMemo(() => {
-    return territory ? (console.log("@@@@@@@@@@@@@################%%%%%%%%%%", territory),
+    return territory ? (
       <View>
         <View style={styles.sellerInfo}>
           <Image

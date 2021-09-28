@@ -161,7 +161,6 @@ export const HomeScreen = ({ navigation }) => {
       PushNotificationIOS.requestPermissions().then((perms) => console.log(perms));
     }   
     if (token) {
-      console.log(order);
       setLoading(true)
       setAddress(false);
       fetchAPI('/myaccount/default_address', {
@@ -377,9 +376,7 @@ export const HomeScreen = ({ navigation }) => {
             ).then((res) => {              
                 setSellersDelivery(res.data.territories.filter((item) => Boolean(item.app_image)));
                 setOpenDeliveryCnt(res.data.total_operational);
-                setCloseDeliveryCnt(res.data.total_not_operational);      
-          
-
+                setCloseDeliveryCnt(res.data.total_not_operational);
             })
             .catch((err) => {
               dispatch(showNotification({ type: 'error', message: err.message }));
@@ -430,7 +427,6 @@ export const HomeScreen = ({ navigation }) => {
           .finally(() => setLoading(false));    
       } else { 
         if(explorer && explorer.address != null) {
-          console.log("explorer.address++++++++++++" ,explorer.address);
           setLoading(true);       
               fetchAPI(
                 `/territories/by_address?address=${explorer.address}&type=restaurants&deliverable=1&&filter_by=products_totals${sellersFilter}&size=4&page=${page}&sort_by_extra=is-operational`,
@@ -440,7 +436,6 @@ export const HomeScreen = ({ navigation }) => {
               ).then((res) => {
                 setTotalPages(res.data.total_pages);
                 if(page == 0){
-                  console.log("ssssssssssssssssss",res.data.territories);
                   setSellersDelivery(res.data.territories.filter((item) => Boolean(item.app_image)));
                   setOpenDeliveryCnt(res.data.total_operational);
                   setCloseDeliveryCnt(res.data.total_not_operational);      
@@ -465,7 +460,6 @@ export const HomeScreen = ({ navigation }) => {
         if(item.ttcid == selectedCategory) {
          categoryName =  item.name;
       }})
-      console.log("cateogory name",categoryName);
       NavigationService.navigate("SellersWithCategory",{selectedCategory: selectedCategory,categoryName:categoryName});
     }
   });

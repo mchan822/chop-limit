@@ -276,7 +276,8 @@ export const MyOrderScreen = ({ navigation }) => {
         setOrderDetail(res.data);       
         dispatch(updatedNotes(res.data.notes));
         setNote(res.data.notes);
-        dispatch(setTerritory(res.data.territory));       
+        dispatch(setTerritory(res.data.territory));     
+        console.log("@@res.data.territory_distance",res.data.territory_distance,res.data.territory.delivery_area_radius);  
         setDeliveryDisabled(
           +res.data.territory_distance >
             +res.data.territory.delivery_area_radius || res.data.territory.offer_delivery == '0',
@@ -636,6 +637,7 @@ export const MyOrderScreen = ({ navigation }) => {
                     </View>
                     {!isPickupDisabled && (
                       <View style={styles.deliveryInfo}>
+                        {console.log("#############################################",isDeliveryDisabled)}
                         {!isDeliveryDisabled ?
                         <DeliveryMode
                           name="Get it delivered"
