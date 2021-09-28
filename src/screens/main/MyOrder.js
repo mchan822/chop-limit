@@ -46,7 +46,7 @@ import FingerSVG from '~/assets/images/finger.svg';
 import OrderSVG from '~/assets/images/invoice_black.svg';
 import DealSVG from '~/assets/images/deal.svg';
 import { AppEventsLogger } from "react-native-fbsdk-next";
-
+import LinearGradient from 'react-native-linear-gradient';
 export const MyOrderScreen = ({ navigation }) => {
   const [orderDetail, setOrderDetail] = useState(null);
   const [isLoading, setLoading] = useState(false);
@@ -542,12 +542,21 @@ export const MyOrderScreen = ({ navigation }) => {
             }
           </AppText>
         </View>}
-      <Button
-        type="accent"
-        style={styles.myCartButton}      
-        onClick={() => setScreenMode('checkout')}>
-        CHECKOUT
-      </Button>
+        <Button
+          type="accent"
+          style={styles.myCartButton}      
+          onClick={() => setScreenMode('checkout')}>
+          CHECKOUT
+        </Button>       
+        <LinearGradient
+          colors={['#FFFFFF00',  '#ffffffff']}
+            style={{
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                bottom: 90,      
+                height: 70,
+            }}/>
       </View>
     ) : (
       <View style={{flexDirection: 'row'}}>  
@@ -585,8 +594,8 @@ export const MyOrderScreen = ({ navigation }) => {
       <View style={styles.swipe}>
         <FingerSVG height={25} width={25}/>
         <AppText numberofLines={2} style={styles.swipeText}>Swipe left to remove an item.</AppText>
-      </View>         
-    </View>
+      </View>
+    </View>   
   </Screen>)
   :   ( <Screen hasList isLoading={isLoading} showHeaderOverLayOnScroll stickyBottom={(<StickyButton/>)}> 
       <View style={styles.container}>
@@ -1001,6 +1010,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     right:0,
     left:0,
+    backgroundColor:"#ffffff"
   },
 
   viewOrder: {
