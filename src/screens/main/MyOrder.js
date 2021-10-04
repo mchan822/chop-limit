@@ -39,7 +39,8 @@ import {
   updatedNotes,
   updatePromoCode,
   setOrderProduct,
-  setBanner
+  setBanner,
+  clearNotification
 } from '~/store/actions';
 import { DashedLine } from '../../components';
 import FingerSVG from '~/assets/images/finger.svg';
@@ -80,6 +81,80 @@ export const MyOrderScreen = ({ navigation }) => {
       setPaymentType('2');
     }
   },[territory]);
+
+  useEffect(() => {
+    if(paymentType == 2 && deliveryMode == 'deliver')
+    dispatch( showNotification({
+      type: 'fullScreen',
+      autoHide: false,
+      options: { align: 'right' },
+      message: (
+        <>     
+          <View style={styles.avatarContainer}>
+          <Icon size={120} color='#31D457' name="cash-usd" />
+          </View>                      
+            <AppText
+            style={{
+              fontSize: 17,
+              color: 'white',                          
+              textAlign: 'center',
+              marginTop: 10,
+              fontWeight: 'bold'
+            }}>CHOOSING TO PAY CASH
+            </AppText>
+          <AppText
+            style={{
+              fontSize: 12,
+              color: 'white',                          
+              textAlign: 'center',
+              marginTop: 10,
+              marginBottom: 20
+            }}>
+            Please make sure you have the exact amount of the order available in cash, when the delivery person arrives.
+          </AppText>
+          <AppText
+            style={{
+              fontSize: 17,
+              color: 'white',                          
+              textAlign: 'center',
+              marginTop: 10,
+              fontWeight: 'bold'
+            }}>IMPORTANT
+            </AppText>
+          <AppText
+            style={{
+              fontSize: 12,
+              color: 'white',                          
+              textAlign: 'center',
+              marginTop: 10,
+              marginBottom: 20
+            }}>
+            The delivery person can not accept debit or credit cards. Otherwise please choose to "Pay Now" by credit card.
+          </AppText>
+          <Button
+            type="white"
+            fullWidth
+            style={{marginTop:10}}
+            onClick={() => {                         
+              dispatch(clearNotification());
+              //setActiveTab(0);
+            }}>
+            I UNDERSTAND
+          </Button>
+          <Button
+            type="white"
+            style={{marginTop:10}}
+            fullWidth
+            onClick={() => {                         
+              dispatch(clearNotification());
+              setPaymentType(1);
+            }}>
+           PAY NOW BY CREDIT CARD INSTEAD
+          </Button>                       
+        </>
+      ),
+    }))
+  },[paymentType,deliveryMode]);
 
   const _pay_cash = useCallback(() => {
     if(orderDetail)
