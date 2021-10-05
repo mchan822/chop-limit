@@ -46,6 +46,7 @@ import { DashedLine } from '../../components';
 import FingerSVG from '~/assets/images/finger.svg';
 import OrderSVG from '~/assets/images/invoice_black.svg';
 import DealSVG from '~/assets/images/deal.svg';
+import MoneySVG from '~/assets/images/money.svg';
 import { AppEventsLogger } from "react-native-fbsdk-next";
 import LinearGradient from 'react-native-linear-gradient';
 export const MyOrderScreen = ({ navigation }) => {
@@ -91,7 +92,8 @@ export const MyOrderScreen = ({ navigation }) => {
       message: (
         <>     
           <View style={styles.avatarContainer}>
-          <Icon size={120} color='#31D457' name="cash-usd" />
+          <MoneySVG height={100} width={120} />    
+          {/* <Icon size={120} color='#31D457' name="cash-usd" /> */}
           </View>                      
             <AppText
             style={{
@@ -149,7 +151,7 @@ export const MyOrderScreen = ({ navigation }) => {
               dispatch(clearNotification());
               setPaymentType(1);
             }}>
-           PAY NOW BY CREDIT CARD INSTEAD
+           PAY NOW BY CREDIT CARD
           </Button>                       
         </>
       ),
@@ -629,7 +631,7 @@ export const MyOrderScreen = ({ navigation }) => {
                 position: 'absolute',
                 left: 0,
                 right: 0,
-                bottom: 90,      
+                bottom: 92,      
                 height: 70,
             }}/>
       </View>

@@ -92,10 +92,10 @@ export const OrderDetailsScreen = ({ navigation }) => {
             </View>}
           </View>
           <View style={styles.orderInfo}>
-            {orderDetail.stripe_card != "" &&
+            {orderDetail.card != "" &&
             <View style={styles.part}>
               <AppText style={styles.field}>Credit Card</AppText>
-              <AppText style={styles.value}>{orderDetail.stripe_card}</AppText>
+              <AppText style={styles.value}>{orderDetail.card}</AppText>
             </View>}
             <View style={styles.part}>
               <AppText style={styles.field}>Order Date</AppText>
