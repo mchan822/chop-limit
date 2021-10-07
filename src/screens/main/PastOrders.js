@@ -68,11 +68,9 @@ export const PastOrdersScreen = () => {
       </View>
       ),
     });
-
-   
-
     return tabData;
   }, [pastOrders]);
+
   useEffect(() => {    
     PastOrdersScreen.navigationOptions = ({ navigation }) =>
       MainNavigationOptions({
@@ -85,7 +83,8 @@ export const PastOrdersScreen = () => {
           color: Theme.color.accentColor,
         },
       });
-  },[pastOrders])
+  },[pastOrders]);
+
   useEffect(() => {    
     if(token){
       console.log("aaaaaaaasdfsdfaaaaaaaaaaaaa",token);
@@ -95,34 +94,13 @@ export const PastOrdersScreen = () => {
           authorization: `Bearer ${token}`,
         },
       })
-      .then(async (res) => {
-        
-        // setPastOrders(
-        //   res.data.orders.filter((item) => item.status_name === 'Paid'),
-        // );
-       
-       
-         setPastOrders(res.data.orders);
-        // await fetchAPI('/subscriptions', {
-        //   method: 'POST',
-        //   headers: {
-        //     authorization: `Bearer ${token}`,
-        //   },
-        // })
-        // .then((res) => {         
-        //   console.log(res.data.subscriptions);
-        //   setSubscriptions(res.data.subscriptions);
-        // })
-        // .catch((err) =>
-        //   dispatch(showNotification({ type: 'error', message: err.message })),
-        // )
+      .then(async (res) => {            
+         setPastOrders(res.data.orders);      
       })
       .catch((err) =>
         dispatch(showNotification({ type: 'error', message: err.message })),
-    )
-    
-  }
-  }, [token,subscriptionCancelledUpdated]);
+    )}
+  },[token,subscriptionCancelledUpdated]);
 
   const navigateToSellers = (
     category
