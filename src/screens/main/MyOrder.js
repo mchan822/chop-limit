@@ -354,7 +354,7 @@ export const MyOrderScreen = ({ navigation }) => {
         dispatch(updatedNotes(res.data.notes));
         setNote(res.data.notes);
         dispatch(setTerritory(res.data.territory));     
-        console.log("@@res.data.territory_distance",res.data.territory_distance,res.data.territory.delivery_area_radius);  
+        console.log("@@res.data.territory_distance",res.data);  
         setDeliveryDisabled(
           +res.data.territory_distance >
             +res.data.territory.delivery_area_radius || res.data.territory.offer_delivery == '0',
@@ -914,7 +914,27 @@ export const MyOrderScreen = ({ navigation }) => {
                         // `${orderDetail.currency_icon} ${(+orderDetail.pickup_total_amount).toFixed(2)}`
                       }
                     </AppText>
-                  </View> }              
+                  </View> }    
+                  <DashedLine styleContainer={{ marginTop: 5, marginBottom:10, borderRadius: 1, }}/>   
+                  <View style={styles.summaryRow}>
+                    <AppText style={styles.summaryKey}>
+                      Sub-total
+                      {/* ({orderDetail.taxes_percentage}%) */}
+                    </AppText>
+                    <AppText style={styles.summaryValue}>
+                      {deliveryMode === 'deliver'
+                        ? `${
+                            orderDetail.territory.currency.icon
+                          } ${(+orderDetail.cart_total_amount - orderDetail.tax_amount_with_delivery).toFixed(
+                            2,
+                          )}`
+                        : `${
+                            orderDetail.territory.currency.icon
+                          } ${(+orderDetail.cart_total_amount - orderDetail.tax_amount_without_delivery).toFixed(
+                            2,
+                          )}`}
+                    </AppText>
+                  </View>       
                   <View style={styles.summaryRow}>
                     <AppText style={styles.summaryKey}>
                       Tax
@@ -934,9 +954,29 @@ export const MyOrderScreen = ({ navigation }) => {
                           )}`}
                     </AppText>
                   </View>
+                  <DashedLine styleContainer={{ marginTop: 5, marginBottom:10,borderRadius: 1 }}/>  
+                  <View style={styles.summaryRow}>
+                    <AppText style={styles.summaryKey_bold}>
+                      Order Total
+                      {/* ({orderDetail.taxes_percentage}%) */}
+                    </AppText>
+                    <AppText style={styles.summaryValue}>
+                      {deliveryMode === 'deliver'
+                        ? `${
+                            orderDetail.territory.currency.icon
+                          } ${(+orderDetail.cart_total_amount).toFixed(
+                            2,
+                          )}`
+                        : `${
+                            orderDetail.territory.currency.icon
+                          } ${(+orderDetail.cart_total_amount).toFixed(
+                            2,
+                          )}`}
+                    </AppText>
+                  </View>                
                   {territory &&  territory.activate_tip == '1' ? <View style={styles.summaryRow}>
                     <AppText style={styles.summaryKey}>
-                      Tip({tipValue}%)
+                      {tipValue != '' ? "Tip("+tipValue+"% of Sub-total" : "Tip"}
                       {/* ({orderDetail.taxes_percentage}%) */}
                     </AppText>
                     <AppText style={styles.summaryValue}>
@@ -1116,6 +1156,11 @@ const styles = StyleSheet.create({
 
   summaryKey: {
     fontSize: 16,
+  },
+
+  summaryKey_bold: {
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 
   summaryKey_tip: {
