@@ -21,12 +21,14 @@ export const ProfileScreen = ({ navigation }) => {
   const message = useMemo(() => navigation.getParam('message'));
 
   useEffect(() => {
-    setUser({
-      ...user,
-      firstName: userInfo.firstName,
-      lastName: userInfo.lastName,
-      email: userInfo.email,
-    });
+    if(userInfo){
+      setUser({
+        ...user,
+        firstName: userInfo.firstName,
+        lastName: userInfo.lastName,
+        email: userInfo.email,
+      });
+    }
   }, [userInfo]);
 
   const _save = useCallback(() => {

@@ -475,12 +475,12 @@ export const MyOrderScreen = ({ navigation }) => {
         NavigationService.reset('Home');
       })
       .catch((err) =>
-        dispatch(showNotification({ type: 'error', message: res.message })),
-      );
+        {dispatch(showNotification({ type: 'error', message: err.message }));NavigationService.reset('Home');}
+      )
+      .finally(() => setLoading(false));
   }, [order]);
 
   useEffect(() => {
-    console.log("is updated CARD !@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",isUpdateCard);
     if (token) {      
       setLoading(true);
       fetchAPI(`/myaccount/cards`, {
