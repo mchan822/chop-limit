@@ -10,13 +10,6 @@ import { Screen, Button, AppText } from '~/components';
 import { NavigationService } from '~/core/services';
 import { MainNavigationOptions, Theme } from '~/styles';
 
-import { setTerritoryType,cancelOrder } from '~/store/actions';
-import { Config } from '~/core/config';
-import { fetchAPI } from '~/core/utility';
-
-import analytics from '@react-native-firebase/analytics';
-import { AppEventsLogger } from "react-native-fbsdk-next";
-
 export const PromoCodeCopyScreen = ({ navigation }) => {
   const promoCode = useMemo(() => navigation.getParam('promoCode'), []);
   const dispatch = useDispatch();
@@ -77,8 +70,11 @@ export const PromoCodeCopyScreen = ({ navigation }) => {
           <Button 
             style={{width:"100%", marginTop:20, }}
             onClick={() => {
-              dispatch(setTerritory(promoCode.territory));
-              NavigationService.navigate('Products');
+              NavigationService.goBack();
+              NavigationService.goBack();
+              NavigationService.goBack();
+              //dispatch(setTerritory(promoCode.territory));
+              //NavigationService.navigate('Products');
             }}>
             <AppText style={{textTransform: 'uppercase', fontWeight: 'bold',}}> Go To {promoCode.territory.name} </AppText>
           </Button>
