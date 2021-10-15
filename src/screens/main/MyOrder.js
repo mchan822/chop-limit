@@ -354,7 +354,8 @@ export const MyOrderScreen = ({ navigation }) => {
         dispatch(updatedNotes(res.data.notes));
         setNote(res.data.notes);
         dispatch(setTerritory(res.data.territory));     
-        console.log("@@res.data.territory_distance",res.data);  
+        console.log("@@$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",res.data);  
+        console.log("@@res.data.territory_distance",res.data.territory_distance, res.data.territory.delivery_area_radius);  
         setDeliveryDisabled(
           +res.data.territory_distance >
             +res.data.territory.delivery_area_radius || res.data.territory.offer_delivery == '0',
@@ -1026,16 +1027,17 @@ export const MyOrderScreen = ({ navigation }) => {
                 </View>
                 <DashedLine/>
                 <View style={styles.tipTitle}>
-                    <AppText style={styles.summaryKey_tip}>
-                      Payment Type 
-                    </AppText>
-                <View style={styles.radio}>
-                  {territory && territory.pay_type_pay_now_active == true &&  
-                  <CheckBox containerStyle={styles.radioBackground} title="Pay Now(Credit Card)" checkedColor={Theme.color.accentColor} checked={paymentType=='1' ? true : false} checkedIcon='dot-circle-o'  onPress = {() => {setPaymentType('1');}}  uncheckedIcon='circle-o'/>
-                  }
-                  <CheckBox containerStyle={styles.radioBackground} title={deliveryMode === 'pickup' ? "Pay In Person" : "Pay Cash"} checkedColor={Theme.color.accentColor} checked={paymentType=='2' ? true : false} checkedIcon='dot-circle-o'  onPress = {() => {setPaymentType('2');}}  uncheckedIcon='circle-o'/>
-                  </View>
-                </View> 
+                  <AppText style={styles.summaryKey_tip}>
+                      {territory.pay_type_cash_on_delivery_active ==  true ? "Payment Type": (cards && cards.length > 0) && "Payment"} 
+                  </AppText>
+                  {territory.pay_type_cash_on_delivery_active == true &&
+                  <View style={styles.radio}>
+                    {territory && territory.pay_type_pay_now_active == true &&  
+                    <CheckBox containerStyle={styles.radioBackground} title="Pay Now(Credit Card)" checkedColor={Theme.color.accentColor} checked={paymentType=='1' ? true : false} checkedIcon='dot-circle-o'  onPress = {() => {setPaymentType('1');}}  uncheckedIcon='circle-o'/>
+                    }
+                    <CheckBox containerStyle={styles.radioBackground} title={deliveryMode === 'pickup' ? "Pay In Person" : "Pay Cash"} checkedColor={Theme.color.accentColor} checked={paymentType=='2' ? true : false} checkedIcon='dot-circle-o'  onPress = {() => {setPaymentType('2');}}  uncheckedIcon='circle-o'/>
+                  </View>}
+                </View>
                 <View style={{flexDirection:'column', backgroundColor:'#e1e1e1', marginLeft:20, marginRight:20,marginBottom:10}}>
                     {((paymentType=='1' && cards && cards.length) != 0) &&
                     <View>
