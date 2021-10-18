@@ -977,7 +977,7 @@ export const MyOrderScreen = ({ navigation }) => {
                   </View>                
                   {territory &&  territory.activate_tip == '1' ? <View style={styles.summaryRow}>
                     <AppText style={styles.summaryKey}>
-                      {tipValue != '' ? "Tip("+tipValue+"% of Sub-total" : "Tip"}
+                      {tipValue != '' ? "Tip ("+tipValue+"% of Sub-total)" : "Tip"}
                       {/* ({orderDetail.taxes_percentage}%) */}
                     </AppText>
                     <AppText style={styles.summaryValue}>
