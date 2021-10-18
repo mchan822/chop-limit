@@ -97,7 +97,7 @@ export const GetAccessScreen = () => {
           SUPPORT{'\n'}Locally-owned{'\n'}Restaurants.
         </AppText>
         <AppText style={[ styles.subTitle]}>
-          Unlike other food delivery apps, Chow Local™ does not charge restaurants crazy commissions.
+          Unlike other food delivery apps, Chow Local™ does not charge restaurants any commissions.
         </AppText>      
         <Animated.View style={[styles.inputWrapper, { maxHeight: 80 }]}>
           <PhoneInput          

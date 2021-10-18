@@ -62,7 +62,7 @@ export const StartSellingScreen = ({ navigation }) => {
     return (
         <Screen isLoading={isLoading} keyboardAware={true}>
             <View style={styles.container}>
-                <AppText style={styles.formHeading}>Chow Local® is exclusively for locally owned and operated restaurants. Unlike other delivery apps we don't charge restaurants crazy commissions.</AppText>
+                <AppText style={styles.formHeading}>Chow Local® is exclusively for locally owned and operated restaurants. Unlike other delivery apps we don't charge restaurants any commissions.</AppText>
                 <Input
                 style={GlobalStyles.formControl}
                 title="Restaurant"
