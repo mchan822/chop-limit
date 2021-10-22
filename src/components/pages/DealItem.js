@@ -8,7 +8,6 @@ export const DealItem = ({
     item,
     onPress
  }) => (
-     console.log("##################",item),
      item.type == "promo_code" ?
     <View style={{backgroundColor: "#EFEFEF", flexDirection: "row", padding: 10, justifyContent:"space-between",marginTop: 10}}>
         <View style={{flexDirection: "row", flex: 0.6}}>

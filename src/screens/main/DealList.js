@@ -15,7 +15,7 @@ export const DealListScreen = ({ navigation }) => {
   const userinfo =  useSelector((state) => state.account.userInfo);
   const [isLoading, setLoading] = useState(false);
   const [dealList, setDealList] = useState(false);
-
+  const guestToken = useSelector((state) => state.account.guestToken);
   const token = useSelector((state) => state.account.token);
   const explorer = useSelector((state) => state.explorer);
   const order = useSelector((state) => state.order.order);

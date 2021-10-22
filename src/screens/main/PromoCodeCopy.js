@@ -12,6 +12,7 @@ import { MainNavigationOptions, Theme } from '~/styles';
 
 export const PromoCodeCopyScreen = ({ navigation }) => {
   const promoCode = useMemo(() => navigation.getParam('promoCode'), []);
+  console.log(promoCode,"!!!!!!!!!");
   const dispatch = useDispatch();
   const userInfo = useSelector(
     (state) => state.account && state.account.userInfo,
@@ -57,7 +58,7 @@ export const PromoCodeCopyScreen = ({ navigation }) => {
           <View style={{marginTop:20}}><Icon size={120} color={ Theme.color.accentColor} name="emoticon-happy-outline" /></View>
           <AppText style={{textTransform:'uppercase', fontWeight: "bold"}}>Promo code Copied</AppText>
           <View style={{}}>
-            <AppText style={{marginTop:20}}>{promoCode.territory.name+"'s promo code "+promoCode.name+" has been copied. Paste the code at checkout to save "+(promoCode.discount_type=='fixed'?"$":"")+promoCode.discount+(promoCode.discount_type=='fixed'?"":"%")}</AppText>
+            <AppText style={{marginTop:20}}>{promoCode.territory.name+"'s promo code "+promoCode.promo_code.name+" has been copied. Paste the code at checkout to save "+(promoCode.promo_code.discount_type=='fixed'?"$":"")+promoCode.promo_code.discount+(promoCode.promo_code.discount_type=='fixed'?"":"%")}</AppText>
           </View>
           {/* <Button 
             style={{width:"100%", marginTop:20, }}
