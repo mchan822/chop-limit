@@ -13,7 +13,6 @@ import GeoCoder from 'react-native-geocoding';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { showLocation } from 'react-native-map-link';
 import { Config } from '~/core/config';
-
 import { useSelector, useDispatch } from 'react-redux';
 
 import { NavigationService } from '~/core/services';
@@ -74,7 +73,6 @@ export const MyOrderScreen = ({ navigation }) => {
   const [note, setNote] =  useState();
   const [noteLink, setNoteLink] =  useState();
   const [screenMode, setScreenMode] =  useState('myorder');
-
   useEffect(() => {
     if(territory && territory.pay_type_pay_now_active == true) {
       setPaymentType('1');
@@ -210,6 +208,7 @@ export const MyOrderScreen = ({ navigation }) => {
         .finally(() => setLoading(false));
     }
   }, [userInfo, deliveryMode, tipValue, orderDetail]);
+
   const _pay = useCallback(() => {
     if(orderDetail)
     AppEventsLogger.logEvent('Initiate Checkout',orderDetail.cart_total_amount,{
@@ -755,7 +754,8 @@ export const MyOrderScreen = ({ navigation }) => {
                     )}
                   </>
                 )}
-                {orderDetail && geoCode && (
+             
+                {/* {orderDetail && geoCode && (
                   <View style={styles.mapContainer}>
                     <MapView
                       style={styles.map}
@@ -820,26 +820,44 @@ export const MyOrderScreen = ({ navigation }) => {
                       </TouchableOpacity>
                     )}
                   </View>
-                )}
+                )} */}
               </>
             )}
-            ListFooterComponent={() => (
-              
+            ListFooterComponent={() => (              
               <View style={styles.footer}>
+                {orderDetail && (<View style={styles.tipTitle}>
+                  <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+                    <AppText style={styles.summaryYour_order}>
+                        Your Order                    
+                    </AppText>
+                    <AppText style={styles.summaryEdit_order} onPress={() => NavigationService.navigate('MyOrderETAChange',{territory_id: orderDetail.territory_id, address_id: orderDetail.address_id, is_pre_order: orderDetail.is_pre_order, preOrderDateString: orderDetail.pre_order_date_string })}>
+                        Edit                    
+                    </AppText>
+                  </View>
+                  <View style={{flexDirection:'row'}}>
+                    <Icon name="clock-time-four-outline" style={{marginTop:10}} size={20} />
+                    <AppText style={styles.summaryASAP_order}>  {orderDetail.is_pre_order==true ? orderDetail.pre_order_date_string : "ASAP (30-45min)"}</AppText>
+                  </View>
+                  <View style={{flexDirection:'row'}}>
+                    <Icon name="map-marker-radius-outline" style={{marginTop:10}} size={20} />
+                    <AppText style={styles.summaryASAP_order}>  {deliveryMode=="pickup" ? orderDetail.territory.warehouse_address : orderDetail.address_data.address}</AppText>
+                  </View>
+                </View>)}
+
                 <View style={styles.summary}>
-                 <TouchableOpacity activeOpacity={0.7} style={styles.viewOrder} onPress={() => setScreenMode('myorder')}>
-                   <OrderSVG height={25} width={25}></OrderSVG>
-                   <AppText style={{fontSize:15,fontWeight:'bold', width:'100%', paddingLeft:10}} >View your Order</AppText>
-                </TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.7} style={styles.viewPromoCode} onPress={() => NavigationService.navigate('PromoCodeEdit')}>
-                   <DealSVG height={25} width={25}></DealSVG>
-                   <AppText style={{fontSize:15,fontWeight:'bold', paddingLeft:10}} >Add A Promo Code</AppText>
-                   <AppText style={styles.promoCodeText} numberOfLines={1}>{' '}
-                      {orderDetail.promo_code_name}
-                    </AppText> 
-                </TouchableOpacity>
-                <DashedLine/>
-                {territory && territory.activate_tip == '1' ? <View style={styles.tipTitle}>
+                  <TouchableOpacity activeOpacity={0.7} style={styles.viewOrder} onPress={() => setScreenMode('myorder')}>
+                    <OrderSVG height={25} width={25}></OrderSVG>
+                    <AppText style={{fontSize:15,fontWeight:'bold', width:'100%', paddingLeft:10}} >View your Order</AppText>
+                  </TouchableOpacity>
+                  <TouchableOpacity activeOpacity={0.7} style={styles.viewPromoCode} onPress={() => NavigationService.navigate('PromoCodeEdit')}>
+                    <DealSVG height={25} width={25}></DealSVG>
+                    <AppText style={{fontSize:15,fontWeight:'bold', paddingLeft:10}} >Add A Promo Code</AppText>
+                    <AppText style={styles.promoCodeText} numberOfLines={1}>{' '}
+                        {orderDetail.promo_code_name}
+                      </AppText> 
+                  </TouchableOpacity>
+                  <DashedLine/>
+                  {territory && territory.activate_tip == '1' ? <View style={styles.tipTitle}>
                     <AppText style={styles.summaryKey_tip}>
                       Add a Tip?                      
                     </AppText>
@@ -1168,6 +1186,25 @@ const styles = StyleSheet.create({
   summaryKey_tip: {
     fontSize:16,
     marginTop:15
+  },
+
+  summaryYour_order: {
+    fontSize:16,
+    marginTop:15,
+    fontWeight:'bold'
+  },
+
+  summaryASAP_order: {
+    fontSize:15,
+    marginTop:10,    
+  },
+
+  summaryEdit_order: {
+    fontSize:16,
+    marginTop:15,
+    color: Theme.color.accentColor,
+    fontWeight:'bold',
+    alignItems:'flex-end'
   },
 
   tipTitle: {

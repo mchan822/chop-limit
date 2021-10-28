@@ -75,6 +75,7 @@ import {
   PromoCodeCopyScreen,
   PromoCodeDetailScreen,
   CreditCardListScreen,
+  MyOrderETAChangeScreen
 } from '../screens';
 
 const AppNavigator = createStackNavigator(
@@ -225,6 +226,9 @@ const AppNavigator = createStackNavigator(
     },
     MyOrder: {
       screen: MyOrderScreen,
+    },
+    MyOrderETAChange: {
+      screen: MyOrderETAChangeScreen,
     },
     OpenOrder: {
       screen: OpenOrder,

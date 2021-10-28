@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 
 import { AppText } from '~/components';
-
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export const DealItem = ({ 
     item,
@@ -40,7 +40,8 @@ export const DealItem = ({
                
         <View style={{flex: 0.4}}>
             
-            <View style={{flex: 1}}><AppText style={{fontSize: 11, fontWeight: String(400), textAlign: 'right'}}> {item.promo_code.has_expiry_date == false ? "NO EXPIRY" : item.promo_code.expires_in} </AppText></View>
+            <View style={{flex: 1}}><AppText style={{fontSize: 11, fontWeight: String(400), textAlign: 'right'}}> <Icon size={15} color={'#000'} name="content-copy" /> COPY CODE</AppText></View> 
+            {/* {item.promo_code.has_expiry_date == false ? "COPY CODE" : item.promo_code.expires_in}  */}
             <View style={{marginTop: 3, flex: 1}}><AppText numberOfLines={1} style={{fontSize: 13, color: '#31D457', fontWeight: String(400), textAlign: 'right'}}> {item.promo_code.name} </AppText></View>
         </View>             
     </View> :
@@ -75,7 +76,7 @@ export const DealItem = ({
                
         <View style={{flex: 0.4}}>
             
-            <View style={{flex: 1}}><AppText style={{fontSize: 11, fontWeight: String(400), textAlign: 'right'}}>NO EXPIRY</AppText></View>
+            <View style={{flex: 1}}><AppText style={{fontSize: 11, fontWeight: String(400), textAlign: 'right'}}><Icon size={15} color={'#000'} name="content-copy" />COPY CODE</AppText></View>
             <View style={{marginTop: 3, flex: 1}}><AppText numberOfLines={1} style={{fontSize: 13, color: '#31D457', fontWeight: String(400), textAlign: 'right'}}></AppText></View>
         </View>             
     </View> :
@@ -110,9 +111,8 @@ export const DealItem = ({
                 </View>
             </View>
                 
-            <View style={{flex: 0.4}}>
-                
-                <View style={{flex: 1}}><AppText style={{fontSize: 11, fontWeight: String(400), textAlign: 'right'}}>NO EXPIRY</AppText></View>
+            <View style={{flex: 0.4}}>                
+                <View style={{flex: 1}}><AppText style={{fontSize: 11, fontWeight: String(400), textAlign: 'right'}}><Icon size={15} color={'#000'} name="content-copy" /> COPY CODE</AppText></View>
                 
             </View>    
         </View>    
@@ -133,7 +133,7 @@ export const DealItem = ({
         opacity: 0.8,
         paddingHorizontal: 60
     },
-    content_left: {
+    content_left: { 
         flexDirection: 'row'
     },
     messageContainer: {
