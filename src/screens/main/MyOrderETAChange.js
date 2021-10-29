@@ -59,6 +59,8 @@ export const MyOrderETAChangeScreen = ({navigation}) => {
   const [changedAddress_id, setChangedAddress] = useState(navigation.getParam('address_id'));
   const is_pre_order = useMemo(() => navigation.getParam('is_pre_order'), []);
   const preOrderDateString = useMemo(() => navigation.getParam('preOrderDateString'), []);
+  const operationTime = useMemo(() => navigation.getParam('operationTime'), []);
+  const [operationTimeText, setOperationTimeText] = useState('');
   const [etaType, setETAType] = useState(navigation.getParam('is_pre_order') == false ? 1 : 2);
   const [preOrder, setPreOrder] = useState('');
   const [calendarString, setCalendarString] = useState(navigation.getParam('is_pre_order') == false ? 'Pre-order for later' : navigation.getParam('preOrderDateString'));
@@ -152,17 +154,19 @@ export const MyOrderETAChangeScreen = ({navigation}) => {
     }
   }, [dispatch, order, territory_id]);
 
-  useEffect(() =>{    
-    const dateRegina = moment(orderDate).tz('America/Regina').format();
+  useEffect(() =>{ 
+      
+    const dateRegina = moment(orderDate).tz('America/Regina').format();    
     const preOrderTime = new Date(dateRegina.substring(0,19)+".000Z");
-    setPreOrder(preOrderTime);
-    
-    console.log("@@@@@@@@@@@@", moment(dateRegina).format('h:mm A'));
+    var indexDay = preOrderTime.getDay() == 0 ? 6 : preOrderTime.getDay() - 1;
+    console.log("@@@@@@@3333",indexDay,operationTime[indexDay]); 
+    setOperationTimeText("We’re open from "+operationTime[indexDay].from + " to " + operationTime[indexDay].till);
+    setPreOrder(preOrderTime);    
+    // console.log("@@@@@@@@@@@@", moment(dateRegina).format('h:mm A'));
     const second =  new Date(orderDate);
-    second.setMinutes(second.getMinutes() + 30);
-    
-    console.log("@@@@@@@@@@@@", moment(preOrderTime).format('MM-DD-YYYY hh:mm a'));
-    setTime(second);
+    second.setMinutes(second.getMinutes() + 30);    
+    // console.log("@@@@@@@@@@@@", moment(preOrderTime).format('MM-DD-YYYY hh:mm a'));
+    // setTime(second);
   },[orderDate]);
 
   const setPreOrderASAP = useCallback(() => {
@@ -186,7 +190,7 @@ export const MyOrderETAChangeScreen = ({navigation}) => {
       .finally(() => setLoading(false));
   },[token,dispatch])
 
-  const setPreOrderData = useCallback((preOrder) => {
+  const setPreOrderData = useCallback((preOrder) => {    
     const dateRegina = moment(orderDate).tz('America/Regina').format();
     const second =  new Date(dateRegina);
     second.setMinutes(second.getMinutes() + 30);
@@ -205,28 +209,36 @@ export const MyOrderETAChangeScreen = ({navigation}) => {
       body: formData,
     })
       .then((res) => {
-        dispatch(showNotification({ type: 'success', message: res.message }))
-        dispatch(changedAddress(!order_addressChanged));
+        console.log("###############",res);
+        if(res.message_type == "warning"){
+          dispatch(showNotification({ type: 'error', message: res.message }));
+        } else {
+          setShowTimePicker(false);
+          dispatch(showNotification({ type: 'success', message: res.message }));
+          dispatch(changedAddress(!order_addressChanged));
+        }
       })
-      .catch((err) =>
-        dispatch(showNotification({ type: 'error', message: err.message })),
+      .catch((err) => {
+        dispatch(showNotification({ type: 'error', message: err.message }));
+        NavigationService.reset('Home');}
       )
       .finally(() => setLoading(false));
   },[orderDate,token])
 
-  const MyCart = () => {    
+  const MyCart = () => {
     return (
-      <View style={{...styles.myCartscreen, top: -windowHeight}}>
-        <View style={{height:250,bottom:0, right:0, left:0, top: windowHeight - 250, backgroundColor: 'white'}}>
-          <View style={{flexDirection:'row', paddingHorizontal:20}}>
-            <DatePicker style={{height:150, flex:3, marginTop: 15}} date={orderDate} minimumDate={new Date()} maximumDate={new Date(new Date().setDate(new Date().getDate() + 7))} onDateChange={setDate} minuteInterval={15} androidVariant="iosClone" />
-            <AppText style={{justifyContent:"center", marginTop:80}}>~</AppText>
-            <DatePicker style={{height:150, flex:2,marginTop: 15}} mode="time" date={time} minuteInterval={15} readOnly={true}  />
+      <View style={{...styles.myCartscreen, top: -windowHeight}} onPress={() => {setShowTimePicker(false)}}>
+        <View style={{height:280,bottom:0, right:0, left:0, top: windowHeight - 280, backgroundColor: 'white'}}>
+          <AppText style={{paddingHorizontal: 10, textAlign: 'center', fontWeight: 'bold', marginTop:15,fontSize: 16}}>{operationTimeText}</AppText> 
+          <View style={{flexDirection: 'row', paddingHorizontal: 20}}>
+            <DatePicker style={{height:150, flex:4, marginTop: 15}} date={orderDate} minimumDate={new Date()} maximumDate={new Date(new Date().setDate(new Date().getDate() + 6))} onDateChange={setDate} minuteInterval={15} androidVariant="iosClone" />
+            {/* <AppText style={{justifyContent:"center", marginTop:80}}>~</AppText> */}
+            {/* <DatePicker style={{height:150, flex:2,marginTop: 15}} mode="time" date={time} onDateChange={setTime} minuteInterval={15}  /> */}
           </View>
           <Button
             type="accent"
             style={styles.myCartButton}
-            onClick={() => {setShowTimePicker(false); setPreOrderData(preOrder)}}>
+            onClick={() => {setPreOrderData(preOrder)}}>
             Save
           </Button>
         </View>

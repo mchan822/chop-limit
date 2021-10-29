@@ -722,8 +722,7 @@ export const MyOrderScreen = ({ navigation }) => {
                       </View>
                     </View>
                     {!isPickupDisabled && (
-                      <View style={styles.deliveryInfo}>
-                        {console.log("#############################################",isDeliveryDisabled)}
+                      <View style={styles.deliveryInfo}>                    
                         {!isDeliveryDisabled ?
                         <DeliveryMode
                           name="Get it delivered"
@@ -830,7 +829,7 @@ export const MyOrderScreen = ({ navigation }) => {
                     <AppText style={styles.summaryYour_order}>
                         Your Order                    
                     </AppText>
-                    <AppText style={styles.summaryEdit_order} onPress={() => NavigationService.navigate('MyOrderETAChange',{territory_id: orderDetail.territory_id, address_id: orderDetail.address_id, is_pre_order: orderDetail.is_pre_order, preOrderDateString: orderDetail.pre_order_date_string })}>
+                    <AppText style={styles.summaryEdit_order} onPress={() => NavigationService.navigate('MyOrderETAChange',{territory_id: orderDetail.territory_id, address_id: orderDetail.address_id, is_pre_order: orderDetail.is_pre_order, preOrderDateString: orderDetail.pre_order_date_string, operationTime: orderDetail.territory.operation_times })}>
                         Edit                    
                     </AppText>
                   </View>
