@@ -214,7 +214,7 @@ export const MyOrderETAChangeScreen = ({navigation}) => {
           dispatch(showNotification({ type: 'error', message: res.message }));
         } else {
           setShowTimePicker(false);
-          dispatch(showNotification({ type: 'success', message: res.message }));
+          // dispatch(showNotification({ type: 'success', message: res.message }));
           dispatch(changedAddress(!order_addressChanged));
         }
       })
@@ -264,7 +264,7 @@ export const MyOrderETAChangeScreen = ({navigation}) => {
                     <Icon size={22} color={'#333'} name="clock-time-four-outline" />
                   </View>
                   <View style={styles.addressWrapper}>
-                    <AppText style={{fontSize: 16}}>ASAP(30-45)min</AppText>
+                    <AppText style={{fontSize: 16}}>ASAP</AppText>
                   </View>
                   <TouchableOpacity
                     onPress={(ev) => {

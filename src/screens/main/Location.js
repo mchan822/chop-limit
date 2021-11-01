@@ -464,7 +464,7 @@ export const LocationScreen = ({navigation}) => {
   useEffect(() => {
     if (token) {      
       setLoading(true);
-      fetchAPI(`/myaccount/addresses?territory_id=${territory_id}`, {
+      fetchAPI(`/myaccount/addresses?territory_id=${territory_id == undefined ? '' : territory_id}`, {
         method: 'GET',
         headers: {
           authorization: `Bearer ${token}`,
@@ -492,9 +492,7 @@ export const LocationScreen = ({navigation}) => {
   }, [dispatch, order, mapRef,territory_id]);
 
   return (
-    <Screen isLoading={isLoading} hasList stickyBottom={<StickyBottom />} >    
-     
-      
+    <Screen isLoading={isLoading} hasList stickyBottom={<StickyBottom />} > 
       <View style={styles.container}>       
         {addresses && addresses.length > 0 && (
           <>

@@ -405,65 +405,67 @@ export const ProductScreen = ({ navigation }) => {
               } else if(product.is_subscription == true){
                 NavigationService.navigate('MyOrder');
               } else {
-                dispatch(
-                  showNotification({
-                    type: 'fullScreen',
-                    autoHide: false,
-                    options: { align: 'right' },
-                    message: (
-                      <>
-                        {/* <View style={{ position: 'absolute', top: 5, right: -20 }}>
-                          <Price style={{ height: 35, width: 120 }} />
-                        </View> */}
-                        <View>
-                        <CartSVG height={60} width={60}/> 
-                          {/* <Icon size={60} color="white" name="cart" /> */}
-                        </View>
-                        <AppText
-                          style={{
-                            fontSize: 18,
-                            color: 'white',
-                            fontWeight: 'bold',
-                            textAlign: 'center',
-                            marginTop: 10,
-                          }}>
-                          ITEM ADDED TO YOUR ORDER
-                        </AppText>
-                        {freeDeliveryNotice}
-                        <Button
-                          type="white"
-                          style={{ marginBottom: 10, marginTop: 20 }}
-                          fullWidth
-                          onClick={() => {
-                            dispatch(clearNotification());
-                            NavigationService.navigate('MyOrder');
-                          }}>
-                          View My Order
-                        </Button>
+                //NavigationService.navigate('MyOrder');
+                NavigationService.goBack();
+                // dispatch(
+                //   showNotification({
+                //     type: 'fullScreen',
+                //     autoHide: false,
+                //     options: { align: 'right' },
+                //     message: (
+                //       <>
+                //         {/* <View style={{ position: 'absolute', top: 5, right: -20 }}>
+                //           <Price style={{ height: 35, width: 120 }} />
+                //         </View> */}
+                //         <View>
+                //         <CartSVG height={60} width={60}/> 
+                //           {/* <Icon size={60} color="white" name="cart" /> */}
+                //         </View>
+                //         <AppText
+                //           style={{
+                //             fontSize: 18,
+                //             color: 'white',
+                //             fontWeight: 'bold',
+                //             textAlign: 'center',
+                //             marginTop: 10,
+                //           }}>
+                //           ITEM ADDED TO YOUR ORDER
+                //         </AppText>
+                //         {freeDeliveryNotice}
+                //         <Button
+                //           type="white"
+                //           style={{ marginBottom: 10, marginTop: 20 }}
+                //           fullWidth
+                //           onClick={() => {
+                //             dispatch(clearNotification());
+                //             NavigationService.navigate('MyOrder');
+                //           }}>
+                //           View My Order
+                //         </Button>
 
-                        <Button
-                          type="white"
-                          style={{ marginBottom: 10 }}
-                          fullWidth
-                          onClick={() => {
-                            dispatch(clearNotification());
-                            NavigationService.goBack();
-                          }}>
-                          View Menu
-                        </Button>
+                //         <Button
+                //           type="white"
+                //           style={{ marginBottom: 10 }}
+                //           fullWidth
+                //           onClick={() => {
+                //             dispatch(clearNotification());
+                //             NavigationService.goBack();
+                //           }}>
+                //           View Menu
+                //         </Button>
 
-                        <Button
-                          type="white"
-                          fullWidth
-                          onClick={() => {
-                            dispatch(clearNotification());
-                          }}>
-                          Back
-                        </Button>
-                      </>
-                    ),
-                  }),
-                );
+                //         <Button
+                //           type="white"
+                //           fullWidth
+                //           onClick={() => {
+                //             dispatch(clearNotification());
+                //           }}>
+                //           Back
+                //         </Button>
+                //       </>
+                //     ),
+                //   }),
+                // );
               }
             })
             .catch((err) =>{
