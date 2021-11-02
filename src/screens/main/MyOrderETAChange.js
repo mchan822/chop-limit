@@ -156,7 +156,7 @@ export const MyOrderETAChangeScreen = ({navigation}) => {
 
   useEffect(() =>{ 
       
-    const dateRegina = moment(orderDate).tz('America/Regina').format();    
+    const dateRegina = moment(orderDate).tz('America/Regina').format(); 
     const preOrderTime = new Date(dateRegina.substring(0,19)+".000Z");
     var indexDay = preOrderTime.getDay() == 0 ? 6 : preOrderTime.getDay() - 1;
     console.log("@@@@@@@3333",indexDay,operationTime[indexDay]); 
@@ -165,6 +165,8 @@ export const MyOrderETAChangeScreen = ({navigation}) => {
     // console.log("@@@@@@@@@@@@", moment(dateRegina).format('h:mm A'));
     const second =  new Date(orderDate);
     second.setMinutes(second.getMinutes() + 30);    
+
+    console.log("@@@@@@@********",new Date(),new Date(new Date().toISOString().substring(0,10))); 
     // console.log("@@@@@@@@@@@@", moment(preOrderTime).format('MM-DD-YYYY hh:mm a'));
     // setTime(second);
   },[orderDate]);
@@ -231,7 +233,7 @@ export const MyOrderETAChangeScreen = ({navigation}) => {
         <View style={{height:280,bottom:0, right:0, left:0, top: windowHeight - 280, backgroundColor: 'white'}}>
           <AppText style={{paddingHorizontal: 10, textAlign: 'center', fontWeight: 'bold', marginTop:15,fontSize: 16}}>{operationTimeText}</AppText> 
           <View style={{flexDirection: 'row', paddingHorizontal: 20}}>
-            <DatePicker style={{height:150, flex:4, marginTop: 15}} date={orderDate} minimumDate={new Date()} maximumDate={new Date(new Date().setDate(new Date().getDate() + 6))} onDateChange={setDate} minuteInterval={15} androidVariant="iosClone" />
+            <DatePicker style={{height: 150, flex:4, marginTop: 15}} date={orderDate} minimumDate={Platform.OS == 'ios' ? new Date(new Date().toISOString().substring(0,10)) : new Date()} maximumDate={new Date(new Date().setDate(new Date().getDate() + 6))} onDateChange={setDate} minuteInterval={15} androidVariant="iosClone" />
             {/* <AppText style={{justifyContent:"center", marginTop:80}}>~</AppText> */}
             {/* <DatePicker style={{height:150, flex:2,marginTop: 15}} mode="time" date={time} onDateChange={setTime} minuteInterval={15}  /> */}
           </View>
