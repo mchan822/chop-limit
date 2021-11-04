@@ -32,7 +32,7 @@ export const MessageRoomScreen = ({ navigation }) => {
   const [is_started, setIsStart] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const dispatch = useDispatch();
-
+  const [disableSendBtn, setDisableSendBtn] = useState(false);
   const scrollRef = useRef();
   const [isLoading, setLoading] = useState(false);
   const [messageList, setMessageList] = useState([]);
@@ -291,17 +291,20 @@ export const MessageRoomScreen = ({ navigation }) => {
             style={styles.footer}
           />
           <TouchableOpacity
+            disabled={disableSendBtn}
             style={Platform.OS === 'ios' ? { flex: 1, alignItems: 'center', justifyContent: 'center', marginTop:-10} : { flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 0} }
             onPress={() => {
               if(!newMessage) {
                 return;
               }
+              setDisableSendBtn(true);
               console.log("+++newMessage+++",newMessage);
 
               setLoading(true);
               const formData = new FormData();
 
               formData.append('territory',territory.tid);
+              
               formData.append('message', newMessage);
               if(userinfo)
               formData.append('first_name', userinfo.firstName);
@@ -325,12 +328,13 @@ export const MessageRoomScreen = ({ navigation }) => {
                   setMessageList(messageList.concat(msg));
                   if( scrollRef.current != undefined){
                     setTimeout(()=>{ scrollRef.current.scrollToEnd({animated: true})}, 500);
+                    setDisableSendBtn(false);
                   }
                   console.log("created response+++",res.data);
-                  dispatch(enterMessageRoom(newMessage));
+                  dispatch(enterMessageRoom(newMessage));                  
                 })
                 .catch((err) =>
-                  dispatch(showNotification({ type: 'error', message: err.message })),
+                  dispatch(showNotification({ type: 'error', message: err.message }))
                 )
                 .finally(() => setLoading(false));
             }}>

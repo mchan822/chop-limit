@@ -164,7 +164,7 @@ export const MyOrderETAChangeScreen = ({navigation}) => {
       if(has_operationTime == true && Object.keys(operationTime).length > 0)
       {    
         if(operationTime[indexDay] != undefined){
-          seperationTimeText("We’re open from "+operationTime[indexDay].from + " to " + operationTime[indexDay].till);
+          setOperationTimeText("We’re open from "+operationTime[indexDay].from + " to " + operationTime[indexDay].till);
         }
       }
     }
@@ -358,6 +358,15 @@ export const MyOrderETAChangeScreen = ({navigation}) => {
                 NavigationService.navigate('SelectDelivery3',{changeAddress:true, territory_id: territory_id});               
               }}>
               ADD AN ADDRESS
+            </Button>
+            <Button
+              type="white"
+              style={{marginTop: 10}}
+              fullWidth
+              onClick={() => {
+                NavigationService.goBack();               
+              }}>
+              BACK TO MY ORDER
             </Button>
       </View>
     </Screen>
