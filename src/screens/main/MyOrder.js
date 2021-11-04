@@ -825,19 +825,19 @@ export const MyOrderScreen = ({ navigation }) => {
             ListFooterComponent={() => (              
               <View style={styles.footer}>
                 {orderDetail && (<View style={styles.tipTitle}>
-                  <TouchableOpacity style={{flexDirection:'row', justifyContent:'space-between'}} onPress={()=> NavigationService.navigate('MyOrderETAChange',{territory_id: orderDetail.territory_id, address_id: orderDetail.address_id, is_pre_order: orderDetail.is_pre_order, preOrderDateString: orderDetail.pre_order_date_string, operationTime: orderDetail.territory.operation_times })}>
+                  <TouchableOpacity style={{flexDirection:'row', justifyContent:'space-between'}} onPress={()=> NavigationService.navigate('MyOrderETAChange',{territory_id: orderDetail.territory_id, address_id: orderDetail.address_id, is_pre_order: orderDetail.is_pre_order, preOrderDateString: orderDetail.pre_order_date_string, operationTime: orderDetail.territory.operation_times, has_operationTime: orderDetail.territory.has_operation_times  })}>
                     <AppText style={styles.summaryYour_order}>
                         Your Order                    
                     </AppText>
-                    <AppText style={styles.summaryEdit_order} onPress={() => NavigationService.navigate('MyOrderETAChange',{territory_id: orderDetail.territory_id, address_id: orderDetail.address_id, is_pre_order: orderDetail.is_pre_order, preOrderDateString: orderDetail.pre_order_date_string, operationTime: orderDetail.territory.operation_times })}>
+                    <AppText style={styles.summaryEdit_order} onPress={() => NavigationService.navigate('MyOrderETAChange',{territory_id: orderDetail.territory_id, address_id: orderDetail.address_id, is_pre_order: orderDetail.is_pre_order, preOrderDateString: orderDetail.pre_order_date_string, operationTime: orderDetail.territory.operation_times, has_operationTime: orderDetail.territory.has_operation_times })}>
                         Edit                    
                     </AppText>
                   </TouchableOpacity>
-                  <TouchableOpacity style={{flexDirection:'row', width:'50%'}} onPress={()=> NavigationService.navigate('MyOrderETAChange',{territory_id: orderDetail.territory_id, address_id: orderDetail.address_id, is_pre_order: orderDetail.is_pre_order, preOrderDateString: orderDetail.pre_order_date_string, operationTime: orderDetail.territory.operation_times })}>
+                  <TouchableOpacity style={{flexDirection:'row', width:'50%'}} onPress={()=> NavigationService.navigate('MyOrderETAChange',{territory_id: orderDetail.territory_id, address_id: orderDetail.address_id, is_pre_order: orderDetail.is_pre_order, preOrderDateString: orderDetail.pre_order_date_string, operationTime: orderDetail.territory.operation_times, has_operationTime: orderDetail.territory.has_operation_times  })}>
                     <Icon name="clock-time-four-outline" style={{marginTop:10}} size={20} />
                     <AppText style={styles.summaryASAP_order}>  {orderDetail.is_pre_order==true ? orderDetail.pre_order_date_string : "ASAP"}</AppText>
                   </TouchableOpacity>
-                  <TouchableOpacity style={{flexDirection:'row', width:'70%'}} onPress={()=> NavigationService.navigate('MyOrderETAChange',{territory_id: orderDetail.territory_id, address_id: orderDetail.address_id, is_pre_order: orderDetail.is_pre_order, preOrderDateString: orderDetail.pre_order_date_string, operationTime: orderDetail.territory.operation_times })}>
+                  <TouchableOpacity style={{flexDirection:'row', width:'70%'}} onPress={()=> NavigationService.navigate('MyOrderETAChange',{territory_id: orderDetail.territory_id, address_id: orderDetail.address_id, is_pre_order: orderDetail.is_pre_order, preOrderDateString: orderDetail.pre_order_date_string, operationTime: orderDetail.territory.operation_times, has_operationTime: orderDetail.territory.has_operation_times  })}>
                     <Icon name="map-marker-radius-outline" style={{marginTop:10}} size={20} />
                     <AppText style={styles.summaryASAP_order}>  {deliveryMode=="pickup" ? orderDetail.territory.warehouse_address : orderDetail.address_data.address}</AppText>
                   </TouchableOpacity>

@@ -60,6 +60,7 @@ export const MyOrderETAChangeScreen = ({navigation}) => {
   const is_pre_order = useMemo(() => navigation.getParam('is_pre_order'), []);
   const preOrderDateString = useMemo(() => navigation.getParam('preOrderDateString'), []);
   const operationTime = useMemo(() => navigation.getParam('operationTime'), []);
+  const has_operationTime = useMemo(() => navigation.getParam('has_operationTime'), []);
   const [operationTimeText, setOperationTimeText] = useState('');
   const [etaType, setETAType] = useState(navigation.getParam('is_pre_order') == false ? 1 : 2);
   const [preOrder, setPreOrder] = useState('');
@@ -159,8 +160,14 @@ export const MyOrderETAChangeScreen = ({navigation}) => {
     const dateRegina = moment(orderDate).tz('America/Regina').format(); 
     const preOrderTime = new Date(dateRegina.substring(0,19)+".000Z");
     var indexDay = preOrderTime.getDay() == 0 ? 6 : preOrderTime.getDay() - 1;
-    console.log("@@@@@@@3333",indexDay,operationTime[indexDay]); 
-    setOperationTimeText("We’re open from "+operationTime[indexDay].from + " to " + operationTime[indexDay].till);
+    if(operationTime != undefined ){
+      if(has_operationTime == true && Object.keys(operationTime).length > 0)
+      {    
+        if(operationTime[indexDay] != undefined){
+          seperationTimeText("We’re open from "+operationTime[indexDay].from + " to " + operationTime[indexDay].till);
+        }
+      }
+    }
     setPreOrder(preOrderTime);    
     // console.log("@@@@@@@@@@@@", moment(dateRegina).format('h:mm A'));
     const second =  new Date(orderDate);
