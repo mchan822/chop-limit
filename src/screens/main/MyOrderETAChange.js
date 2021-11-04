@@ -26,7 +26,7 @@ import { fetchAPI } from '~/core/utility';
 import { Screen, LocationSelector, StoredAddress,Button, AppText } from '~/components';
 import { GlobalStyles, MainNavigationOptions, Theme } from '~/styles';
 import DatePicker from 'react-native-date-picker'
-
+import DateTimePicker from '@react-native-community/datetimepicker';
 import {
   showNotification,
   setOrder,
@@ -227,13 +227,21 @@ export const MyOrderETAChangeScreen = ({navigation}) => {
       .finally(() => setLoading(false));
   },[orderDate,token])
 
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || new Date();    
+    setDate(currentDate);
+  };
+
   const MyCart = () => {
     return (
       <View style={{...styles.myCartscreen, top: -windowHeight}} onPress={() => {setShowTimePicker(false)}}>
         <View style={{height:280,bottom:0, right:0, left:0, top: windowHeight - 280, backgroundColor: 'white'}}>
           <AppText style={{paddingHorizontal: 10, textAlign: 'center', fontWeight: 'bold', marginTop:15,fontSize: 16}}>{operationTimeText}</AppText> 
           <View style={{flexDirection: 'row', paddingHorizontal: 20}}>
-            <DatePicker style={{height: 150, flex:4, marginTop: 15}} date={orderDate} minimumDate={Platform.OS == 'ios' ? new Date(new Date().toISOString().substring(0,10)) : new Date()} maximumDate={new Date(new Date().setDate(new Date().getDate() + 6))} onDateChange={setDate} minuteInterval={15} androidVariant="iosClone" />
+            {Platform.OS == 'android' ? 
+            <DatePicker style={{height: 150, flex:4, marginTop: 15}} date={orderDate} minimumDate={new Date()} maximumDate={new Date(new Date().setDate(new Date().getDate() + 6))} onDateChange={setDate} minuteInterval={15} androidVariant="iosClone" />
+            : <DateTimePicker style={{height: 150, flex:4, marginTop: 15}} value={orderDate} minimumDate={new Date()} maximumDate={new Date(new Date().setDate(new Date().getDate() + 6))} onChange={onChange} minuteInterval={15} display="spinner" mode="datetime"/>
+            }
             {/* <AppText style={{justifyContent:"center", marginTop:80}}>~</AppText> */}
             {/* <DatePicker style={{height:150, flex:2,marginTop: 15}} mode="time" date={time} onDateChange={setTime} minuteInterval={15}  /> */}
           </View>
