@@ -18,7 +18,6 @@ export const PromoCodeDetailScreen = ({ navigation }) => {
   const token = useSelector((state) => state.account.token);
   const guestToken = useSelector((state) => state.account.guestToken);
   const dispatch = useDispatch();
-  
   return (
     <Screen isLoading={isLoading}>
       <View style={styles.container}>
@@ -26,7 +25,7 @@ export const PromoCodeDetailScreen = ({ navigation }) => {
           item= {promoCode}
         />
         <AppText style={{marginTop:20,color: '#888'}}>
-        Use promo code <AppText style={{color: '#333',fontWeight:'bold'}}>{promoCode.promo_code.name}</AppText> at checkout to save {promoCode.promo_code.discount_formatted} on {promoCode.promo_code.only_for_first_order == '1' ? "your first order.": promoCode.promo_code.has_products_only && !promoCode.promo_code.has_categories_only?"everything.":"selected items including: "}
+        Use promo code <AppText style={{color: '#333',fontWeight:'bold'}}>{promoCode.promo_code.name}</AppText> at checkout to save {promoCode.promo_code.discount_formatted}{promoCode.promo_code.min_order_amount != '' && " OFF order over "+promoCode.territory.currency.icon+promoCode.promo_code.min_order_amount} on {promoCode.promo_code.only_for_first_order == '1' ? "your first order.": promoCode.promo_code.has_products_only == false && promoCode.promo_code.has_categories_only == false ? "everything.":"selected items including: "}
         <AppText style={{color: '#333'}}>
         {
           promoCode.promo_code.has_products_only &&   ",",
