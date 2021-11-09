@@ -14,6 +14,7 @@ export const AppText = ({ style = {}, children, ...props }) => {
 
   return (
     <Text
+      allowFontScaling={false}
       style={
         Platform.OS === 'ios'
           ? [styleObj, styles.normalStyle]

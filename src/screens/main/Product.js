@@ -656,17 +656,17 @@ export const ProductScreen = ({ navigation }) => {
                 {product.is_subscription == true ? (
               <View style={{flexDirection:'row'}}>
                 {/* <Icon style={{marginTop:8}} size={22} color={'#fff'} name="cart-outline" />*/}
-                <Text  style={{color:'#FFFFFF',fontSize:16,marginLeft:5,marginTop:8,fontWeight: 'bold'}} >SUBSCRIBE </Text>
+                <Text allowFontScaling={false} style={{color:'#FFFFFF',fontSize:16,marginLeft:5,marginTop:8,fontWeight: 'bold'}} >SUBSCRIBE </Text>
                        
-                <Text style={{color:'#FFFFFFA5',fontSize:17,marginLeft:10}}>
-                  <AppText  style={{fontWeight:'bold'}}>{`${product.currency_icon}${price.toFixed(2)}`}</AppText>
+                <Text allowFontScaling={false} style={{color:'#FFFFFFA5',fontSize:17,marginLeft:10}}>
+                  <AppText style={{fontWeight:'bold'}}>{`${product.currency_icon}${price.toFixed(2)}`}</AppText>
                   <AppText style={{fontSize:11,fontWeight:'bold',letterSpacing: -0.5,}}>{`\n`}{product.subscription_type_name_every}</AppText>
                 </Text>
               </View> )   
                  :(<View style={{flexDirection:'row',paddingVertical:5}}>
                    <Icon  style={{marginTop:3,marginLeft:5}} size={22} color={'#fff'} name="cart-outline" />       
-                 <Text  style={{color:'#FFFFFF',fontSize:20,marginLeft:10,fontWeight: 'bold'}} >ADD </Text>
-                 <Text  style={{color:'#FFFFFFDD',fontSize:17, marginTop:2}}>{`${product.currency_icon}${price.toFixed(2)}`}</Text> 
+                 <Text allowFontScaling={false} style={{color:'#FFFFFF',fontSize:20,marginLeft:10,fontWeight: 'bold'}} >ADD </Text>
+                 <Text allowFontScaling={false} style={{color:'#FFFFFFDD',fontSize:17, marginTop:2}}>{`${product.currency_icon}${price.toFixed(2)}`}</Text> 
                  </View>
                  )
             }

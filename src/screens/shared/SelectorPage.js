@@ -45,7 +45,7 @@ export const SelectorPageScreen = ({ navigation }) => {
             }}
           />
         ) : (
-          <Text style={styles.textStyle}>{noOptionsText}</Text>
+          <AppText style={styles.textStyle}>{noOptionsText}</AppText>
         )}
       </View>
     </Screen>

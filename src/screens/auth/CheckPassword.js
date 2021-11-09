@@ -140,6 +140,7 @@ export const CheckPasswordScreen = ({ navigation }) => {
           <Input
             title="Password"
             type="password"
+            placeholder="Password"
             keyboardType="default"
             value={password}
             onChange={setPassword}

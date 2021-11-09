@@ -73,6 +73,7 @@ export const Input = ({
             {placeholder}
       </AppText> :
        <TextInput
+        allowFontScaling={false}
         style={[
           styles.input,
           (!title || type === 'textarea') && styles.padding,

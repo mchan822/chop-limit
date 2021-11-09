@@ -59,6 +59,7 @@ export const ResetPasswordEmailScreen = () => {
           <Input
             title="Email"
             value={email}
+            placeholder="Enter your email address"
             onChange={setEmail}
             keyboardType="email-address"
             actionIcon="chevron-right"
