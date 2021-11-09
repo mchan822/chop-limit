@@ -623,7 +623,7 @@ export const MyOrderScreen = ({ navigation }) => {
           type="accent"
           style={styles.myCartButton}      
           onClick={() => setScreenMode('checkout')}>
-          CHECKOUT
+          CONTINUE
         </Button>       
         <LinearGradient
           colors={['#FFFFFF00',  '#ffffffff']}

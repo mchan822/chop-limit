@@ -241,6 +241,7 @@ export const CheckPasswordGuestScreen = ({ navigation }) => {
                 <Input
                   style={GlobalStyles.formControl}
                   title="Password"
+                  placeholder="Enter your password"
                   type="password"
                   keyboardType="default"
                   value={password}

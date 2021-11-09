@@ -61,6 +61,7 @@ export const ResetPasswordEmailGuestScreen = ({ navigation }) => {
         <Input
           style={GlobalStyles.formControl}
           title="Email"
+          placeholder="Enter the email address"
           keyboardType="email-address"
           value={email}
           onChange={setEmail}

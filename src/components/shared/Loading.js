@@ -1,10 +1,13 @@
 import React from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
-
+import { Image } from 'react-native';
 export const Loading = () => (
   <View style={styles.container}>
     <View style={styles.overlay} />
-    <ActivityIndicator color="#000000" />
+    <Image
+    source={require('~/assets/images/loading.gif')}
+    style={[{ alignSelf: 'center', width: 100, height: 100 }]}
+    />
   </View>
 );
 

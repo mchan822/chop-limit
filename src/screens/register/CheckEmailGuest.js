@@ -68,6 +68,7 @@ export const CheckEmailGuestScreen = ({ navigation }) => {
         title="Code"
         keyboardType="number-pad"
         value={code}
+        placeholder="XXXX"
         onChange={setCode}
         style={GlobalStyles.formControl}   
       />

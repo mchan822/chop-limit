@@ -52,7 +52,7 @@ export const Product = ({
               numberOfLines={1}>
               {product.name}
             </AppText>
-            {product.long_description ? (
+            {product.long_description && product.long_description != " " ? (
               <AppText
                 style={[styles.price, styles.priceCategoryItem]}
                 numberOfLines={1}>
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   productName: {
     fontSize: 16,
     textAlign: 'center',
-    marginTop: 10,
+    marginTop: 0,
     paddingHorizontal: -5,
   },
 

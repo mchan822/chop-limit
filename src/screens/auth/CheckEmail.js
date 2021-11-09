@@ -54,6 +54,7 @@ export const CheckEmailScreen = () => {
           <Input
             title="Code"
             value={code}
+            placeholder="XXXX"
             onChange={setCode}
             keyboardType="number-pad"
             actionIcon="chevron-right"

@@ -67,6 +67,7 @@ export const ResetPasswordGuestScreen = ({ navigation }) => {
         style={GlobalStyles.formControl}
         title="Password"
         type='password'
+        placeholder="Enter a new password"
         keyboardType="default"
         value={password}
         onChange={setPassword}

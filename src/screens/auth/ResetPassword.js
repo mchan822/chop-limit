@@ -55,6 +55,7 @@ export const ResetPasswordScreen = () => {
           <Input
             title="Password"
             type="password"
+            placeholder="Enter a new password"
             value={password}
             onChange={setPassword}
             actionIcon="chevron-right"

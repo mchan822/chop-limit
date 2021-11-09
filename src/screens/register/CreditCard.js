@@ -98,6 +98,7 @@ export const CreditCardScreen = ({ navigation }) => {
         <Input
           title="Name on Card"
           type="creditCard"
+          placeholder="Enter your card name"
           value={card.name}
           onChange={(e) => setCard({ ...card, name: e })}
           style={GlobalStyles.formControl}

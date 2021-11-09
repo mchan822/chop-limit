@@ -763,9 +763,8 @@ export const ProductScreen = ({ navigation }) => {
               </View>
             </TouchableOpacity>          
             }
-           
             {Boolean(product.long_description) &&
-              territory.type_slug === 'restaurants' && (
+              territory.type_slug === 'restaurants' && product.long_description != " " && (
                 <View style={styles.moreInfo}>
                   {/* <AppText style={styles.moreInfoDescription}>
                     {renderHTML(product.long_description)}
@@ -1055,9 +1054,10 @@ export const ProductScreen = ({ navigation }) => {
                   {instructionsLink}
                 </AppText> 
               </TouchableOpacity>
-                <AppText style={styles.specialInstrunctionText} numberOfLines={2}>
+              {instructions != "" &&
+              <AppText style={styles.specialInstrunctionText} numberOfLines={2}>
                 {instructions}
-              </AppText> 
+              </AppText>}
              </View>
             }
             {product.on_sale === '1' && sale_price !== 0 ? (
