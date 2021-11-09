@@ -21,7 +21,7 @@ export const Notification = ({}) => {
 
   const containerStyle = useMemo(
     () => (notification.type === 'success' ? styles.fullScreen : 
-          (notification.type === 'fullScreen' || notification.type == 'error' || notification.type == 'error_card' || notification.type == 'error_signin'? styles.fullScreen : styles.danger) 
+          (notification.type === 'fullScreen' || notification.type == 'error' || notification.type == 'error_card' || notification.type == 'error_signin' || notification.type == 'oop' ? styles.fullScreen : styles.danger) 
     ),
     [notification],
   );
@@ -56,12 +56,12 @@ export const Notification = ({}) => {
             marginTop: marginTop,
           },
         ]}>
-        {["fullScreen","error","success","error_card","error_signin"].indexOf(notification.type) > -1 ? 
+        {["fullScreen","error","success","error_card","error_signin","oop"].indexOf(notification.type) > -1 ? 
 
         <> 
         <View style={styles.fullScreenWrapper}>
           {notification.message && (
-            ["error","success","error_card","error_signin"].indexOf(notification.type) > -1
+            ["error","success","error_card","error_signin","oop"].indexOf(notification.type) > -1
             ? 
             <>
             {Boolean(notification.title) && notification.title !== '' && (
@@ -71,7 +71,7 @@ export const Notification = ({}) => {
             )}
             <Icon size={120} color={notification.type == 'success' ? '#31D457' : 'red'} name={notification.type == 'success' ?  'check-circle': 'alert'}/>
             <AppText style={[styles.notifyTitle, alignStyle,styles.paddingTop]}>
-                {notification.type == 'error_signin' ? "ERROR":notification.type.toUpperCase()}!
+                {notification.type == 'error_signin' ? "ERROR" : notification.type == 'oop' ? "Oop!" : notification.type.toUpperCase()}!
             </AppText>
             <AppText style={[styles.notifyText, styles.alignCenter,styles.paddingTop]}>
               {notification.message}
@@ -80,13 +80,12 @@ export const Notification = ({}) => {
               type="white"
               style={{marginTop: 40}}
               fullWidth
-              onClick={() => {
-              
+              onClick={() => {              
                 if(notification.buttonAction) {notification.buttonAction();}
                 if(notification.type == 'error_signin'){NavigationService.reset('GetAccess')}
                 dispatch(clearNotification())
               }}>
-              {notification.buttonText ? notification.buttonText : (notification.type == 'success' ? 'Continue' : notification.type == 'error_card' ? 'Manage My Cards' : notification.type == 'error_signin' ? "Sign In": 'Try Again')}
+              {notification.buttonText ? notification.buttonText : (notification.type == 'success' ? 'Continue' : notification.type == 'error_card' ? 'Manage My Cards' : notification.type == 'error_signin' ? "Sign In": notification.type == 'oop' ? "Go Back": 'Try Again')}
             </Button>
             </>
             :

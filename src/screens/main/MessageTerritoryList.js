@@ -21,7 +21,7 @@ export const MessageTerritoryListScreen = ({ navigation }) => {
   
   const windowHeight = Dimensions.get('window').height;  
   useEffect(() => {
-    fetchAPI(`/messages/list?size=10&page=0`, {
+    fetchAPI(`/messages/list?size=100&page=0`, {
       method: 'GET',
       headers: {
         authorization: `Bearer ${token ? token : guestToken}`,
@@ -59,14 +59,15 @@ export const MessageTerritoryListScreen = ({ navigation }) => {
                         NavigationService.navigate('MessageRoom',{
                             token: token,
                             territory: item.tid,
+                            item: item
                         });
                     }}>
                 <MessageTerritoryItem
                   key= {index}
                   message={item.last_message}
                   created={item.last_message_date}
-                  territory_image={item.territory_image}
-                  territory_title={item.territory_name}
+                  territory_image={item.is_delivery_chat == true ? item.driver_image : item.territory_image}
+                  territory_title={item.chat_name}
                   unread = {item.total_unread_messages}
                 />
                 </TouchableOpacity>

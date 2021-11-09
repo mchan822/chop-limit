@@ -36,7 +36,7 @@ export const MessageRoomScreen = ({ navigation }) => {
   const scrollRef = useRef();
   const [isLoading, setLoading] = useState(false);
   const [messageList, setMessageList] = useState([]);
-
+  const messageItem = useMemo(() => navigation.getParam('item'), []);
   const [img, setImg] = useState(null);
   const token = useSelector((state) => state.account.token);
   const guestToken = useSelector((state) => state.account.guestToken);
@@ -132,7 +132,7 @@ export const MessageRoomScreen = ({ navigation }) => {
     setLoading(true);
     console.log("+++getMoreMessage+++");
     setMessagePage(messagePage + 1);
-    fetchAPI(`/messages?territory=${territory.tid}&size=10&page=${messagePage + 1}`, {
+    fetchAPI(`/messages?${messageItem.is_delivery_chat == true ? 'delivery_id='+messageItem.delivery_id : 'territory='+territory.tid}&size=10&page=${messagePage + 1}`, {
       method: 'GET',
       headers: {
         authorization: `Bearer ${token ? token : guestToken}`,
@@ -154,14 +154,14 @@ export const MessageRoomScreen = ({ navigation }) => {
   useEffect(() => {
     dispatch(enterMessageRoom(true));
     setLoading(true);
-    fetchAPI(`/messages?territory=${territory.tid}&size=10&page=0`, {
+    fetchAPI(`/messages?${messageItem.is_delivery_chat == true ? 'delivery_id='+messageItem.delivery_id : 'territory='+territory.tid}&size=10&page=0`, {
       method: 'GET',
       headers: {
         authorization: `Bearer ${token ? token : guestToken}`,
       },
     })
       .then((res) => {
-        console.log("+++messa!!!!!!!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ges+++",res.data);
+        console.log("+++messa!!!!!!!@@@@@@@@@@@@@@@@@@@@@@@@@@@@",res.data);
         setLastMessageID(res.data.last_message_id);
         setMessageList(res.data.messages.reverse());
         if(res.data.user_image){
@@ -183,7 +183,7 @@ export const MessageRoomScreen = ({ navigation }) => {
   const updateNewMessage = useCallback(() => {
     console.log("lastMessagse ID ",lastMessageID);
     if(lastMessageID > 0){
-      fetchAPI(`/messages/last_activity?territory=${territory.tid}&user=${userinfo.uuid}&last_message_id=${lastMessageID}`, {
+      fetchAPI(`/messages/last_activity?${messageItem.is_delivery_chat == true ? 'delivery_id='+messageItem.delivery_id : 'territory='+territory.tid}&user=${userinfo.uuid}&last_message_id=${lastMessageID}`, {
         method: 'GET',
         headers: {
           authorization: `Bearer ${token}`,
@@ -269,8 +269,8 @@ export const MessageRoomScreen = ({ navigation }) => {
       actionBackground: '#31D457',
       */
 
-      territoryTitle: territory.name,
-      territoryImage: territory.app_image,
+      territoryTitle: messageItem.is_delivery_chat == true ? messageItem.driver_name : territory.name,
+      territoryImage: messageItem.is_delivery_chat == true ? messageItem.driver_image : territory.app_image,
       territoryAddress: territory.warehouse_address_city + " " + territory.warehouse_address_province
     });
 
@@ -302,9 +302,13 @@ export const MessageRoomScreen = ({ navigation }) => {
 
               setLoading(true);
               const formData = new FormData();
-
-              formData.append('territory',territory.tid);
-              
+              if(messageItem.is_delivery_chat == true)
+              {
+                formData.append('delivery_id',messageItem.delivery_id);
+              } else {
+                formData.append('territory',territory.tid);
+              }                
+              formData.append('user', userinfo.uuid);
               formData.append('message', newMessage);
               if(userinfo)
               formData.append('first_name', userinfo.firstName);
@@ -365,7 +369,7 @@ export const MessageRoomScreen = ({ navigation }) => {
                   is_new={item.is_new}
                   opened={item.opened}
                   user_image={userImage}
-                  territory_image={territoryImage}
+                  territory_image={messageItem.is_delivery_chat == true ? messageItem.driver_image : territoryImage}
                   onAvatar = {()=>{ setModalVisible(true); fadeIn(); }}
                 />
               ))
