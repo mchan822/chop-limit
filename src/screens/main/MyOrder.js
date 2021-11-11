@@ -946,9 +946,13 @@ export const MyOrderScreen = ({ navigation }) => {
                           } ${(+orderDetail.cart_total_amount - orderDetail.tax_amount_with_delivery).toFixed(
                             2,
                           )}`
-                        : `${
+                        : orderDetail.promo_code_used == true ? `${
                             orderDetail.territory.currency.icon
-                          } ${(+orderDetail.cart_total_amount - orderDetail.tax_amount_without_delivery).toFixed(
+                          } ${(+orderDetail.cart_amount - orderDetail.promo_code_amount).toFixed(
+                            2,
+                          )}` :`${
+                            orderDetail.territory.currency.icon
+                          } ${(+orderDetail.cart_amount).toFixed(
                             2,
                           )}`}
                     </AppText>
@@ -987,7 +991,7 @@ export const MyOrderScreen = ({ navigation }) => {
                           )}`
                         : `${
                             orderDetail.territory.currency.icon
-                          } ${(+orderDetail.cart_total_amount).toFixed(
+                          } ${(+orderDetail.cart_amount - orderDetail.promo_code_amount + parseFloat(orderDetail.tax_amount_without_delivery)).toFixed(
                             2,
                           )}`}
                     </AppText>
