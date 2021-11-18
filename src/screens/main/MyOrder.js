@@ -24,6 +24,7 @@ import {
   AppText,
   StoredAddress,
   Selector,
+  DashedLine,
 } from '~/components';
 import { Theme, MainNavigationOptions, GlobalStyles } from '~/styles';
 
@@ -41,7 +42,6 @@ import {
   setBanner,
   clearNotification
 } from '~/store/actions';
-import { DashedLine } from '../../components';
 import FingerSVG from '~/assets/images/finger.svg';
 import OrderSVG from '~/assets/images/invoice_black.svg';
 import DealSVG from '~/assets/images/deal.svg';
@@ -347,7 +347,7 @@ export const MyOrderScreen = ({ navigation }) => {
         authorization: `Bearer ${token ? token : guestToken}`,
       },
     })
-      .then((res) => {        
+      .then((res) => { 
         dispatch(setOrder(res.data));
         setOrderDetail(res.data);       
         dispatch(updatedNotes(res.data.notes));
@@ -400,9 +400,12 @@ export const MyOrderScreen = ({ navigation }) => {
       .catch((err) =>
         //dispatch(showNotification({ type: 'error', message: err.message })),
         {
-          dispatch(showNotification({ type: 'error', message: err.message }))
-          NavigationService.reset('Home');
-          dispatch(cancelOrder())
+          if(err.message == "order-expired"){
+            dispatch(cancelOrder());
+            NavigationService.reset("Home");
+          } else {
+            dispatch(showNotification({ type: 'error', message: err.message}));        
+          }
         }
         
       )
@@ -907,9 +910,9 @@ export const MyOrderScreen = ({ navigation }) => {
                           )}`}
                     </AppText>
                   </View>}
-                 {orderDetail &&  orderDetail.promo_code_used == true ? <View style={styles.summaryRow}>
+                 {orderDetail &&  orderDetail.promo_code_amount > 0 ? <View style={styles.summaryRow}>
                     <AppText style={styles.summaryKey}>
-                      Discount
+                      Discount {orderDetail.auto_discount_amount == orderDetail.promo_code_amount && orderDetail.auto_discount_type == 'percentage' && "("+ parseInt(orderDetail.auto_discount_discount)+'%)'}
                       {/* ({orderDetail.taxes_percentage}%) */}
                     </AppText>
                     <AppText style={styles.summaryValue}>
@@ -946,7 +949,7 @@ export const MyOrderScreen = ({ navigation }) => {
                           } ${(+orderDetail.cart_total_amount - orderDetail.tax_amount_with_delivery).toFixed(
                             2,
                           )}`
-                        : orderDetail.promo_code_used == true ? `${
+                        : orderDetail.promo_code_amount > 0 ? `${
                             orderDetail.territory.currency.icon
                           } ${(+orderDetail.cart_amount - orderDetail.promo_code_amount).toFixed(
                             2,

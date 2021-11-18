@@ -361,7 +361,7 @@ export const HomeScreen = ({ navigation }) => {
      
         })
         .catch((err) => {
-          dispatch(showNotification({ type: 'error', message: err.message }));
+          // dispatch(showNotification({ type: 'error', message: err.message }));
         })
         .finally(() => setLoading(false));    
     } else { 
@@ -379,7 +379,7 @@ export const HomeScreen = ({ navigation }) => {
                 setCloseDeliveryCnt(res.data.total_not_operational);
             })
             .catch((err) => {
-              dispatch(showNotification({ type: 'error', message: err.message }));
+              // dispatch(showNotification({ type: 'error', message: err.message }));
             })
             .finally(() => setLoading(false));       
       }        
