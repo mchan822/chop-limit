@@ -53,6 +53,7 @@ import {
   ContactUsScreen,
   SelectorPageScreen,
   SelectorPageAddonScreen,
+  SelectorPageChooseOneScreen,
   SelectorPercentPageScreen,
   SellerLocationScreen,
   DeliveryLocationScreen,
@@ -321,7 +322,9 @@ const AppNavigator = createStackNavigator(
     SelectorPageAddon: {
       screen: SelectorPageAddonScreen,
     },
-
+    SelectorPageChooseOne: {
+      screen: SelectorPageChooseOneScreen,
+    },
     SelectorPercentPage: {
       screen: SelectorPercentPageScreen,
     },

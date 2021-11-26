@@ -525,7 +525,7 @@ export const HomeScreen = ({ navigation }) => {
                   keyExtractor={(item, index) => index.toString()}     
                   ListHeaderComponent={
                     <AppText style={styles.subTitle}>
-                      {(openDeliveryCnt == 1) ? openDeliveryCnt + ' Restaurant is open right now' : openDeliveryCnt+' Restaurants are open right now'}
+                      {(openDeliveryCnt == 1) ? openDeliveryCnt + ' restaurant is open right now' : openDeliveryCnt+' restaurants are open right now'}
                     </AppText>}
                   renderItem={({ item }) => (
                     <TouchableOpacity
@@ -549,7 +549,7 @@ export const HomeScreen = ({ navigation }) => {
                   //   }}}
                   ListHeaderComponent={ 
                     <AppText style={styles.subTitle}>
-                      {(closeDeliveryCnt == 1) ? closeDeliveryCnt + ' Restaurant is closed right now' : (openDeliveryCnt == 0 ? 'All' : closeDeliveryCnt) +' Restaurants are closed right now'}
+                      {(closeDeliveryCnt == 1) ? closeDeliveryCnt + ' restaurant is closed right now' : (openDeliveryCnt == 0 ? 'All' : closeDeliveryCnt) +' restaurants are closed right now'}
                     </AppText>}
                   renderItem={({ item }) => (
                     <TouchableOpacity

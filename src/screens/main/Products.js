@@ -46,7 +46,6 @@ export const ProductsScreen = ({ navigation }) => {
   const explorer = useSelector((state) => state.explorer);
   
   useEffect(() => {
-    console.log("territory*************************", territory);
     territory &&
       territory.warehouse_address &&
       parseAddress(territory.warehouse_address, (err, addressObj) => {
@@ -359,6 +358,66 @@ export const ProductsScreen = ({ navigation }) => {
     );
   };
 
+  useEffect(() => {    
+    if(territory.operation_state == 'closed')
+    {
+      dispatch( showNotification({
+        type: 'fullScreen',
+        autoHide: false,
+        options: { align: 'right' },
+        message: (
+          <>     
+            <View style={styles.avatarContainer}>
+            <Image
+              style={styles.closedImageNotification}
+              source={require('~/assets/images/closed.png')
+              }
+              />
+            </View>                      
+              <AppText
+              style={{
+                fontSize: 17,
+                color: 'white',                          
+                textAlign: 'center',
+                marginTop: 10,
+                fontWeight: 'bold'
+              }}>SORRY WE'RE CLOSED
+              </AppText>
+            <AppText
+              style={{
+                fontSize: 14,
+                color: 'white',                          
+                textAlign: 'center',
+                marginTop: 10,
+                marginBottom: 20
+              }}>
+              {territory.operation_time == "" ? "Check Back on " + dayNames[nextWorkingDay[now.getDay()]] :          
+              "We open " + territory.operation_time}
+            </AppText>
+            <Button
+              type="white"
+              fullWidth
+              style={{marginBottom: 10}}
+              onClick={() => {                         
+                dispatch(clearNotification());
+              }}>
+              PRE-ORDER FOR LATER
+            </Button> 
+            <Button
+              type="white"
+              fullWidth
+              onClick={() => {                         
+                dispatch(clearNotification());
+                NavigationService.goBack();
+              }}>
+              GO BACK
+            </Button>                    
+          </>
+        ),
+      }))
+    }
+  },[territory])
+
   const sellerInfo = useMemo(() => {
     return territory ? (
       <View>
@@ -509,7 +568,7 @@ export const ProductsScreen = ({ navigation }) => {
         hasList
         statusBar="light-content"
         showHeaderOverLayOnScroll
-        stickyBottom={territory.operation_state == 'closed' ? <Closed/> : <StickyBottom />}>
+        stickyBottom={<StickyBottom />}>
         <View style={styles.container}>
           {territory && categories ? (
             <FlatList
@@ -586,7 +645,7 @@ export const ProductsScreen = ({ navigation }) => {
         hasList
         statusBar="light-content"
         showHeaderOverLayOnScroll
-        stickyBottom={territory.operation_state == 'closed' ? <Closed/> : <StickyBottom />}>
+        stickyBottom={<StickyBottom />}>
         <View style={styles.container}>
           {territory && (categories || products) ? ( 
             territory.app_overview_display != 'products' ?
@@ -883,6 +942,16 @@ const styles = StyleSheet.create({
     paddingTop:20,
     backgroundColor: 'black',
     flexDirection: 'row'
+  },
+
+  closedImageNotification:{    
+    width: '100%',
+    height: 120
+  },
+
+  avatarContainer: {
+    width:'50%',
+    height: 140
   },
 
   quoteButton: {

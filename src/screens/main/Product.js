@@ -139,8 +139,7 @@ export const ProductScreen = ({ navigation }) => {
     .finally(() => setLoading(false));     
   }, [dispatch, reviewUpdated]);
 
-  var dayNames = ["Sunday","Monday","Tuesday","Wednesday",
-  "Thursday","Friday","Saturday"];
+  var dayNames = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
   var nextWorkingDay = [ 1, 2, 3, 4, 5, 6, 0 ];
   var now = new Date();
 
@@ -168,6 +167,65 @@ export const ProductScreen = ({ navigation }) => {
     );
   };
 
+  useEffect(() => {    
+    if(territory.operation_state == 'closed')
+    {
+      dispatch( showNotification({
+        type: 'fullScreen',
+        autoHide: false,
+        options: { align: 'right' },
+        message: (
+          <>     
+            <View style={styles.avatarContainer}>
+            <Image
+              style={styles.closedImageNotification}
+              source={require('~/assets/images/closed.png')}
+              />
+            </View>                      
+              <AppText
+              style={{
+                fontSize: 17,
+                color: 'white',                          
+                textAlign: 'center',
+                marginTop: 10,
+                fontWeight: 'bold'
+              }}>SORRY WE'RE CLOSED
+              </AppText>
+            <AppText
+              style={{
+                fontSize: 14,
+                color: 'white',                          
+                textAlign: 'center',
+                marginTop: 10,
+                marginBottom: 20
+              }}>
+              {territory.operation_time == "" ? "Check Back on " + dayNames[nextWorkingDay[now.getDay()]] :          
+              "We open " + territory.operation_time}
+            </AppText>
+            <Button
+              type="white"
+              fullWidth
+              style={{marginBottom: 10}}
+              onClick={() => {                         
+                dispatch(clearNotification());
+                NavigationService.goBack();
+              }}>
+              PRE-ORDER FOR LATER
+            </Button> 
+            <Button
+              type="white"
+              fullWidth
+              onClick={() => {                         
+                dispatch(clearNotification());
+                NavigationService.goBack();
+              }}>
+              GO BACK
+            </Button>                    
+          </>
+        ),
+      }))
+    }
+  },[territory])
 
   const _cancelOrder = useCallback(() => {
     setLoading(true);
@@ -242,12 +300,7 @@ export const ProductScreen = ({ navigation }) => {
   }, [dispatch,order]);
   ///////////added
   const addToCart = useCallback(
-    (pid, optionSku, optionQuantity, extraOptions,instructions,price) => {
-      // if(territory.type_slug === 'restaurants'){
-      //     NavigationService.navigate('ProductInstruction', {
-      //       pid ,optionSku, optionQuantity, extraOptions, orderFreeDeliveryCutoff
-      //     });
-      // } else {
+    (pid, optionSku, optionQuantity, extraOptions,instructions,price) => {    
         setLoading(true);
         const formData = new FormData();
         formData.append('as_guest', token ? 0 : 1);
@@ -365,11 +418,7 @@ export const ProductScreen = ({ navigation }) => {
                     options: { align: 'right' },
                     message: (
                       <>
-                        {/* <View style={{ position: 'absolute', top: 5, right: -20 }}>
-                          <Price style={{ height: 35, width: 120 }} />
-                        </View> */}
                         <CartSVG height={120} width={120}/> 
-                        {/* <Icon size={120} color='red' name={'alert'}/> */}
                           <AppText
                           style={{
                             fontSize: 15,
@@ -471,10 +520,11 @@ export const ProductScreen = ({ navigation }) => {
             .catch((err) =>{
               dispatch(
                 showNotification({
-                  type: 'error',
-                  message: err.message,
+                  type: 'oop',
+                  message: "You miss one or more required fields.",
                   options: { align: 'right' },
-                }),console.log("error log     ",err)
+                  autoHide: false
+                })
               );
              }
             )
@@ -711,8 +761,7 @@ export const ProductScreen = ({ navigation }) => {
               style={[
                 styles.productName,
                 { marginTop: product && !product.images.length  &&  available === false  ? 40 : 0 },
-              ]}
-              numberOfLines={2}>
+              ]}>
               {product.name}
             </AppText>
             {product.short_description !== '' && (
@@ -771,8 +820,7 @@ export const ProductScreen = ({ navigation }) => {
                   </AppText> */}
                   <HTML baseFontStyle={{fontSize:14, fontWeight:'normal',color:'#333',letterSpacing: 0.5}} source={{ html: product.long_description }}  ></HTML> 
                 </View>
-              )}
-             
+              )}             
             {product.options.length > 1 && (
               <>
                 <View style={[styles.flexRowBetween, GlobalStyles.formControl]}>
@@ -791,6 +839,7 @@ export const ProductScreen = ({ navigation }) => {
                 </View>
               </>
             )}
+            {console.log("$$$$$$$$$$$$$$$$$$$$", products_extra)}
             {products_extra &&
               products_extra.length > 0 &&
               products_extra.map((product_extra) => {
@@ -863,11 +912,11 @@ export const ProductScreen = ({ navigation }) => {
                             : extrasChosen.hasOwnProperty(product_extra.sku) &&
                               extrasChosen[product_extra.sku]
                         }
-                        title={product_extra.name}
+                        title={"CHOOSE"}
                         placeholder={
                           'Select' + (product_extra.multiple ? ' & Add' : '')
                         }
-                        header={'Select an available option'}
+                        header={product_extra.name}
                         options={product_extra_options}
                         onChange={(value) => {                          
                           // let existingExtras = extras;
@@ -1458,6 +1507,16 @@ const styles = StyleSheet.create({
     maxWidth: 90,
     display: 'flex',
     height: 50
+  },
+
+  closedImageNotification:{    
+    width: '100%',
+    height: 120
+  },
+
+  avatarContainer: {
+    width:'50%',
+    height: 140
   },
 
   closedStore: {    

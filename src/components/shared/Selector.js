@@ -77,7 +77,7 @@ export const Selector = ({
           style={[styles.item, styles.picker, style]}
           activeOpacity={0.8}
           onPress={() => {
-            NavigationService.navigate('SelectorPage', {
+            NavigationService.navigate('SelectorPageChooseOne', {
               title,
               header,
               options,

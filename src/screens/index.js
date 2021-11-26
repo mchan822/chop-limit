@@ -85,4 +85,5 @@ export { UpdatePasswordScreen } from './account/UpdatePassword'
 // shared
 export { SelectorPageScreen } from './shared/SelectorPage';
 export { SelectorPageAddonScreen } from './shared/SelectorPageAddon';
+export { SelectorPageChooseOneScreen } from './shared/SelectorPageChooseOne';
 export { SelectorPercentPageScreen } from './shared/SelectorPercentPage';

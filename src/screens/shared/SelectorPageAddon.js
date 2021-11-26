@@ -54,14 +54,14 @@ export const SelectorPageAddonScreen = ({ navigation }) => {
                 item && (
                   options.length - 1 != index ? // this is added due to flatlist marginBottom for the addItemButton in the bottom
                   <View style={styles.viewOrder}>
-                    <AppText style={{flex: 3, fontSize:15,fontWeight:'bold', width:'100%', paddingLeft:10}} >{item.label}</AppText>
+                    <AppText style={{flex: 3, fontSize:15, width:'100%', paddingLeft:10}} >{item.label}</AppText>
                     <View style={{flex: 1, flexDirection:'row'}}>
                       <TouchableOpacity style={styles.countAdd} onPress={() => {
                          if(selectedItem){   
                             const sel_index = selectedItem.findIndex(obj => obj === item.value);                            
                             var tempSelItem = selectedItem;
                             tempSelItem.splice(sel_index,1);                   
-                            selectItem([...tempSelItem]);                                 
+                            selectItem([...tempSelItem]);                               
                          }
                         }}>
                         <Icon size={20} color="#484848" name='chevron-left'></Icon>
@@ -81,11 +81,11 @@ export const SelectorPageAddonScreen = ({ navigation }) => {
                         <Icon size={20} color="#484848" name='chevron-right'></Icon>
                       </TouchableOpacity>
                     </View>                   
-                  </View>                 
+                  </View>
                   : 
                   <View style={{marginBottom:70}}>
                   <View style={styles.viewOrder}>
-                    <AppText style={{flex: 3, fontSize:15,fontWeight:'bold', width:'100%', paddingLeft:10}} >{item.label}</AppText>
+                    <AppText style={{flex: 3, fontSize:15, width:'100%', paddingLeft:10}} >{item.label}</AppText>
                     <View style={{flex: 1, flexDirection:'row'}}>
                       <TouchableOpacity style={styles.countAdd} onPress={() => {
                          if(selectedItem){   
@@ -166,7 +166,9 @@ const styles = StyleSheet.create({
     backgroundColor:'#efefef',
     marginTop:10, 
     paddingHorizontal:15,
-    height: 60
+    minHeight: 60,
+    paddingVertical:10
+    
   },
 
   countAdd: {
