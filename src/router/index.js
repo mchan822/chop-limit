@@ -76,7 +76,8 @@ import {
   PromoCodeCopyScreen,
   PromoCodeDetailScreen,
   CreditCardListScreen,
-  MyOrderETAChangeScreen
+  MyOrderETAChangeScreen,
+  SelectorPageChooseMultipleScreen
 } from '../screens';
 
 const AppNavigator = createStackNavigator(
@@ -325,6 +326,9 @@ const AppNavigator = createStackNavigator(
     SelectorPageChooseOne: {
       screen: SelectorPageChooseOneScreen,
     },
+    SelectorPageChooseMultiple: {
+      screen: SelectorPageChooseMultipleScreen,
+    },    
     SelectorPercentPage: {
       screen: SelectorPercentPageScreen,
     },

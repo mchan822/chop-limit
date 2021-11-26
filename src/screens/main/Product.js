@@ -896,6 +896,7 @@ export const ProductScreen = ({ navigation }) => {
                       <Selector
                         hideSelector={allowNoMoreOptions}
                         addonSelector={product_extra.multiple ? true :false}
+                        addonSelectorMultipletimes={product_extra.multipletimes === false ? true :false}
                         noOptionsText={
                           allowNoMoreOptions &&
                           'You have already selected all the options'

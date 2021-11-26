@@ -11,6 +11,7 @@ import { NavigationService } from '~/core/services';
 export const Selector = ({
   nameSelector,
   labelSelector,
+  addonSelectorMultipletimes,
   typeSelector,
   addonSelector,
   header,
@@ -48,14 +49,37 @@ export const Selector = ({
         </AppText>
       ) : null}
       {nameSelector ? (<AppText style={[styles.textStyle, styles.nameSelector]}>{nameSelector} </AppText>) : null}
-      
-      {!hideSelector && !typeSelector && addonSelector && (
+     
+      {!hideSelector && !typeSelector && addonSelector && !addonSelectorMultipletimes && (
         <TouchableOpacity
           style={[styles.item, styles.picker, style]}
           activeOpacity={0.8}
           onPress={() => {
             NavigationService.navigate('SelectorPageAddon', {
               title: title + ' ' + (maxnum == 999 ? '' : maxnum),
+              header,
+              options,
+              maxnum,
+              action: onChange,
+              noOptionsText: noOptionsText
+                ? noOptionsText
+                : 'No Options Available',
+            });
+          }}>
+          <AppText style={styles.textStyle}>
+            {label ? label.toString() : placeholder && placeholder}
+          </AppText>
+
+          <Icon size={20} name="menu-swap" />
+        </TouchableOpacity>
+      )}
+       {!hideSelector && !typeSelector && addonSelector && addonSelectorMultipletimes && (
+        <TouchableOpacity
+          style={[styles.item, styles.picker, style]}
+          activeOpacity={0.8}
+          onPress={() => {
+            NavigationService.navigate('SelectorPageChooseMultiple', {
+              title,
               header,
               options,
               maxnum,
