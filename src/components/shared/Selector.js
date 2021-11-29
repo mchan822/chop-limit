@@ -56,7 +56,7 @@ export const Selector = ({
           activeOpacity={0.8}
           onPress={() => {
             NavigationService.navigate('SelectorPageAddon', {
-              title: title + ' ' + (maxnum == 999 ? '' : maxnum),
+              title: title + ' ' + (maxnum > 100 ? '' : maxnum),
               header,
               options,
               maxnum,

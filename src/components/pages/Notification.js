@@ -71,7 +71,7 @@ export const Notification = ({}) => {
             )}
             <Icon size={120} color={notification.type == 'success' ? '#31D457' : 'red'} name={notification.type == 'success' ?  'check-circle': 'alert'}/>
             <AppText style={[styles.notifyTitle, alignStyle,styles.paddingTop]}>
-                {notification.type == 'error_signin' ? "ERROR" : notification.type == 'oop' ? "Oop!" : notification.type.toUpperCase()}!
+                {notification.type == 'error_signin' ? "ERROR" : notification.type == 'oop' ? "Oops!" : notification.type.toUpperCase()}!
             </AppText>
             <AppText style={[styles.notifyText, styles.alignCenter,styles.paddingTop]}>
               {notification.message}

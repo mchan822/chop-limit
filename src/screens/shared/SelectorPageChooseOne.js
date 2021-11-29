@@ -19,7 +19,7 @@ export const SelectorPageChooseOneScreen = ({ navigation }) => {
         type="accentGreen"
         style={styles.myCartButton}
         onClick={() => NavigationService.goBack()}>
-        Choose {`${selectedLabel}`}
+        Continue
       </Button>
     ) : (
       <></>

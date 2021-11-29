@@ -6,6 +6,10 @@ import PriceSVG from '~/assets/images/price-tag.svg';
 import ChatSVG from '~/assets/images/chat.svg';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { NavigationService } from '~/core/services/NavigationService';
+
+
+var nextWorkingDay = [ 1, 2, 3, 4, 5, 6, 0 ];
+var now = new Date();
 export const Seller = ({ seller }) => (
   <View style={styles.wrapper}>
      <View style={styles.imageWrapper_cover}>
@@ -40,11 +44,13 @@ export const Seller = ({ seller }) => (
           {+seller.address_distance <= +seller.delivery_area_radius 
                   ?
                     <AppText style={styles.products} numberOfLines={1}>
-                      {seller.warehouse_address_line == '' ? seller.warehouse_address_city : seller.warehouse_address_line} • {(parseFloat(seller.address_distance_km).toFixed(0))+(`km away`)} 
+                      {/* {seller.warehouse_address_line == '' ? seller.warehouse_address_city : seller.warehouse_address_line} */}
+                      {(parseFloat(seller.address_distance_km).toFixed(0))+(`km away`)} • Closes at {seller.operation_times[nextWorkingDay[now.getDay()]].till}
                     </AppText> 
                   : 
                     <AppText style={styles.products} numberOfLines={1}>
-                      {seller.warehouse_address_line == '' ? seller.warehouse_address_city : seller.warehouse_address_line} • {(parseFloat(seller.address_distance_km).toFixed(0))+(`km away`)} 
+                      {/* {seller.warehouse_address_line == '' ? seller.warehouse_address_city : seller.warehouse_address_line} */}
+                      {(parseFloat(seller.address_distance_km).toFixed(0))+(`km away`)} • Closes at {seller.operation_times[nextWorkingDay[now.getDay()]].till}
                   </AppText>
                  }        
       </View> :

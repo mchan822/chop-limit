@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { View, StyleSheet, FlatList, Text, TouchableOpacity } from 'react-native';
+import { Picker, DatePicker } from 'react-native-wheel-pick';
 
 import { NavigationService } from '~/core/services';
 import { Screen, Button, AppText } from '~/components';
@@ -15,6 +16,12 @@ export const SelectorPageAddonScreen = ({ navigation }) => {
   const noOptionsText = useMemo(() => navigation.getParam('noOptionsText'));
   const selected = useMemo(() => navigation.getParam('selected'), [navigation]);
   const [selectedItem, selectItem] = useState('');
+  const [workingItem, setWorkingItem] = useState('');
+  const [workingItemName, setWorkingItemName] = useState('');
+  const [selectedCount, setSelectedCount] = useState('1');
+  const [pickerData4OptionsCnt, setPickerData4OptionsCnt] = useState(["1"]);
+  const [whichSticky, setWhichSticky] = useState(1);
+
   const addselectedItem = useCallback((value)=> {
     if(selectedItem) {
       action(selectedItem);
@@ -23,10 +30,46 @@ export const SelectorPageAddonScreen = ({ navigation }) => {
     //NavigationService.goBack();
   },[selectedItem]);
 
+
+  const addItemsAsCount = useCallback((workingItem)=> {
+    setWhichSticky(1);
+    if(selectedItem) {
+      selectItem(selectedItem.filter((original) => original != workingItem));      
+    }  
+    for  (let i = 0; i < selectedCount; i++) {
+      selectItem((existing)=> [...existing,workingItem]);
+    }  
+  },[selectedCount, selectedItem]);
+
   useEffect(()=>{
     console.log("seeeeeeeeeeeeeeeeeee", selectedItem);    
   },[selectedItem])
   
+  const ChooseCountButton = () => {
+    return ( <View>
+      <View style={{marginHorizontal: 20, marginBottom: 15, flexDirection:'row'}}>
+        <TouchableOpacity onPress={() => setWhichSticky(1)}><Icon size={20} color="#484848" name='close'></Icon></TouchableOpacity>
+        <View style={{flex:1, justifyContent: 'center', alignItems:'center'}}>
+          <AppText style={{fontSize:18, fontWeight: 'bold'}}>{workingItemName}</AppText>
+        </View>
+      </View>
+      <Picker
+        style={{ backgroundColor: 'white', width: '100%', height: 150, marginBottom:70 }}
+        itemStyle={{backgroundColor:'#EEE'}}
+        selectedValue={selectedCount}
+        pickerData={pickerData4OptionsCnt}
+        onValueChange={value => {setSelectedCount(value)}}
+        itemSpace={30} // this only support in android
+      />
+      <Button
+          type="accent"
+          style={styles.myCartButton}
+          onClick={() => addItemsAsCount(workingItem)}>
+          Select
+        </Button>
+      </View>)
+  };
+
   const AddItemButton = () => {
     return (selectedItem.length > 0 ? (
       <Button
@@ -36,11 +79,11 @@ export const SelectorPageAddonScreen = ({ navigation }) => {
         Add {`${selectedItem.length}`} {selectedItem.length > 1 ? 'Items' : "Item"}
       </Button>
     ) : (
-      <></>
+      <></>    
     ))
   };
   return (
-    <Screen hasList stickyBottom={<AddItemButton/>}>
+    <Screen hasList stickyBottom={whichSticky == 0 ? <ChooseCountButton/> : <AddItemButton/>}>
       <View style={styles.container}>
         {header && <AppText style={styles.header}>{header}</AppText>}
         {options && options.length > 0 ? (
@@ -54,9 +97,9 @@ export const SelectorPageAddonScreen = ({ navigation }) => {
                 item && (
                   options.length - 1 != index ? // this is added due to flatlist marginBottom for the addItemButton in the bottom
                   <View style={styles.viewOrder}>
-                    <AppText style={{flex: 3, fontSize:15, width:'100%', paddingLeft:10}} >{item.label}</AppText>
-                    <View style={{flex: 1, flexDirection:'row'}}>
-                      <TouchableOpacity style={styles.countAdd} onPress={() => {
+                    <AppText style={{flex: 1, fontSize:15, width:'100%', paddingLeft:10}} >{item.label}</AppText>
+                    <View style={{width: 50, flexDirection:'row', marginRight: 20}}>
+                      {/* <TouchableOpacity style={styles.countAdd} onPress={() => {
                          if(selectedItem){   
                             const sel_index = selectedItem.findIndex(obj => obj === item.value);                            
                             var tempSelItem = selectedItem;
@@ -65,29 +108,49 @@ export const SelectorPageAddonScreen = ({ navigation }) => {
                          }
                         }}>
                         <Icon size={20} color="#484848" name='chevron-left'></Icon>
-                      </TouchableOpacity>
+                      </TouchableOpacity> */}
                       <View style={{width: 40, alignItems:'center'}}><AppText style={{ fontSize:15,fontWeight:'bold',}}>{selectedItem ? selectedItem.filter((original) => original === item.value).length : 0}</AppText></View>
                       <TouchableOpacity style={styles.countAdd} onPress={() => {
-                         if(selectedItem){   
-                          if(selectedItem.length < maxnum){
-                            selectItem((existing)=> [...existing,item.value]);
+                        setWhichSticky(0);
+                        setWorkingItem(item.value);
+                        setWorkingItemName(item.label);
+                        if(selectedItem){
+                          var items = [];
+                          for (let i = 0; i <= maxnum - selectedItem.filter((original) => original != item.value).length; i++) {
+                            items.push(i.toString());
                           }
-                          } else {
-                            if(selectedItem.length < maxnum){
-                              selectItem([item.value]);
-                            }                        
+                          console.log(items);
+                          setPickerData4OptionsCnt(items);
+                          setSelectedCount(selectedItem.filter((original) => original == item.value).length);
+                        } else {
+                          var items = [];
+                          for (let i = 0; i <= maxnum; i++) {
+                            items.push(i.toString());
                           }
+                          console.log(items);
+                          setPickerData4OptionsCnt(items);                          
+                        }
+                        //  if(selectedItem){
+
+                        //   if(selectedItem.length < maxnum){
+                        //     selectItem((existing)=> [...existing,item.value]);
+                        //   }
+                        //   } else {
+                        //     if(selectedItem.length < maxnum){
+                        //       selectItem([item.value]);
+                        //     }                        
+                        //   }
                       }}>
-                        <Icon size={20} color="#484848" name='chevron-right'></Icon>
+                        <Icon size={20} color="#484848" name='chevron-down'></Icon>
                       </TouchableOpacity>
                     </View>                   
                   </View>
                   : 
                   <View style={{marginBottom:70}}>
                   <View style={styles.viewOrder}>
-                    <AppText style={{flex: 3, fontSize:15, width:'100%', paddingLeft:10}} >{item.label}</AppText>
-                    <View style={{flex: 1, flexDirection:'row'}}>
-                      <TouchableOpacity style={styles.countAdd} onPress={() => {
+                    <AppText style={{flex: 1, fontSize:15, width:'100%', paddingLeft:10}} >{item.label}</AppText>
+                    <View style={{width: 50, flexDirection:'row', marginRight: 20}}>
+                      {/* <TouchableOpacity style={styles.countAdd} onPress={() => {
                          if(selectedItem){   
                             const sel_index = selectedItem.findIndex(obj => obj === item.value);                            
                             var tempSelItem = selectedItem;
@@ -96,20 +159,39 @@ export const SelectorPageAddonScreen = ({ navigation }) => {
                          }
                         }}>
                         <Icon size={20} color="#484848" name='chevron-left'></Icon>
-                      </TouchableOpacity>
+                      </TouchableOpacity> */}
                       <View style={{width: 40, alignItems:'center'}}><AppText style={{ fontSize:15,fontWeight:'bold',}}>{selectedItem ? selectedItem.filter((original) => original === item.value).length : 0}</AppText></View>
                       <TouchableOpacity style={styles.countAdd}  onPress={() => {
-                         if(selectedItem){   
-                          if(selectedItem.length < maxnum){
-                            selectItem((existing)=> [...existing,item.value]);
-                          }
-                          } else {
-                            if(selectedItem.length < maxnum){
-                              selectItem([item.value]);
-                            }                        
-                          }
+                         setWhichSticky(0);
+                         setWorkingItem(item.value);
+                         setWorkingItemName(item.label);
+                         if(selectedItem){
+                           var items = [];
+                           for (let i = 0; i <= maxnum - selectedItem.filter((original) => original != item.value).length; i++) {
+                             items.push(i.toString());
+                           }
+                           console.log(items);
+                           setPickerData4OptionsCnt(items);
+                           setSelectedCount(selectedItem.filter((original) => original == item.value).length);
+                         } else {
+                           var items = [];
+                           for (let i = 0; i <= maxnum; i++) {
+                             items.push(i.toString());
+                           }
+                           console.log(items);
+                           setPickerData4OptionsCnt(items);                          
+                         }
+                        //  if(selectedItem){   
+                        //   if(selectedItem.length < maxnum){
+                        //     selectItem((existing)=> [...existing,item.value]);
+                        //   }
+                        //   } else {
+                        //     if(selectedItem.length < maxnum){
+                        //       selectItem([item.value]);
+                        //     }                        
+                        //   }
                       }}>
-                        <Icon size={20} color="#484848" name='chevron-right'></Icon>
+                        <Icon size={20} color="#484848" name='chevron-down'></Icon>
                       </TouchableOpacity>
                     </View>                    
                   </View>                 
@@ -151,7 +233,7 @@ const styles = StyleSheet.create({
 
   myCartButton: {
     marginHorizontal: 20,    
-    marginVertical: 15,  
+    marginVertical: 10,  
     position:'absolute',
     bottom:0,
     display: 'flex',

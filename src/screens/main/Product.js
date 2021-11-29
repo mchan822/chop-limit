@@ -521,7 +521,7 @@ export const ProductScreen = ({ navigation }) => {
               dispatch(
                 showNotification({
                   type: 'oop',
-                  message: "You miss one or more required fields.",
+                  message: "You missed one or more required fields.",
                   options: { align: 'right' },
                   autoHide: false
                 })
@@ -968,6 +968,7 @@ export const ProductScreen = ({ navigation }) => {
                               [product_extra.sku]: value,
                             });
                           }
+                          console.log("value@@@@@@@@@@@@@@@@@@@@@@@@@", extrasChosen);
                         }}
                       />
                       {/* {product_extra.multiple &&
@@ -1004,8 +1005,9 @@ export const ProductScreen = ({ navigation }) => {
                           name="plus"
                           />Add</Button>} */}
                     </View>
-                    {extraOptions.length > 0 &&
+                    {extraOptions.length > 0 && 
                       extraOptions.map((extraOption) => {
+                        console.log(extraOption.items,"###########")
                         if (
                           product_extra.multiple &&
                           product_extra.sku === extraOption.main_sku
