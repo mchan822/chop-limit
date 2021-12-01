@@ -79,7 +79,7 @@ export const Selector = ({
           activeOpacity={0.8}
           onPress={() => {
             NavigationService.navigate('SelectorPageChooseMultiple', {
-              title,
+              title: title + ' ' + (maxnum > 100 ? '' : maxnum),
               header,
               options,
               maxnum,

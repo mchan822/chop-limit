@@ -12,6 +12,7 @@ export const SelectorPageChooseMultipleScreen = ({ navigation }) => {
   const header = useMemo(() => navigation.getParam('header'), []);
   const options = useMemo(() => navigation.getParam('options'), []);
   const action = useMemo(() => navigation.getParam('action'), []);
+  const maxnum = useMemo(() => navigation.getParam('maxnum'), []);
   
   const noOptionsText = useMemo(() => navigation.getParam('noOptionsText'));
   const selected = useMemo(() => navigation.getParam('selected'), [navigation]);
@@ -61,7 +62,9 @@ export const SelectorPageChooseMultipleScreen = ({ navigation }) => {
                       tempSelItem.splice(sel_index,1);                   
                       selectItem([...tempSelItem]);                               
                    } else {
+                    if(selectedItem.length < maxnum){
                       selectItem((existing)=> [...existing,item.value]);
+                    }
                    }
                   }}>
                     <AppText style={{flex: 3, fontSize:15, width:'100%', paddingLeft:10}} >{item.label}</AppText>                   
@@ -75,7 +78,9 @@ export const SelectorPageChooseMultipleScreen = ({ navigation }) => {
                           tempSelItem.splice(sel_index,1);                   
                           selectItem([...tempSelItem]);                               
                        } else {
+                         if(selectedItem.length < maxnum){
                           selectItem((existing)=> [...existing,item.value]);
+                         }
                        }
                       }}
                        checkedColor={Theme.color.accentColor}
@@ -93,7 +98,9 @@ export const SelectorPageChooseMultipleScreen = ({ navigation }) => {
                           tempSelItem.splice(sel_index,1);                   
                           selectItem([...tempSelItem]);                               
                        } else {
+                        if(selectedItem.length < maxnum){
                           selectItem((existing)=> [...existing,item.value]);
+                        }
                        }
                       }}>
                     <AppText style={{flex: 3, fontSize:15, width:'100%', paddingLeft:10}} >{item.label}</AppText>  
@@ -107,7 +114,9 @@ export const SelectorPageChooseMultipleScreen = ({ navigation }) => {
                             tempSelItem.splice(sel_index,1);                   
                             selectItem([...tempSelItem]);                               
                          } else {
+                          if(selectedItem.length < maxnum){
                             selectItem((existing)=> [...existing,item.value]);
+                          }
                          }
                         }}
                          checkedColor={Theme.color.accentColor}
