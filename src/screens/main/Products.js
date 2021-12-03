@@ -18,7 +18,7 @@ import { formatPhoneNumber } from '~/core/utility'
 import { GlobalStyles, MainNavigationOptions, Theme } from '~/styles';
 
 import { fetchAPI } from '~/core/utility';
-import { showNotification, clearNotification } from '~/store/actions';
+import { showNotification, clearNotification, setTerritory } from '~/store/actions';
 import { LoadingGIF } from '../../components';
 import DeliverySVG from '~/assets/images/delivery-truck.svg';
 import PickupSVG from '~/assets/images/package.svg';
@@ -134,6 +134,7 @@ export const ProductsScreen = ({ navigation }) => {
           } else {getCategory(0);}
         }
       });
+    return ()=> {dispatch(setTerritory(null))};
   }, []);
 
   const ContactUs_clicked = useCallback((sellerID)=>{    

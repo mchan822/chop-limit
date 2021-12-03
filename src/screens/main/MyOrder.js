@@ -670,7 +670,7 @@ export const MyOrderScreen = ({ navigation }) => {
           )} 
           />       
       )}
-      <DashedLine/>
+      {/* <DashedLine/> */}
       <View style={styles.swipe}>
         <FingerSVG height={25} width={25}/>
         <AppText numberofLines={2} style={styles.swipeText}>Swipe left to remove an item.</AppText>

@@ -67,7 +67,7 @@ export const SelectorPageChooseMultipleScreen = ({ navigation }) => {
                     }
                    }
                   }}>
-                    <AppText style={{flex: 3, fontSize:15, width:'100%', paddingLeft:10}} >{item.label}</AppText>                   
+                    <AppText style={{flex: 3, fontSize:15, width:'100%', paddingLeft:10, marginBottom: 2}} >{item.label}</AppText>                   
                       <View style={{width: 40,alignItems:'center', height:50, paddingVertical:0}}>
                       <CheckBox
                        checked={selectedItem.indexOf(item.value) !== -1 ? true : false}
@@ -103,7 +103,7 @@ export const SelectorPageChooseMultipleScreen = ({ navigation }) => {
                         }
                        }
                       }}>
-                    <AppText style={{flex: 3, fontSize:15, width:'100%', paddingLeft:10}} >{item.label}</AppText>  
+                    <AppText style={{flex: 3, fontSize:15, width:'100%', paddingLeft:10, marginBottom: 2}} >{item.label}</AppText>  
                     <View style={{width: 40,alignItems:'center', height:50, paddingVertical:0}}>
                       <CheckBox
                          checked={selectedItem.indexOf(item.value) !== -1 ? true : false}

@@ -97,7 +97,7 @@ export const SelectorPageAddonScreen = ({ navigation }) => {
                 item && (
                   options.length - 1 != index ? // this is added due to flatlist marginBottom for the addItemButton in the bottom
                   <View style={styles.viewOrder}>
-                    <AppText style={{flex: 1, fontSize:15, width:'100%', paddingLeft:10}} >{item.label}</AppText>
+                    <AppText style={{flex: 1, fontSize:15, width:'100%', paddingLeft:10, marginBottom: 2}} >{item.label}</AppText>
                     <View style={{width: 50, flexDirection:'row', marginRight: 20}}>
                       {/* <TouchableOpacity style={styles.countAdd} onPress={() => {
                          if(selectedItem){   
@@ -148,7 +148,7 @@ export const SelectorPageAddonScreen = ({ navigation }) => {
                   : 
                   <View style={{marginBottom:70}}>
                   <View style={styles.viewOrder}>
-                    <AppText style={{flex: 1, fontSize:15, width:'100%', paddingLeft:10}} >{item.label}</AppText>
+                    <AppText style={{flex: 1, fontSize:15, width:'100%', paddingLeft:10, marginBottom: 2}} >{item.label}</AppText>
                     <View style={{width: 50, flexDirection:'row', marginRight: 20}}>
                       {/* <TouchableOpacity style={styles.countAdd} onPress={() => {
                          if(selectedItem){   

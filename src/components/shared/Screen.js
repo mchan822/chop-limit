@@ -198,10 +198,7 @@ export const Screen = ({
           </CustomKeyBoardAvoidingView>
         )}
       </AnimatedHeader>
-      {stickyBottom &&
-      <View style={{marginTop:-80}}>
       {stickyBottom}
-      </View>}
     </View>
   ) : messageInputKeyboardAware == true ? 
   ( 

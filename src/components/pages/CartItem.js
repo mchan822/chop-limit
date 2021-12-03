@@ -17,7 +17,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector, useDispatch } from 'react-redux';
 import { Swipeable } from 'react-native-gesture-handler';
 import { NavigationService } from '~/core/services/NavigationService';
-import { Selector, AppText } from '~/components';
+import { Selector, AppText, DashedLine } from '~/components';
 import { Theme } from '~/styles';
 import {
   setOrderProduct
@@ -128,7 +128,7 @@ export const CartItem = ({
       <Swipeable ref={ref} renderRightActions={renderLeftAction}>
         <View style={styles.container}>
           <View style={styles.name}>
-            <View style={{flexDirection:'row'}}>
+            <View style={{flexDirection:'row', marginBottom:10}}>
             <AppText            
               onPress={()=> { dispatch(setOrderProduct(product)),NavigationService.navigate("OrderProductDetails")}}
               style={[styles.item, styles.productName]}
@@ -200,6 +200,7 @@ export const CartItem = ({
           </View>
         
         </View>
+        <DashedLine/>
       </Swipeable>
     </Fragment>
   );
@@ -211,9 +212,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 10,
     paddingHorizontal: 15,
-
-    borderTopWidth: 1,
-    borderTopColor: 'grey',
   },
 
   item: {
