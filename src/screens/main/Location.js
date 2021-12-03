@@ -301,9 +301,14 @@ export const LocationScreen = ({navigation}) => {
                 NavigationService.reset('Home');
               }
             })
-            .catch((err) =>
-              dispatch(showNotification({ type: 'error', message: err.message })),
-            );
+            .catch((err) =>{
+              if(err.message == "order-expired"){
+                dispatch(cancelOrder());
+                NavigationService.reset("Home");
+              } else {
+                dispatch(showNotification({ type: 'error', message: err.message}));        
+              }
+            });
           
         } else {
         //////////
