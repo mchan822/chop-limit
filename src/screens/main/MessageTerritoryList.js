@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Screen, Input, Button, MessageTerritoryItem, LoadingGIF, StickyBottom } from '~/components';
 import { GlobalStyles, MainNavigationOptions, Theme } from '~/styles';
 import { fetchAPI } from '~/core/utility';
-import { showNotification, setUserInfo, setPhone, setToken, setTerritory,enterMessageRoom } from '~/store/actions';
+import { showNotification, setUserInfo, setPhone, setToken, enterMessageRoom } from '~/store/actions';
 import { NavigationService } from '~/core/services';
 import { DashedLine, AppText} from '../../components';
 export const MessageTerritoryListScreen = ({ navigation }) => {
@@ -55,10 +55,9 @@ export const MessageTerritoryListScreen = ({ navigation }) => {
                         console.log("+++territory clicked+++",item);
                         console.log("++territory++",item.territory);
                         dispatch(enterMessageRoom(false));
-                        dispatch(setTerritory(item.territory));
                         NavigationService.navigate('MessageRoom',{
                             token: token,
-                            territory: item.tid,
+                            territory: item.territory,
                             item: item
                         });
                     }}>

@@ -20,7 +20,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 export const MessageRoomScreen = ({ navigation }) => {
-  const territory = useSelector((state) => state.explorer.territory);
+  // const territory = useSelector((state) => state.explorer.territory);
+  const territory = useMemo(() => navigation.getParam('territory'), []);
   const userinfo =  useSelector((state) => state.account.userInfo);
   const [userImage, setUserImage] = useState(Constants.userDefaultAvatar);
   const [territoryImage, setTerritoryImage] = useState('');

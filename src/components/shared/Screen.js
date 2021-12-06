@@ -21,6 +21,7 @@ import { Notification, Loading } from '..';
 const HEADER_MAX_HEIGHT = 0;
 const test = getModel();
 const bottomMargin = Platform.OS === 'ios' ? test === 'iPhone 11' || test === 'iPhone 11 Pro' ? 0 : 30 : 0;
+const iOSPhone = Platform.OS === 'ios' && ( test === 'iPhone 11' || test === 'iPhone 11 Pro' || test === 'iPhone 12 Pro' || test === 'iPhone 12' || test === 'iPhone'? true : false);
 const HEADER_MIN_HEIGHT = Platform.OS === 'ios' ? 100 : 70;
 const HEADER_SCROLL_DISTANCE = HEADER_MIN_HEIGHT - HEADER_MAX_HEIGHT;
 const windowHeight = Dimensions.get('window').height;
@@ -161,7 +162,7 @@ export const Screen = ({
   messageInputKeyboardAware = false,
 }) =>
   showHeaderOverLayOnScroll || headerOverLayAlwaysVisible ? (
-    <View style={[styles.rootContainer, { backgroundColor: backgroundColor, marginBottom: 35 }]}>      
+    <View style={[styles.rootContainer, { backgroundColor: backgroundColor}, iOSPhone == true && {marginBottom: 35}]}>      
       <AnimatedHeader
         statusBar={statusBar}
         backgroundImage={backgroundImage}
