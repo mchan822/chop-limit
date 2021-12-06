@@ -134,7 +134,7 @@ export const ProductsScreen = ({ navigation }) => {
           } else {getCategory(0);}
         }
       });
-    return ()=> {dispatch(setTerritory(null))};
+    // return ()=> {dispatch(setTerritory(null))};
   }, []);
 
   const ContactUs_clicked = useCallback((sellerID)=>{    

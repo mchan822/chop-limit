@@ -52,7 +52,7 @@ export const SplashScreen = () => {
           }
         })
         .catch(() => {
-          dispatch(signOut());
+         // dispatch(signOut());
           setTimeout(() => NavigationService.reset('GetAccess'), 3000);
         });
     } else {

@@ -854,7 +854,7 @@ export const ProductScreen = ({ navigation }) => {
                         if (
                           extrasChosen[product_extra.sku].indexOf(item.sku) > -1
                         ) {
-                          hide = true;
+                          hide = false; // changed to false from true for SelectorPageChooseMultiple
                         }
                       }
                     }
@@ -927,9 +927,10 @@ export const ProductScreen = ({ navigation }) => {
                           if(product_extra.maxnum != '') {
                             tempMax = product_extra.maxnum;
                           }
+                           
                           let existingChosenExtras = extrasChosen;
-                         
-                          if (product_extra.multiple === true) {
+
+                          if (product_extra.multiple === true && product_extra.multipletimes === true) {
                             /////////////// multiple options with checking the limit of maxnum                            
                               if ( JSON.stringify(existingChosenExtras) != '{}' && existingChosenExtras[product_extra.sku]) {
                                 if (tempMax >= existingChosenExtras[product_extra.sku].length + value.length) {
@@ -968,7 +969,7 @@ export const ProductScreen = ({ navigation }) => {
                               [product_extra.sku]: value,
                             });
                           }
-                          console.log("value@@@@@@@@@@@@@@@@@@@@@@@@@", extrasChosen);
+                          
                         }}
                       />
                       {/* {product_extra.multiple &&
