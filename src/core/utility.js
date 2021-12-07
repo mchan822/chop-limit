@@ -26,7 +26,12 @@ export const fetchAPI = (url, options) => {
         console.log(json);
         if(json.data && json.data.error == "order-expired") {
           throw Error("order-expired");
-        } else  {
+        } else  if(json.data && json.data.error == "product-extra-required") {
+          throw Error(json.data.error);
+        }  else  if(json.data && json.data.error == "territory-closed-for-pre-order-date") {
+          throw Error(json.data.error);
+        }   
+        else  {
           throw Error(json.message);
         }
         

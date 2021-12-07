@@ -7,7 +7,8 @@ import {
   StyleSheet,
   Image,
   Linking,
-  Dimensions
+  Dimensions,
+  Platform
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector, useDispatch } from 'react-redux';
@@ -16,7 +17,7 @@ import { Screen, Product, AppText, Button, StickyBottom } from '~/components';
 import { NavigationService } from '~/core/services';
 import { formatPhoneNumber } from '~/core/utility'
 import { GlobalStyles, MainNavigationOptions, Theme } from '~/styles';
-
+import moment from 'moment-timezone';
 import { fetchAPI } from '~/core/utility';
 import { showNotification, clearNotification, setTerritory } from '~/store/actions';
 import { LoadingGIF } from '../../components';
@@ -26,6 +27,8 @@ import PriceSVG from '~/assets/images/price-tag.svg';
 import PickupDisableSVG from '~/assets/images/package-disable.svg';
 import DeliveryDisableSVG from '~/assets/images/delivery-truck-disable.svg';
 import LinearGradient from 'react-native-linear-gradient';
+import DatePicker from 'react-native-date-picker'
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 export const ProductsScreen = ({ navigation }) => {
   const [products, setProducts] = useState(false);
@@ -38,13 +41,43 @@ export const ProductsScreen = ({ navigation }) => {
   const [parsedAddress, setParsedAddress] = useState();
   const unread = useSelector((state) => state.notification.unreadMessages);
   // store
-  const dispatch = useDispatch();
-
+  const dispatch = useDispatch();  
   const token = useSelector((state) => state.account.token);
   const order = useSelector((state) => state.order && state.order.order);
   const territory = useSelector((state) => state.order.territory);
   const explorer = useSelector((state) => state.explorer);
-  
+  const windowHeight = Dimensions.get("window").height;
+  const [orderDate, setDate] = useState(new Date());
+  const [preOrder, setPreOrder] = useState('');
+  const [showTimePicker, setShowTimePicker] = useState(false);
+  const [pre_order_date, setPreOrderDate] = useState('');
+  const [pre_order_date_string, setPreOrderDateString] = useState('');
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || new Date();    
+    setDate(currentDate);
+  };
+
+  useEffect(() =>{      
+    const dateRegina = moment(orderDate).tz('America/Regina').format(); 
+    const preOrderTime = new Date(dateRegina.substring(0,19)+".000Z");
+    var indexDay = preOrderTime.getDay() == 0 ? 6 : preOrderTime.getDay() - 1;  
+    setPreOrder(preOrderTime);
+    const second =  new Date(orderDate);
+    second.setMinutes(second.getMinutes() + 30);
+  },[orderDate]);
+
+  const setPreOrderData = useCallback((preOrder) => {    
+    const dateRegina = moment(orderDate).tz('America/Regina').format();
+    const second =  new Date(dateRegina);
+    second.setMinutes(second.getMinutes() + 30);
+
+    var preOrderString = orderDate.toDateString().substring(0,10)+" ("+moment(dateRegina).format('h:mm A')+" - "+moment(second).format('h:mm A')+")";
+    setPreOrderDate(preOrder.toISOString().substring(0,16).replace("T"," "));
+    setPreOrderDateString(preOrderString);
+    dispatch(clearNotification());
+  },[orderDate,token])
+
   useEffect(() => {
     territory &&
       territory.warehouse_address &&
@@ -359,9 +392,19 @@ export const ProductsScreen = ({ navigation }) => {
     );
   };
 
-  useEffect(() => {    
-    if(territory.operation_state == 'closed')
-    {
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('didFocus', () => {      
+      closedNotification();
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
+
+  useEffect(() => {
+    console.log("#############8888888888888888#############", showTimePicker);
+    if(showTimePicker == true){      
+      dispatch(clearNotification());
       dispatch( showNotification({
         type: 'fullScreen',
         autoHide: false,
@@ -399,8 +442,8 @@ export const ProductsScreen = ({ navigation }) => {
               type="white"
               fullWidth
               style={{marginBottom: 10}}
-              onClick={() => {                         
-                dispatch(clearNotification());
+              onClick={() => {
+                setShowTimePicker(true);
               }}>
               PRE-ORDER FOR LATER
             </Button> 
@@ -412,12 +455,155 @@ export const ProductsScreen = ({ navigation }) => {
                 NavigationService.goBack();
               }}>
               GO BACK
-            </Button>                    
+            </Button>                   
+                <TouchableOpacity style={{...styles.myCartscreen, top: 0,right:-20, left:-20 }} onPress={() => {setShowTimePicker(false)}}>
+                <View style={{height:300,bottom:0, right:-20, left:-20, top: windowHeight - 300, backgroundColor: 'white', position:'absolute'}}>
+                  {/* <AppText style={{paddingHorizontal: 10, textAlign: 'center', fontWeight: 'bold', marginTop:15,fontSize: 16}}>{operationTimeText}</AppText>  */}
+                  <View style={{flexDirection: 'row', paddingHorizontal: 20}}>
+                    {Platform.OS == 'android' ? 
+                    <DatePicker style={{height: 150, flex:4, marginTop: 15}} date={orderDate} minimumDate={new Date()} maximumDate={new Date(new Date().setDate(new Date().getDate() + 6))} onDateChange={setDate} minuteInterval={15} androidVariant="iosClone" />
+                    : <DateTimePicker style={{height: 150, flex:4, marginTop: 15}} value={orderDate} minimumDate={new Date()} maximumDate={new Date(new Date().setDate(new Date().getDate() + 6))} onChange={onChange} minuteInterval={15} display="spinner" mode="datetime"/>
+                    }
+                    {/* <AppText style={{justifyContent:"center", marginTop:80}}>~</AppText> */}
+                    {/* <DatePicker style={{height:150, flex:2,marginTop: 15}} mode="time" date={time} onDateChange={setTime} minuteInterval={15}  /> */}
+                  </View>
+                  <Button
+                    type="accent"
+                    style={styles.myCartButton}
+                    onClick={() => {
+                      setPreOrderData(preOrder);
+                    }}>
+                    Save
+                  </Button> 
+                </View>
+                </TouchableOpacity>
+          </>
+        ),
+      }))
+    } else {
+      if(territory.operation_state == 'closed')
+      {
+        dispatch(clearNotification());
+        dispatch( showNotification({
+          type: 'fullScreen',
+          autoHide: false,
+          options: { align: 'right' },
+          message: (
+            <>     
+              <View style={styles.avatarContainer}>
+              <Image
+                style={styles.closedImageNotification}
+                source={require('~/assets/images/closed.png')
+                }
+                />
+              </View>                      
+                <AppText
+                style={{
+                  fontSize: 17,
+                  color: 'white',                          
+                  textAlign: 'center',
+                  marginTop: 10,
+                  fontWeight: 'bold'
+                }}>SORRY WE'RE CLOSED
+                </AppText>
+              <AppText
+                style={{
+                  fontSize: 14,
+                  color: 'white',                          
+                  textAlign: 'center',
+                  marginTop: 10,
+                  marginBottom: 20
+                }}>
+                {territory.operation_time == "" ? "Check Back on " + dayNames[nextWorkingDay[now.getDay()]] :          
+                "We open " + territory.operation_time}
+              </AppText>
+              <Button
+                type="white"
+                fullWidth
+                style={{marginBottom: 10}}
+                onClick={() => {
+                  setShowTimePicker(true);
+                }}>
+                PRE-ORDER FOR LATER
+              </Button> 
+              <Button
+                type="white"
+                fullWidth
+                onClick={() => {                         
+                  dispatch(clearNotification());
+                  NavigationService.goBack();
+                }}>
+                GO BACK
+              </Button>
+            </>
+          ),
+        }))
+      }
+    }
+  },[showTimePicker]);
+
+  const closedNotification = useCallback(() => {
+    if(territory.operation_state == 'closed')
+    {
+      setShowTimePicker(false);
+      dispatch( showNotification({
+        type: 'fullScreen',
+        autoHide: false,
+        options: { align: 'right' },
+        message: (
+          <>     
+            <View style={styles.avatarContainer}>
+            <Image
+              style={styles.closedImageNotification}
+              source={require('~/assets/images/closed.png')
+              }
+              />
+            </View>                      
+              <AppText
+              style={{
+                fontSize: 17,
+                color: 'white',                          
+                textAlign: 'center',
+                marginTop: 10,
+                fontWeight: 'bold'
+              }}>SORRY WE'RE CLOSED
+              </AppText>
+            <AppText
+              style={{
+                fontSize: 14,
+                color: 'white',                          
+                textAlign: 'center',
+                marginTop: 10,
+                marginBottom: 20
+              }}>
+              {territory.operation_time == "" ? "Check Back on " + dayNames[nextWorkingDay[now.getDay()]] :          
+              "We open " + territory.operation_time}
+            </AppText>
+            <Button
+              type="white"
+              fullWidth
+              style={{marginBottom: 10}}
+              onClick={() => {
+                console.log("#############1231231213#############");
+                setShowTimePicker(true);         
+              }}>
+              PRE-ORDER FOR LATER
+            </Button> 
+            <Button
+              type="white"
+              fullWidth
+              onClick={() => {                         
+                dispatch(clearNotification());
+                NavigationService.goBack();
+              }}>
+              GO BACK
+            </Button>                   
+            
           </>
         ),
       }))
     }
-  },[territory])
+  },[territory]);
 
   const sellerInfo = useMemo(() => {
     return territory ? (
@@ -612,6 +798,8 @@ export const ProductsScreen = ({ navigation }) => {
                             onPress={() =>
                               NavigationService.navigate('Product', {
                                 productId: product.pid,
+                                pre_order_date: pre_order_date,
+                                pre_order_date_string: pre_order_date_string
                               })
                             }>
                             <Product
@@ -689,6 +877,8 @@ export const ProductsScreen = ({ navigation }) => {
                             onPress={() =>
                               NavigationService.navigate('Product', {
                                 productId: product.pid,
+                                pre_order_date: pre_order_date,
+                                pre_order_date_string: pre_order_date_string
                               })
                             }>
                             <Product territory={territory} product={product} />
@@ -725,6 +915,8 @@ export const ProductsScreen = ({ navigation }) => {
                         onPress={() =>
                           NavigationService.navigate('Product', {
                             productId: item.pid,
+                            pre_order_date: pre_order_date,
+                            pre_order_date_string: pre_order_date_string
                           })
                         }>
                         <Product territory={territory} product={item} />
@@ -878,13 +1070,12 @@ const styles = StyleSheet.create({
   },
 
   myCartButton: {
-    marginHorizontal: 20,    
-    marginVertical: 15,  
-    position:'absolute',
-    bottom:0,
-    display: 'flex',
-    right:0,
-    left:0  
+    marginHorizontal: 20,
+    marginVertical: 20,
+    position: 'absolute',    
+    right: 20,
+    bottom: 60,
+    left: 20
   },
 
   controllerWrapper: {
@@ -997,6 +1188,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'white',
     borderRadius: 10,
+  },
+
+  myCartscreen: {
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+    left: 0
   },
 
 });

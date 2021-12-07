@@ -62,6 +62,8 @@ export const ProductScreen = ({ navigation }) => {
   const [instructions, setInstruction] =  useState();
   const [instructionsLink, setInstructionLink] =  useState();
   const [available, setAvailable] =  useState();
+  const pre_order_date = useMemo(() => navigation.getParam('pre_order_date'), []);
+  const pre_order_date_string = useMemo(() => navigation.getParam('pre_order_date_string'), []);
   const orderFreeDeliveryCutoff = useMemo(() => {
     let freeDeliveryNotice = false;
     const free_delivery_cutoff = Number(territory.free_delivery_cutoff);
@@ -167,66 +169,6 @@ export const ProductScreen = ({ navigation }) => {
     );
   };
 
-  useEffect(() => {    
-    if(territory.operation_state == 'closed')
-    {
-      dispatch( showNotification({
-        type: 'fullScreen',
-        autoHide: false,
-        options: { align: 'right' },
-        message: (
-          <>     
-            <View style={styles.avatarContainer}>
-            <Image
-              style={styles.closedImageNotification}
-              source={require('~/assets/images/closed.png')}
-              />
-            </View>                      
-              <AppText
-              style={{
-                fontSize: 17,
-                color: 'white',                          
-                textAlign: 'center',
-                marginTop: 10,
-                fontWeight: 'bold'
-              }}>SORRY WE'RE CLOSED
-              </AppText>
-            <AppText
-              style={{
-                fontSize: 14,
-                color: 'white',                          
-                textAlign: 'center',
-                marginTop: 10,
-                marginBottom: 20
-              }}>
-              {territory.operation_time == "" ? "Check Back on " + dayNames[nextWorkingDay[now.getDay()]] :          
-              "We open " + territory.operation_time}
-            </AppText>
-            <Button
-              type="white"
-              fullWidth
-              style={{marginBottom: 10}}
-              onClick={() => {                         
-                dispatch(clearNotification());
-                NavigationService.goBack();
-              }}>
-              PRE-ORDER FOR LATER
-            </Button> 
-            <Button
-              type="white"
-              fullWidth
-              onClick={() => {                         
-                dispatch(clearNotification());
-                NavigationService.goBack();
-              }}>
-              GO BACK
-            </Button>                    
-          </>
-        ),
-      }))
-    }
-  },[territory])
-
   const _cancelOrder = useCallback(() => {
     setLoading(true);
     fetchAPI('/order/cancel', {
@@ -309,6 +251,12 @@ export const ProductScreen = ({ navigation }) => {
         formData.append('quantity', optionQuantity);
         formData.append('instructions', instructions);
         formData.append('from_device', Platform.OS);
+        if(pre_order_date_string != ''){
+          formData.append('pre_order_date_string',pre_order_date_string);
+        }        
+        if(pre_order_date != ''){
+          formData.append('pre_order_date',pre_order_date);
+        }
         console.log("+++++++++",order);
         if (order) {
           if(order.cancelled == 0){
@@ -518,14 +466,37 @@ export const ProductScreen = ({ navigation }) => {
               }
             })
             .catch((err) =>{
-              dispatch(
-                showNotification({
-                  type: 'oop',
-                  message: "You missed one or more required fields.",
-                  options: { align: 'right' },
-                  autoHide: false
-                })
-              );
+              console.log(err.message,"@@@@@@@@@@@@@@@@@@@@@@@###############454545#############");
+              if(err.message == 'territory-closed-for-pre-order-date')
+              {
+                dispatch(
+                  showNotification({
+                    type: 'error',
+                    message: "The Restaurant is closed at this time for your pre-order",
+                    options: { align: 'right' },
+                    autoHide: false
+                  })
+                );
+              } else if(err.message == 'product-extra-required')
+              {
+                dispatch(
+                  showNotification({
+                    type: 'error',
+                    message: "This product is required extras",
+                    options: { align: 'right' },
+                    autoHide: false
+                  })
+                );
+              } else {
+                dispatch(
+                  showNotification({
+                    type: 'oop',
+                    message: "You missed one or more required fields.",
+                    options: { align: 'right' },
+                    autoHide: false
+                  })
+                );
+              }
              }
             )
             .finally(() => setLoading(false));
@@ -668,7 +639,7 @@ export const ProductScreen = ({ navigation }) => {
         product && product.images.length ? true : false
       }
       stickyBottom={
-        territory.type_slug === 'restaurants' && territory.operation_state == 'closed' ? <Closed/> : 
+        territory.type_slug === 'restaurants' &&  
         product && (
           <View
             style={[
