@@ -581,7 +581,6 @@ export const ProductScreen = ({ navigation }) => {
       const opt = product.options.find((op) => op.sku === sku);
       let extrasPrice = 0;
       if (extraOptions.length > 0) {
-        console.log("extraoptions!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",product.options);
         extraOptions.map((extraOption) => {          
           extraOption.items.map((item) => {
             if(extraOption.price_per_option ==  true){
@@ -801,7 +800,7 @@ export const ProductScreen = ({ navigation }) => {
                     value={sku}
                     title={product.options_name == "" ? "Options" : product.options_name}
                     header="Select an available option"
-                    options={product.options.map((item) => (console.log(item),{
+                    options={product.options.map((item) => ({
                       label: item.name + " "+territory.currency.icon + item.price,
                       value: item.sku,
                     }))}
@@ -810,7 +809,6 @@ export const ProductScreen = ({ navigation }) => {
                 </View>
               </>
             )}
-            {console.log("$$$$$$$$$$$$$$$$$$$$", products_extra)}
             {products_extra &&
               products_extra.length > 0 &&
               products_extra.map((product_extra) => {
@@ -868,6 +866,8 @@ export const ProductScreen = ({ navigation }) => {
                         hideSelector={allowNoMoreOptions}
                         addonSelector={product_extra.multiple ? true :false}
                         addonSelectorMultipletimes={product_extra.multipletimes === false ? true :false}
+                        extrasChoosen={extrasChosen.hasOwnProperty(product_extra.sku) ?
+                          extrasChosen[product_extra.sku] : []}
                         noOptionsText={
                           allowNoMoreOptions &&
                           'You have already selected all the options'
@@ -875,7 +875,8 @@ export const ProductScreen = ({ navigation }) => {
                         nameSelector={
                           product_extra.name ? product_extra.name : null
                         }
-                        maxnum={product_extra.maxnum != '' ? JSON.stringify(extrasChosen) != '{}' && extrasChosen.hasOwnProperty(product_extra.sku) ? parseInt(product_extra.maxnum) - extrasChosen[product_extra.sku].length : product_extra.maxnum : 999}
+                        maxnum={product_extra.maxnum != '' ? product_extra.maxnum : 999}
+                        // maxnum={product_extra.maxnum != '' ? JSON.stringify(extrasChosen) != '{}' && extrasChosen.hasOwnProperty(product_extra.sku) ? parseInt(product_extra.maxnum) - extrasChosen[product_extra.sku].length : product_extra.maxnum : 999}
                         style={[styles.option]}
                         value={
                           product_extra.multiple
@@ -899,7 +900,8 @@ export const ProductScreen = ({ navigation }) => {
                             tempMax = product_extra.maxnum;
                           }
                            
-                          let existingChosenExtras = extrasChosen;
+                          let existingChosenExtras = []; // = extrachoosen , This is changed to empty array because no need to add items, 12/9
+
 
                           if (product_extra.multiple === true && product_extra.multipletimes === true) {
                             /////////////// multiple options with checking the limit of maxnum                            
@@ -979,7 +981,6 @@ export const ProductScreen = ({ navigation }) => {
                     </View>
                     {extraOptions.length > 0 && 
                       extraOptions.map((extraOption) => {
-                        console.log(extraOption.items,"###########")
                         if (
                           product_extra.multiple &&
                           product_extra.sku === extraOption.main_sku

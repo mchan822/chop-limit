@@ -13,10 +13,12 @@ export const SelectorPageChooseMultipleScreen = ({ navigation }) => {
   const options = useMemo(() => navigation.getParam('options'), []);
   const action = useMemo(() => navigation.getParam('action'), []);
   const maxnum = useMemo(() => navigation.getParam('maxnum'), []);
-  
+  const selectedOptions = useMemo(() => navigation.getParam('selectedOptions'),[]);
   const noOptionsText = useMemo(() => navigation.getParam('noOptionsText'));
   const selected = useMemo(() => navigation.getParam('selected'), [navigation]);
-  const [selectedItem, selectItem] = useState('');
+  
+  const [selectedItem, selectItem] = useState(selectedOptions);
+
   const addselectedItem = useCallback((value)=> {
     if(selectedItem) {
       action(selectedItem);
@@ -30,7 +32,7 @@ export const SelectorPageChooseMultipleScreen = ({ navigation }) => {
   },[selectedItem])
   
   const AddItemButton = () => {
-    return (selectedItem.length > 0 ? (
+    return (selectedItem && selectedItem.length > 0 ? (
       <Button
         type="accentGreen"
         style={styles.myCartButton}
@@ -67,10 +69,10 @@ export const SelectorPageChooseMultipleScreen = ({ navigation }) => {
                     }
                    }
                   }}>
-                    <AppText style={{flex: 3, fontSize:15, width:'100%', paddingLeft:10, marginBottom: 2}} >{item.label}</AppText>                   
+                    <AppText style={{flex: 3, fontSize:15, width:'100%', paddingLeft:10,}} >{item.label}</AppText>                   
                       <View style={{width: 40,alignItems:'center', height:50, paddingVertical:0}}>
                       <CheckBox
-                       checked={selectedItem.indexOf(item.value) !== -1 ? true : false}
+                       checked={selectedItem && selectedItem.indexOf(item.value) !== -1 ? true : false}
                        onPress={() => {
                         if(selectedItem && selectedItem.indexOf(item.value) !== -1 ){   
                           const sel_index = selectedItem.findIndex(obj => obj === item.value);                            
@@ -106,7 +108,7 @@ export const SelectorPageChooseMultipleScreen = ({ navigation }) => {
                     <AppText style={{flex: 3, fontSize:15, width:'100%', paddingLeft:10, marginBottom: 2}} >{item.label}</AppText>  
                     <View style={{width: 40,alignItems:'center', height:50, paddingVertical:0}}>
                       <CheckBox
-                         checked={selectedItem.indexOf(item.value) !== -1 ? true : false}
+                         checked={selectedItem && selectedItem.indexOf(item.value) !== -1 ? true : false}
                          onPress={() => {
                           if(selectedItem && selectedItem.indexOf(item.value) !== -1 ){   
                             const sel_index = selectedItem.findIndex(obj => obj === item.value);                            

@@ -318,7 +318,6 @@ export const ProductsScreen = ({ navigation }) => {
         dispatch(showNotification({ type: 'error', message: err.message })),
       )
       .finally(() => {
-        console.log('fnially ');
         setLoading(false);
       });
   }, []);
@@ -402,7 +401,6 @@ export const ProductsScreen = ({ navigation }) => {
   }, [navigation]);
 
   useEffect(() => {
-    console.log("#############8888888888888888#############", showTimePicker);
     if(showTimePicker == true){      
       dispatch(clearNotification());
       dispatch( showNotification({
@@ -584,7 +582,6 @@ export const ProductsScreen = ({ navigation }) => {
               fullWidth
               style={{marginBottom: 10}}
               onClick={() => {
-                console.log("#############1231231213#############");
                 setShowTimePicker(true);         
               }}>
               PRE-ORDER FOR LATER

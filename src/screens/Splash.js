@@ -13,7 +13,7 @@ import { setBanner } from '../store/actions';
 export const SplashScreen = () => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.account.token);
-
+  console.log("token!!!!!!!!!", token);
   useEffect(() => {
     dispatch(setTerritoryType({ territory_type: "restaurants" }));
     if (token) {
@@ -47,7 +47,7 @@ export const SplashScreen = () => {
             console.log('___________token+++++++',res.data);
             setTimeout(() => NavigationService.reset('Home'), 3000);
           } else {
-            dispatch(signOut());
+            //dispatch(signOut());
             setTimeout(() => NavigationService.reset('GetAccess'), 3000);
           }
         })

@@ -10,8 +10,8 @@ export const SelectorPageChooseOneScreen = ({ navigation }) => {
   const options = useMemo(() => navigation.getParam('options'), []);
   const action = useMemo(() => navigation.getParam('action'), []);
   const noOptionsText = useMemo(() => navigation.getParam('noOptionsText'));
-  const selected = useMemo(() => navigation.getParam('selected'), [navigation]);
-  const [value, setValue] = useState('');
+  const selectedValue = useMemo(() => navigation.getParam('value'),[]);
+  const [value, setValue] = useState(selectedValue);
   const [selectedLabel, setSelectedName] = useState('');
   const AddItemButton = () => {
     return (selectedLabel != '' ? (

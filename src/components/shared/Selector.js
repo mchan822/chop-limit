@@ -19,6 +19,7 @@ export const Selector = ({
   value,
   onChange,
   options,
+  extrasChoosen,
   maxnum,
   style,
   placeholder,
@@ -60,6 +61,7 @@ export const Selector = ({
               header,
               options,
               maxnum,
+              selectedOptions: extrasChoosen,
               action: onChange,
               noOptionsText: noOptionsText
                 ? noOptionsText
@@ -83,6 +85,7 @@ export const Selector = ({
               header,
               options,
               maxnum,
+              selectedOptions: extrasChoosen,
               action: onChange,
               noOptionsText: noOptionsText
                 ? noOptionsText
@@ -104,6 +107,7 @@ export const Selector = ({
             NavigationService.navigate('SelectorPageChooseOne', {
               title,
               header,
+              value,
               options,
               action: onChange,
               noOptionsText: noOptionsText

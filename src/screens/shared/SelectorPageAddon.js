@@ -14,8 +14,8 @@ export const SelectorPageAddonScreen = ({ navigation }) => {
   const action = useMemo(() => navigation.getParam('action'), []);
   const maxnum = useMemo(() => navigation.getParam('maxnum'), []);
   const noOptionsText = useMemo(() => navigation.getParam('noOptionsText'));
-  const selected = useMemo(() => navigation.getParam('selected'), [navigation]);
-  const [selectedItem, selectItem] = useState('');
+  const selectedOptions = useMemo(() => navigation.getParam('selectedOptions'),[]);
+  const [selectedItem, selectItem] = useState(selectedOptions);
   const [workingItem, setWorkingItem] = useState('');
   const [workingItemName, setWorkingItemName] = useState('');
   const [selectedCount, setSelectedCount] = useState('1');
@@ -71,7 +71,7 @@ export const SelectorPageAddonScreen = ({ navigation }) => {
   };
 
   const AddItemButton = () => {
-    return (selectedItem.length > 0 ? (
+    return (selectedItem && selectedItem.length > 0 ? (
       <Button
         type="accentGreen"
         style={styles.myCartButton}
