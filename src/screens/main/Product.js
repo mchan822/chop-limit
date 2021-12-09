@@ -900,43 +900,45 @@ export const ProductScreen = ({ navigation }) => {
                             tempMax = product_extra.maxnum;
                           }
                            
-                          let existingChosenExtras = []; // = extrachoosen , This is changed to empty array because no need to add items, 12/9
-
+                          let existingChosenExtras = extrasChosen; // = extrachoosen , This is changed to empty array because no need to add items, 12/9
+                          console.log("$##################", extrasChosen);
 
                           if (product_extra.multiple === true && product_extra.multipletimes === true) {
                             /////////////// multiple options with checking the limit of maxnum                            
                               if ( JSON.stringify(existingChosenExtras) != '{}' && existingChosenExtras[product_extra.sku]) {
-                                if (tempMax >= existingChosenExtras[product_extra.sku].length + value.length) {
-                                  let previousVal = existingChosenExtras.hasOwnProperty(
-                                    product_extra.sku,
-                                  )
-                                    ? existingChosenExtras[product_extra.sku]
-                                    : [];
+                                if (tempMax >=  value.length) { // existingChosenExtras[product_extra.sku].length +
+                                
+                                  // let previousVal = existingChosenExtras.hasOwnProperty(
+                                  //   product_extra.sku,
+                                  // )
+                                  //   ? existingChosenExtras[product_extra.sku]
+                                  //   : [];
+                                  let previousVal = [];
                                     value.map((item)=> {
                                       previousVal.push(item);
                                     });
                                   chooseExtras({
                                     ...existingChosenExtras,
-                                    [product_extra.sku]: previousVal,
+                                    [product_extra.sku]: value, //  changed to previousVal
                                   });
                                 }
-                              } else {                             
-                                let previousVal = existingChosenExtras.hasOwnProperty(
-                                  product_extra.sku,
-                                )
-                                  ? existingChosenExtras[product_extra.sku]
-                                  : [];
+                              } else {                      
+                                // let previousVal = existingChosenExtras.hasOwnProperty(
+                                //   product_extra.sku,
+                                // )
+                                //   ? existingChosenExtras[product_extra.sku]
+                                //   : [];
+                                let previousVal = [];
                                 value.map((item)=> {
                                     previousVal.push(item);
                                   });
                                 chooseExtras({
                                   ...existingChosenExtras,
-                                  [product_extra.sku]: previousVal,
+                                  [product_extra.sku]: value, //  changed to previousVal
                                 });
-                              }
-                          
+                              }                          
                             ////////////////////
-                          } else {
+                          } else {  
                             chooseExtras({
                               ...existingChosenExtras,
                               [product_extra.sku]: value,
