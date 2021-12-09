@@ -41,7 +41,7 @@ export const SelectorPageChooseOneScreen = ({ navigation }) => {
                 item && (
                   options.length - 1 != index ? // this is added due to flatlist marginBottom for the addItemButton in the bottom
                   <TouchableOpacity style={styles.viewOrder} onPress={() => {setValue(item.value),action(item.value);setSelectedName(item.label);}}>
-                    <AppText style={{flex: 3, fontSize:15, width:'100%', paddingLeft:10, marginBottom: 1}} >{item.label}</AppText>                                        
+                    <AppText style={{flex: 3, fontSize:15, width:'100%', paddingLeft:10}} >{item.label}</AppText>                                        
                       <View style={{width: 40, alignItems:'center'}}>
                         <CheckBox containerStyle={styles.radioBackground} title="" checkedColor={Theme.color.accentColor} checked={value==item.value ? true : false} checkedIcon='dot-circle-o'  onPress = {() => {setValue(item.value),action(item.value);setSelectedName(item.label);}}  uncheckedIcon='circle-o'/>
                       </View>                      
@@ -49,7 +49,7 @@ export const SelectorPageChooseOneScreen = ({ navigation }) => {
                   : 
                   <View style={{marginBottom:70}}>
                   <TouchableOpacity style={styles.viewOrder} onPress={() => {setValue(item.value),action(item.value);setSelectedName(item.label);}}>
-                    <AppText style={{flex: 3, fontSize:15, width:'100%', paddingLeft:10, marginBottom: 1}} >{item.label}</AppText>                 
+                    <AppText style={{flex: 3, fontSize:15, width:'100%', paddingLeft:10}} >{item.label}</AppText>                 
                       <View style={{width: 40, alignItems:'center'}}>
                         <CheckBox containerStyle={styles.radioBackground} title="" checkedColor={Theme.color.accentColor} checked={value==item.value ? true : false} checkedIcon='dot-circle-o'  onPress = {() => {setValue(item.value),action(item.value);setSelectedName(item.label);}}  uncheckedIcon='circle-o'/>
                       </View>                 

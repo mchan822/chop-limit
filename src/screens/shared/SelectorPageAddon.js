@@ -98,17 +98,7 @@ export const SelectorPageAddonScreen = ({ navigation }) => {
                   options.length - 1 != index ? // this is added due to flatlist marginBottom for the addItemButton in the bottom
                   <View style={styles.viewOrder}>
                     <AppText style={{flex: 1, fontSize:15, width:'100%', paddingLeft:10, marginBottom: 2}} >{item.label}</AppText>
-                    <View style={{width: 50, flexDirection:'row', marginRight: 20}}>
-                      {/* <TouchableOpacity style={styles.countAdd} onPress={() => {
-                         if(selectedItem){   
-                            const sel_index = selectedItem.findIndex(obj => obj === item.value);                            
-                            var tempSelItem = selectedItem;
-                            tempSelItem.splice(sel_index,1);                   
-                            selectItem([...tempSelItem]);                               
-                         }
-                        }}>
-                        <Icon size={20} color="#484848" name='chevron-left'></Icon>
-                      </TouchableOpacity> */}
+                    <View style={{width: 50, flexDirection:'row', marginRight: 20}}>                    
                       <View style={{width: 40, alignItems:'center'}}><AppText style={{ fontSize:15,fontWeight:'bold',}}>{selectedItem ? selectedItem.filter((original) => original === item.value).length : 0}</AppText></View>
                       <TouchableOpacity style={styles.countAdd} onPress={() => {
                         setWhichSticky(0);
@@ -130,18 +120,8 @@ export const SelectorPageAddonScreen = ({ navigation }) => {
                           console.log(items);
                           setPickerData4OptionsCnt(items);                          
                         }
-                        //  if(selectedItem){
-
-                        //   if(selectedItem.length < maxnum){
-                        //     selectItem((existing)=> [...existing,item.value]);
-                        //   }
-                        //   } else {
-                        //     if(selectedItem.length < maxnum){
-                        //       selectItem([item.value]);
-                        //     }                        
-                        //   }
                       }}>
-                        <Icon size={20} color="#484848" name='chevron-down'></Icon>
+                        <Icon size={22} color="#484848" name='chevron-down'></Icon>
                       </TouchableOpacity>
                     </View>                   
                   </View>
@@ -149,17 +129,7 @@ export const SelectorPageAddonScreen = ({ navigation }) => {
                   <View style={{marginBottom:70}}>
                   <View style={styles.viewOrder}>
                     <AppText style={{flex: 1, fontSize:15, width:'100%', paddingLeft:10, marginBottom: 2}} >{item.label}</AppText>
-                    <View style={{width: 50, flexDirection:'row', marginRight: 20}}>
-                      {/* <TouchableOpacity style={styles.countAdd} onPress={() => {
-                         if(selectedItem){   
-                            const sel_index = selectedItem.findIndex(obj => obj === item.value);                            
-                            var tempSelItem = selectedItem;
-                            tempSelItem.splice(sel_index,1);
-                            selectItem([...tempSelItem]);                              
-                         }
-                        }}>
-                        <Icon size={20} color="#484848" name='chevron-left'></Icon>
-                      </TouchableOpacity> */}
+                    <View style={{width: 50, flexDirection:'row', marginRight: 20}}>                 
                       <View style={{width: 40, alignItems:'center'}}><AppText style={{ fontSize:15,fontWeight:'bold',}}>{selectedItem ? selectedItem.filter((original) => original === item.value).length : 0}</AppText></View>
                       <TouchableOpacity style={styles.countAdd}  onPress={() => {
                          setWhichSticky(0);
@@ -180,16 +150,7 @@ export const SelectorPageAddonScreen = ({ navigation }) => {
                            }
                            console.log(items);
                            setPickerData4OptionsCnt(items);                          
-                         }
-                        //  if(selectedItem){   
-                        //   if(selectedItem.length < maxnum){
-                        //     selectItem((existing)=> [...existing,item.value]);
-                        //   }
-                        //   } else {
-                        //     if(selectedItem.length < maxnum){
-                        //       selectItem([item.value]);
-                        //     }                        
-                        //   }
+                         }                      
                       }}>
                         <Icon size={20} color="#484848" name='chevron-down'></Icon>
                       </TouchableOpacity>
@@ -246,11 +207,9 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     alignItems:'center',
     backgroundColor:'#efefef',
-    marginTop:10, 
+    marginTop:10,
     paddingHorizontal:15,
     minHeight: 60,
-    paddingVertical:10
-    
   },
 
   countAdd: {
