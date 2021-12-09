@@ -31,7 +31,7 @@ export const StickyBottom = ({ }) => {
     return (
       <View style={{flexDirection:'row',paddingBottom:10,backgroundColor:'transparent',paddingHorizontal:20}}>
          <LinearGradient
-     colors={['#FFFFFF00',  '#efefef']}
+     colors={['#FFFFFF00',  '#ffffff']}
       style={{
           position: 'absolute',
           left: 0,

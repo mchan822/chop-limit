@@ -640,7 +640,15 @@ export const MyOrderScreen = ({ navigation }) => {
       </View>
     ) : (
       <View style={{flexDirection: 'row'}}>  
-       
+         <LinearGradient
+          colors={['#FFFFFF00',  '#ffffff']}
+            style={{
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                bottom: 0,      
+                height: 80,
+            }}/>
         <Button
           style={styles.payButton}      
           type="accent"
@@ -1109,7 +1117,7 @@ export const MyOrderScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Platform.OS === 'ios' ? 80 : 80,
+    paddingTop: Platform.OS === 'ios' ? 110 : 80,
     paddingBottom: Theme.layout.screenPaddingBottom,
     flex: 1,
   },

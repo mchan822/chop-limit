@@ -162,7 +162,7 @@ export const Screen = ({
   messageInputKeyboardAware = false,
 }) =>
   showHeaderOverLayOnScroll || headerOverLayAlwaysVisible ? (
-    <View style={[styles.rootContainer, { backgroundColor: backgroundColor}, iOSPhone == true && {marginBottom: 35}]}>      
+    <View style={[styles.rootContainer, {backgroundColor:backgroundColor}, iOSPhone == true && {paddingBottom: 35}]}>      
       <AnimatedHeader
         statusBar={statusBar}
         backgroundImage={backgroundImage}
@@ -170,8 +170,7 @@ export const Screen = ({
         {backgroundImage ? (
           <ImageBackground
             source={backgroundImage}
-            style={styles.imageBackground}>
-              
+            style={styles.imageBackground}>              
             <View style={styles.overlay} />
             <CustomKeyBoardAvoidingView
               keyboardAware={keyboardAware}
@@ -195,10 +194,13 @@ export const Screen = ({
             <Content hasList={hasList} align={align}>
               {children}             
             </Content>
-          </CustomKeyBoardAvoidingView>
+          </CustomKeyBoardAvoidingView>        
         )}
       </AnimatedHeader>
+      {stickyBottom &&
+      <View style={{marginTop:-80}}>
       {stickyBottom}
+      </View>}
     </View>
   ) : messageInputKeyboardAware == true ? 
   ( 

@@ -935,8 +935,7 @@ export const ProductsScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    paddingBottom:80,    
+    flex: 1,  
   },
 
   list: {
