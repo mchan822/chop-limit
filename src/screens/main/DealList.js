@@ -15,6 +15,7 @@ export const DealListScreen = ({ navigation }) => {
   const userinfo =  useSelector((state) => state.account.userInfo);
   const [isLoading, setLoading] = useState(false);
   const [dealList, setDealList] = useState(false);
+  const [totalCnt, setDealCount] = useState(false);
   const guestToken = useSelector((state) => state.account.guestToken);
   const token = useSelector((state) => state.account.token);
   const explorer = useSelector((state) => state.explorer);
@@ -64,7 +65,8 @@ export const DealListScreen = ({ navigation }) => {
         authorization: `Bearer ${token ? token : guestToken}`,
       },
     })
-    .then((res) => {      
+    .then((res) => {
+      setDealCount(res.data.total);
       if(page == 0){
         setDealList(res.data.deals);
       } else {
@@ -100,7 +102,7 @@ export const DealListScreen = ({ navigation }) => {
     <Screen isLoading={isLoading}>
       <View style={styles.container}>
         {dealList === false && (<><LoadingGIF/></>)}
-        {dealList && dealList.length == 0 || dealList.length > 1 ? <AppText style={styles.heading}>{dealList.length} deals available</AppText> : <AppText style={styles.heading}>{dealList.length} deal available</AppText>}
+        {totalCnt && totalCnt== 0 || totalCnt > 1 ? <AppText style={styles.heading}>{totalCnt} deals available</AppText> : <AppText style={styles.heading}>{totalCnt} deal available</AppText>}
         {dealList && dealList.length > 0 && (
             <ScrollView onScroll={({nativeEvent}) => {           
               if (isCloseToBottom(nativeEvent)) {               

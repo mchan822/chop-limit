@@ -37,6 +37,7 @@ import {
 import { Controls } from '~/styles';
 import CartSVG from '~/assets/images/cart-solid.svg';
 import { AppEventsLogger } from "react-native-fbsdk-next";
+import LinearGradient from 'react-native-linear-gradient';
 
 export const ProductScreen = ({ navigation }) => {
   const [isLoading, setLoading] = useState(false);
@@ -251,6 +252,7 @@ export const ProductScreen = ({ navigation }) => {
         formData.append('quantity', optionQuantity);
         formData.append('instructions', instructions);
         formData.append('from_device', Platform.OS);
+        console.log("test@@@@@@ when add product @@@$%$%$%$%$%@@@@@@@@@@@@@",pre_order_date,pre_order_date_string);
         if(pre_order_date_string != ''){
           formData.append('pre_order_date_string',pre_order_date_string);
         }        
@@ -646,6 +648,15 @@ export const ProductScreen = ({ navigation }) => {
               GlobalStyles.formControl,
               styles.stickyBottom,
             ]}>
+            <LinearGradient
+            colors={['#FFFFFF00',  '#FFFFFFFF']}
+              style={{
+                  position: 'absolute',
+                  left: 0,
+                  right: 0,
+                  bottom: 0,      
+                  height: 70,
+              }}/>  
             <Selector
               style={[styles.option, { flex: 2 }, styles.optionLeft]}
               value={quantity}
@@ -1397,7 +1408,7 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     zIndex: 1,
-    backgroundColor: 'rgba(256,256,256,0.9)',
+    backgroundColor: 'transparent',
     paddingHorizontal: 20,
     marginBottom: 0,
     paddingTop: 10,

@@ -578,7 +578,7 @@ export const HomeScreen = ({ navigation }) => {
     <Screen
       align="bottom"
       backgroundColor='#EFEFEF'
-      stickyBottom={<StickyBottom/>} 
+      stickyBottom={<StickyBottom gradientColor='#EFEFEF'/>} 
       >
       <View style={styles.container}>      
              

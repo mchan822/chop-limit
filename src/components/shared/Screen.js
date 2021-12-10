@@ -170,7 +170,7 @@ export const Screen = ({
         {backgroundImage ? (
           <ImageBackground
             source={backgroundImage}
-            style={styles.imageBackground}>              
+            style={styles.imageBackground_overlay}>              
             <View style={styles.overlay} />
             <CustomKeyBoardAvoidingView
               keyboardAware={keyboardAware}
@@ -351,6 +351,15 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     height: Dimensions.get('window').height,
+    resizeMode: 'contain',
+  },
+
+  imageBackground_overlay: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    right: 0,
+    height: Dimensions.get('window').height-35,
     resizeMode: 'contain',
   },
 

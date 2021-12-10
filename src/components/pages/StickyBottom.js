@@ -22,7 +22,7 @@ import RestaurantSVG from '~/assets/images/restaurant.svg';
 import UserSVG from '~/assets/images/user.svg';
 import ChatSVG from '~/assets/images/chat.svg';
 
-export const StickyBottom = ({ }) => {
+export const StickyBottom = ({gradientColor='white'}) => {
   const unread = useSelector((state) => state.notification.unreadMessages);
   const order = useSelector((state) => state.order.order);
   const price = useSelector(
@@ -31,7 +31,7 @@ export const StickyBottom = ({ }) => {
     return (
       <View style={{flexDirection:'row',paddingBottom:10,backgroundColor:'transparent',paddingHorizontal:20}}>
          <LinearGradient
-     colors={['#FFFFFF00',  '#ffffff']}
+     colors={['#FFFFFF00',  gradientColor]}
       style={{
           position: 'absolute',
           left: 0,

@@ -58,25 +58,27 @@ export const ProductsScreen = ({ navigation }) => {
     setDate(currentDate);
   };
 
-  useEffect(() =>{      
-    const dateRegina = moment(orderDate).tz('America/Regina').format(); 
-    const preOrderTime = new Date(dateRegina.substring(0,19)+".000Z");
-    var indexDay = preOrderTime.getDay() == 0 ? 6 : preOrderTime.getDay() - 1;  
-    setPreOrder(preOrderTime);
-    const second =  new Date(orderDate);
-    second.setMinutes(second.getMinutes() + 30);
-  },[orderDate]);
-
-  const setPreOrderData = useCallback((preOrder) => {    
+  const setPreOrderData = useCallback((orderDate) => {    
     const dateRegina = moment(orderDate).tz('America/Regina').format();
+    const preOrderTime = new Date(dateRegina.substring(0,19)+".000Z");
     const second =  new Date(dateRegina);
     second.setMinutes(second.getMinutes() + 30);
 
     var preOrderString = orderDate.toDateString().substring(0,10)+" ("+moment(dateRegina).format('h:mm A')+" - "+moment(second).format('h:mm A')+")";
-    setPreOrderDate(preOrder.toISOString().substring(0,16).replace("T"," "));
+    console.log("test@@@@@@@@@@@@@@@@@@@",preOrderTime.toISOString().substring(0,16).replace("T"," "),preOrderString);
+    setPreOrderDate(preOrderTime.toISOString().substring(0,16).replace("T"," "));
     setPreOrderDateString(preOrderString);
     dispatch(clearNotification());
-  },[orderDate,token])
+  });
+
+  useEffect(() =>{      
+    const dateRegina = moment(orderDate).tz('America/Regina').format(); 
+    const preOrderTime = new Date(dateRegina.substring(0,19)+".000Z");
+    console.log("prer@@@@@@@@@@@@sdsdfsdfsdfsdfsf@@@@@@@@@", preOrderTime);
+    setPreOrder(preOrderTime);
+  },[orderDate]);
+
+ 
 
   useEffect(() => {
     territory &&
@@ -469,7 +471,7 @@ export const ProductsScreen = ({ navigation }) => {
                     type="accent"
                     style={styles.myCartButton}
                     onClick={() => {
-                      setPreOrderData(preOrder);
+                      setPreOrderData(orderDate);
                     }}>
                     Save
                   </Button> 
@@ -538,7 +540,7 @@ export const ProductsScreen = ({ navigation }) => {
         }))
       }
     }
-  },[showTimePicker]);
+  },[showTimePicker, orderDate]);
 
   const closedNotification = useCallback(() => {
     if(territory.operation_state == 'closed')
@@ -1134,7 +1136,7 @@ const styles = StyleSheet.create({
 
   closedImageNotification:{    
     width: '100%',
-    height: 120
+    height: 140
   },
 
   avatarContainer: {
