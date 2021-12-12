@@ -65,10 +65,26 @@ export const ProductsScreen = ({ navigation }) => {
     second.setMinutes(second.getMinutes() + 30);
 
     var preOrderString = orderDate.toDateString().substring(0,10)+" ("+moment(dateRegina).format('h:mm A')+" - "+moment(second).format('h:mm A')+")";
-    console.log("test@@@@@@@@@@@@@@@@@@@",preOrderTime.toISOString().substring(0,16).replace("T"," "),preOrderString);
+    console.log("test@@@@@@@@@@@@@@@@@@@",territory.tid,preOrderTime.toISOString().substring(0,16).replace("T"," "),preOrderString);
     setPreOrderDate(preOrderTime.toISOString().substring(0,16).replace("T"," "));
-    setPreOrderDateString(preOrderString);
+    setPreOrderDateString(preOrderString);        
     dispatch(clearNotification());
+    setLoading(false);
+    // var tempParam = preOrderTime.toISOString().substring(0,16).replace("T"," ");
+    // fetchAPI(`/territory/is_operational?tid=${territory.tid}&date=${tempParam}`, {
+    //   method: 'GET',
+    // })
+    //   .then((res) => {
+    //     setPreOrderDate(preOrderTime.toISOString().substring(0,16).replace("T"," "));
+    //     setPreOrderDateString(preOrderString);        
+    //     dispatch(clearNotification());
+    //   })
+    //   .catch((err) =>
+    //     dispatch(showNotification({ type: 'error', message: err.message })),
+    //   )
+    //   .finally(() => {
+    //     setLoading(false);        
+    //   });
   });
 
   useEffect(() =>{      
@@ -393,14 +409,14 @@ export const ProductsScreen = ({ navigation }) => {
     );
   };
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('didFocus', () => {      
-      closedNotification();
-    });
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener('didFocus', () => {      
+  //     closedNotification();
+  //   });
 
-    // Return the function to unsubscribe from the event so it gets removed on unmount
-    return unsubscribe;
-  }, [navigation]);
+  //   // Return the function to unsubscribe from the event so it gets removed on unmount
+  //   return unsubscribe;
+  // }, [navigation]);
 
   useEffect(() => {
     if(showTimePicker == true){      
@@ -541,6 +557,10 @@ export const ProductsScreen = ({ navigation }) => {
       }
     }
   },[showTimePicker, orderDate]);
+
+  useEffect(() => {
+    closedNotification();
+  },[]);
 
   const closedNotification = useCallback(() => {
     if(territory.operation_state == 'closed')

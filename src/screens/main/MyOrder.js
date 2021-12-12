@@ -844,7 +844,7 @@ export const MyOrderScreen = ({ navigation }) => {
                         Edit                    
                     </AppText>
                   </TouchableOpacity>
-                  <TouchableOpacity style={{flexDirection:'row', width:'50%'}} onPress={()=> NavigationService.navigate('MyOrderETAChange',{territory_id: orderDetail.territory_id, address_id: orderDetail.address_id, is_pre_order: orderDetail.is_pre_order, preOrderDateString: orderDetail.pre_order_date_string, operationTime: orderDetail.territory.operation_times, has_operationTime: orderDetail.territory.has_operation_times  })}>
+                  <TouchableOpacity style={{flexDirection:'row', width:'100%'}} onPress={()=> NavigationService.navigate('MyOrderETAChange',{territory_id: orderDetail.territory_id, address_id: orderDetail.address_id, is_pre_order: orderDetail.is_pre_order, preOrderDateString: orderDetail.pre_order_date_string, operationTime: orderDetail.territory.operation_times, has_operationTime: orderDetail.territory.has_operation_times  })}>
                     <Icon name="clock-time-four-outline" style={{marginTop:10}} size={20} />
                     <AppText style={styles.summaryASAP_order}>  {orderDetail.is_pre_order==true ? orderDetail.pre_order_date_string : "ASAP"}</AppText>
                   </TouchableOpacity>

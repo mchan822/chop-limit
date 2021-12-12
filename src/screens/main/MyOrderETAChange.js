@@ -53,6 +53,7 @@ export const MyOrderETAChangeScreen = ({navigation}) => {
   const userInfo = useSelector((state) => state.account.userInfo);
   const guestToken = useSelector((state) => state.account.guestToken);
   const order = useSelector((state) => state.order.order);
+  const territory = useSelector((state) => state.order.territory);
   const addressState = useSelector((state) => state.explorer.address);  
   const order_addressChanged = useSelector((state) => state.notification.addressChanged);
   const territory_id = useMemo(() => navigation.getParam('territory_id'), []);
@@ -228,8 +229,30 @@ export const MyOrderETAChangeScreen = ({navigation}) => {
         }
       })
       .catch((err) => {
-        dispatch(showNotification({ type: 'error', message: err.message }));
-        NavigationService.reset('Home');}
+        if(err.message == 'territory-closed-for-pre-order-date')
+        {
+          dispatch(
+            showNotification({
+              type: 'error',
+              message: "The Restaurant is closed at this time for your pre-order",
+              options: { align: 'right' },
+              autoHide: false
+            })
+          );
+        } else if(err.message == 'product-extra-required')
+        {
+          dispatch(
+            showNotification({
+              type: 'error',
+              message: "This product is required extras",
+              options: { align: 'right' },
+              autoHide: false
+            })
+          );
+        } else {          
+          dispatch(showNotification({ type: 'error', message: err.message }));
+          NavigationService.reset('Home');}
+        }
       )
       .finally(() => setLoading(false));
   },[orderDate,token])
@@ -273,9 +296,11 @@ export const MyOrderETAChangeScreen = ({navigation}) => {
                   style={styles.address}
                   activeOpacity={0.8}
                   onPress={() => {
-                    setCalendarString("Pre-order for later");
-                    setPreOrderASAP();
-                    setETAType(1);
+                    if(territory.operation_state != 'closed') {
+                      setCalendarString("Pre-order for later");
+                      setPreOrderASAP();
+                      setETAType(1);
+                    }
                   }}>
                   <View style={styles.iconWrapper}>
                     <Icon size={22} color={'#333'} name="clock-time-four-outline" />
