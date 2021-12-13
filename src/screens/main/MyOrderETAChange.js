@@ -292,7 +292,7 @@ export const MyOrderETAChangeScreen = ({navigation}) => {
         {addresses && addresses.length > 0 && (
           <>
             <View style={{marginTop: 10}}><AppText style={styles.formHeading}>Order ETA</AppText></View>
-              <TouchableOpacity
+              {territory.operation_state != 'closed' && <TouchableOpacity
                   style={styles.address}
                   activeOpacity={0.8}
                   onPress={() => {
@@ -310,14 +310,16 @@ export const MyOrderETAChangeScreen = ({navigation}) => {
                   </View>
                   <TouchableOpacity
                     onPress={(ev) => {
-                      setETAType(1);
-                      setCalendarString("Pre-order for later");
-                      setPreOrderASAP();
+                      if(territory.operation_state != 'closed') {
+                        setETAType(1);
+                        setCalendarString("Pre-order for later");
+                        setPreOrderASAP();
+                      }
                     }}>
                     {etaType == 1 ? <Icon size={20} color={Theme.color.accentColor} name="radiobox-marked" /> : 
                     <Icon size={20} color={'#000'} name="radiobox-blank" />}
                   </TouchableOpacity>
-              </TouchableOpacity>
+              </TouchableOpacity>}
               <TouchableOpacity
                   style={styles.address}
                   activeOpacity={0.8}
