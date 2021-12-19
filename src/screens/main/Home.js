@@ -245,62 +245,8 @@ export const HomeScreen = ({ navigation }) => {
       }
     BackgroundTimer.stopBackgroundTimer();
     var lastMessageChecked_var = '';
-    BackgroundTimer.runBackgroundTimer(()=>{
+    BackgroundTimer.runBackgroundTimer(()=>{      
       
-      if(token && lastMessageChecked_var != ''){
-        console.log("calling lty",lastMessageChecked_var);
-       fetchAPI(`/messages/list_last_activity?last_time_checked=${lastMessageChecked_var}`, {
-         method: 'GET',
-         headers: {
-           authorization: `Bearer ${token}`,
-         },
-       })
-       .then((res) => {
-         console.log("calling list last_activity",res.data);
-           // res.data.chats.map((item, index)=> {
-           //   // var var_item = {...item,"is_new" : true}
-           //   dispatch(setMessageTerritories([item,...territoryList]));
-           // });        
-           // setLastMessageChecked(res.data.last_time_checked);
-           var byTetCnt = 0;
-           res.data.chats.map((item, index)=> {
-               if(item.last_message_by_user == '0')
-               {
-                byTetCnt = byTetCnt + 1;
-               }
-             }); 
-         if(byTetCnt > 0) {
-          //  if(Platform.OS === 'ios') {
-          //    PushNotificationIOS.addNotificationRequest({
-          //      id: "default",
-          //      title: "New Message",
-          //      subtitle: res.data.last_time_checked + 'New message received!',
-          //      body : 'new message received.',              
-          //      sound : "message.mp3",
-          //      isSilent : false,
-          //    });
-             
-          //  } else {
-          //      PushNotification.localNotification({
-          //      channelId: "default",
-          //      autoCancel: true,
-          //      bigText:
-          //        'New message received!',
-          //      subText: 'new message received.',
-          //      title: 'New messages',
-          //      message: 'Expand me to see more',
-          //      vibrate: true,
-          //      vibration: 300,
-          //      playSound: true,
-          //      soundName: 'message.mp3',
-          //    });
-          //  }
-         } 
-         
-       })
-       .catch((err) =>
-       {}///dispatch(showNotification({ type: 'error', message: err.message })),
-       )}
        if(token){
         fetchAPI('/messages/unopened', {
           method: 'POST',

@@ -66,25 +66,26 @@ export const ProductsScreen = ({ navigation }) => {
 
     var preOrderString = orderDate.toDateString().substring(0,10)+" ("+moment(dateRegina).format('h:mm A')+" - "+moment(second).format('h:mm A')+")";
     console.log("test@@@@@@@@@@@@@@@@@@@",territory.tid,preOrderTime.toISOString().substring(0,16).replace("T"," "),preOrderString);
-    setPreOrderDate(preOrderTime.toISOString().substring(0,16).replace("T"," "));
-    setPreOrderDateString(preOrderString);        
-    dispatch(clearNotification());
-    setLoading(false);
-    // var tempParam = preOrderTime.toISOString().substring(0,16).replace("T"," ");
-    // fetchAPI(`/territory/is_operational?tid=${territory.tid}&date=${tempParam}`, {
-    //   method: 'GET',
-    // })
-    //   .then((res) => {
-    //     setPreOrderDate(preOrderTime.toISOString().substring(0,16).replace("T"," "));
-    //     setPreOrderDateString(preOrderString);        
-    //     dispatch(clearNotification());
-    //   })
-    //   .catch((err) =>
-    //     dispatch(showNotification({ type: 'error', message: err.message })),
-    //   )
-    //   .finally(() => {
-    //     setLoading(false);        
-    //   });
+    // setPreOrderDate(preOrderTime.toISOString().substring(0,16).replace("T"," "));
+    // setPreOrderDateString(preOrderString);        
+    // dispatch(clearNotification());
+    setLoading(true);
+    var tempParam = preOrderTime.toISOString().substring(0,16).replace("T"," ");
+    fetchAPI(`/territory/is_operational?tid=${territory.tid}&date=${tempParam}`, {
+      method: 'GET',
+    })
+      .then((res) => {
+        setPreOrderDate(preOrderTime.toISOString().substring(0,16).replace("T"," "));
+        setPreOrderDateString(preOrderString);        
+        dispatch(clearNotification());
+      })
+      .catch((err) => {
+        dispatch(showNotification({ type: 'error', message: err.message, buttonAction: (() => {closedNotification()})}));
+        }
+      )
+      .finally(() => {
+        setLoading(false);        
+      });
   });
 
   useEffect(() =>{      
@@ -409,10 +410,10 @@ export const ProductsScreen = ({ navigation }) => {
     );
   };
 
-  // useEffect(() => {
+  //  useEffect(() => {
   //   const unsubscribe = navigation.addListener('didFocus', () => {      
-  //     closedNotification();
-  //   });
+  //   closedNotification();
+  //  });
 
   //   // Return the function to unsubscribe from the event so it gets removed on unmount
   //   return unsubscribe;
@@ -563,6 +564,7 @@ export const ProductsScreen = ({ navigation }) => {
   },[]);
 
   const closedNotification = useCallback(() => {
+    console.log("here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!@");
     if(territory.operation_state == 'closed')
     {
       setShowTimePicker(false);
@@ -848,116 +850,14 @@ export const ProductsScreen = ({ navigation }) => {
     );
   } else {
     
-    return (       
-      <Screen
-        hasList
-        statusBar="light-content"
-        showHeaderOverLayOnScroll
-        stickyBottom={<StickyBottom />}>
-        <View style={styles.container}>
-          {territory && (categories || products) ? ( 
-            territory.app_overview_display != 'products' ?
-            <FlatList
-              contentContainerStyle={styles.wrapper}
-              alwaysBounceVertical={false}
-              keyExtractor={(item, index) => index.toString()}
-              onEndReached={() => {
-                if (page < totalPages-1) {                 
-                  getCategory(page + 1);                 
-                  setPage(page + 1);                
-                }
-              }}
-              onEndReachedThreshold={0.1}
-              data={categories.length != 1 ? categories.filter((item) =>item.show_name == true) : categories}
-              extraData={categories.length != 1 ? categories.filter((item) =>item.show_name == true) : categories}
-              ListHeaderComponent={() =>  sellerInfo}
-              ListEmptyComponent={() => (
-                <AppText style={{ textAlign: 'center' }}>No Products.</AppText>
-              )}
-              renderItem={({ item, index }) =>
-                (!selectedCategory || item.slug === selectedCategory) &&
-                item.products.length ?  (
-                <View
-                    style={{
-                      flexDirection: 'column',
-                      paddingTop: index === 0 ? 20 : 40,
-                      paddingHorizontal: 20
-                    }}>
-                      {territory.type_slug == 'services' ?  <AppText style={styles.categorytitle4Services}>All Services</AppText>
-                      :
-                       <AppText style={styles.categorytitle}>{item.name}</AppText> }
-                    
-                    <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                      { item.products.filter((item)=> item.out_stock == false ).map((product, index) => {
-                        return !product.out_stock ? (
-                          <TouchableOpacity
-                            style={styles.productWrapper}
-                            activeOpacity={0.8}
-                            onPress={() =>
-                              NavigationService.navigate('Product', {
-                                productId: product.pid,
-                                pre_order_date: pre_order_date,
-                                pre_order_date_string: pre_order_date_string
-                              })
-                            }>
-                            <Product territory={territory} product={product} />
-                          </TouchableOpacity>
-                        ) : null;
-                      })}
-                    </View>
-                  </View>                        
-                ) : null}
-            /> :
-            <FlatList
-              contentContainerStyle={styles.wrapper}
-              alwaysBounceVertical={false}
-              keyExtractor={(item, index) => index.toString()}
-              onEndReached={() => {
-                if (page < totalPages-1) {                
-                  getProducts(page+1);                
-                  setPage(page + 1);                
-                }
-              }}
-              onEndReachedThreshold={0.1}
-              data={products}
-              numColumns={2}
-              extraData={products}
-              ListHeaderComponent={() => sellerInfo}
-              ListEmptyComponent={() => (
-                <AppText style={{ textAlign: 'center' }}>No Products.</AppText>
-              )}
-              renderItem={({ item }) =>
-                   !item.out_stock ? (
-                      <TouchableOpacity
-                        style={styles.productWrapper}
-                        activeOpacity={0.8}
-                        onPress={() =>
-                          NavigationService.navigate('Product', {
-                            productId: item.pid,
-                            pre_order_date: pre_order_date,
-                            pre_order_date_string: pre_order_date_string
-                          })
-                        }>
-                        <Product territory={territory} product={item} />
-                      </TouchableOpacity>
-                    ) : <></>               
-               }
-            />
-          ) : (
-            <>
-              {sellerInfo}
-              <LoadingGIF />
-            </>
-          )}
-        </View>
-      </Screen>
-    );
+    
   }
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,  
+    marginBottom: 80
   },
 
   list: {
