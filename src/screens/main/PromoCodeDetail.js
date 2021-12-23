@@ -1,5 +1,5 @@
 import React, { useState,useEffect, useMemo, useCallback } from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Screen, Input, Button, AppText, DealItem, DashedLine} from '~/components';
@@ -156,7 +156,7 @@ export const PromoCodeDetailScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: Theme.layout.screenPaddingHorizontal,
-    paddingTop: Theme.layout.screenPaddingTop,
+    paddingTop: Platform.OS === 'ios' ? 100 : Theme.layout.screenPaddingTop,
     paddingBottom: Theme.layout.screenPaddingBottom,
   },
 

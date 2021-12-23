@@ -1241,6 +1241,7 @@ const styles = StyleSheet.create({
   summaryTotal: {
     fontSize: 24,
     textAlign: 'center',
+    marginRight: 5
   },
 
   actions: {
