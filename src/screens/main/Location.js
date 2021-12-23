@@ -218,20 +218,20 @@ export const LocationScreen = ({navigation}) => {
         if(lastAddress != address &&  (order && order.cart_amount> 0 ) && ( token || guestToken)){
           setLoading(true);
         // _cancelOrder();
-          fetchAPI('/order/cancel', {
-            method: 'POST',
-            headers: {
-              authorization: `Bearer ${token ? token : guestToken}`,
-            },
-          })
-            .then(async (res) => {
-              dispatch(cancelOrder());       
-              console.log("order_cancelled!!!!!!!!!!!!!!!!!!!!!!!!");
+          // fetchAPI('/order/cancel', {
+          //   method: 'POST',
+          //   headers: {
+          //     authorization: `Bearer ${token ? token : guestToken}`,
+          //   },
+          // })
+          //   .then(async (res) => {
+          //     dispatch(cancelOrder());       
+          //     console.log("order_cancelled!!!!!!!!!!!!!!!!!!!!!!!!");
               if (token  && ( userInfo && userInfo.user_verified  && userInfo.user_verified == true)) {   
                 const formData = new FormData();
                 formData.append(type, address);
                 formData.append('from_device', Platform.OS);
-                await fetchAPI('/order/address', {
+                 fetchAPI('/order/address', {
                   method: 'POST',
                   headers: {
                     authorization: `Bearer ${token}`,
@@ -268,7 +268,7 @@ export const LocationScreen = ({navigation}) => {
                 formData.append(type, address);
                 formData.append('as_guest', 1);
                 formData.append('from_device', Platform.OS);
-                await fetchAPI('/order/address', {
+                 fetchAPI('/order/address', {
                   method: 'POST',
                   body: formData,
                 })
@@ -300,15 +300,15 @@ export const LocationScreen = ({navigation}) => {
                 dispatch(setAddressFullAction(addressFull));
                 NavigationService.reset('Home');
               }
-            })
-            .catch((err) =>{
-              if(err.message == "order-expired"){
-                dispatch(cancelOrder());
-                NavigationService.reset("Home");
-              } else {
-                dispatch(showNotification({ type: 'error', message: err.message}));        
-              }
-            });
+            // })
+            // .catch((err) =>{
+            //   if(err.message == "order-expired"){
+            //     dispatch(cancelOrder());
+            //     NavigationService.reset("Home");
+            //   } else {
+            //     dispatch(showNotification({ type: 'error', message: err.message}));        
+            //   }
+            // });
           
         } else {
         //////////

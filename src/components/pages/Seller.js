@@ -45,12 +45,13 @@ export const Seller = ({ seller }) => (
                   ?
                     <AppText style={styles.products} numberOfLines={1}>
                       {/* {seller.warehouse_address_line == '' ? seller.warehouse_address_city : seller.warehouse_address_line} */}
-                      {(parseFloat(seller.address_distance_km).toFixed(0))+(`km away`)} • Closes at {seller.operation_times[nextWorkingDay[now.getDay()]].till}
+                      {/* {(parseFloat(seller.address_distance_km).toFixed(0))+(`km away`)} • Closes at {seller.operation_times[nextWorkingDay[now.getDay()]].till} */}
+                      {(parseFloat(seller.address_distance_km).toFixed(0))+(`km away`)} • {seller.operation_time_full}
                     </AppText> 
                   : 
                     <AppText style={styles.products} numberOfLines={1}>
                       {/* {seller.warehouse_address_line == '' ? seller.warehouse_address_city : seller.warehouse_address_line} */}
-                      {(parseFloat(seller.address_distance_km).toFixed(0))+(`km away`)} • Closes at {seller.operation_times[nextWorkingDay[now.getDay()]].till}
+                      {(parseFloat(seller.address_distance_km).toFixed(0))+(`km away`)} • {seller.operation_time_full}
                   </AppText>
                  }        
       </View> :

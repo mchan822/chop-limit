@@ -24,7 +24,9 @@ export const fetchAPI = (url, options) => {
 
         console.log(`${Config.apiBaseURL}${url}`, options);
         console.log(json);
-        if(json.data && json.data.error == "order-expired") {
+        if(json.data && json.data.error == "delivery-address-out-of-range") {
+          throw Error(json.message);
+        } else if(json.data && json.data.error == "order-expired") {
           throw Error("order-expired");
         } else  if(json.data && json.data.error == "product-extra-required") {
           throw Error(json.data.error);
