@@ -29,7 +29,8 @@ export const Input = ({
     switch (titleType) {
       case 'text':
         return styles.titleTextWrapper;
-
+      case 'currency':
+        return styles.titleCurrencyWrapper;
       case 'icon':
       case 'image':
         return styles.titleIconWrapper;
@@ -53,7 +54,7 @@ export const Input = ({
             type !== 'textarea' && ( type==='creditCard' ? styles.textWidth : titleStyle), 
             type === 'textarea' ? styles.textareaTitle : styles.title,
           ]}>
-          {titleType === 'text' ? (
+          {(titleType === 'text' || titleType === 'currency') ? (
             <AppText style={styles.titleText}>{title}</AppText>
           ) : titleType === 'icon' ? (
             <Icon size={Controls.input.iconSize} name={title} />
@@ -140,6 +141,11 @@ const styles = StyleSheet.create({
 
   titleTextWrapper: {
     width: Controls.input.labelTextWidth,
+    paddingHorizontal: 10,
+  },
+
+  titleCurrencyWrapper: {
+    width: 30,
     paddingHorizontal: 10,
   },
 

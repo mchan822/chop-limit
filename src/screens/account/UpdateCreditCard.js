@@ -16,6 +16,7 @@ export const UpdateCreditCardScreen = ({ navigation }) => {
   const edit  = navigation.getParam('edit');
   const deliveryMode = useMemo(() => navigation.getParam('deliveryMode'), []);
   const tip_percentage = useMemo(() => navigation.getParam('tip_percentage'), []);
+  const tip_type = useMemo(() => navigation.getParam('tip_type'), []);
 
   
   const editSubscription = useMemo(() => navigation.getParam('editSubscription'), []);
@@ -62,7 +63,15 @@ export const UpdateCreditCardScreen = ({ navigation }) => {
 
         const formData = new FormData();
         formData.append('delivery_type', deliveryMode);
-        formData.append('tip_percentage', tip_percentage);
+        if(tip_type == 'fixed')
+        {
+          formData.append('tip_type', 'fixed');
+          formData.append('tip_fixed', tip_percentage);
+        } else {
+          formData.append('tip_type', 'percentage');
+          formData.append('tip_percentage', tip_percentage);
+        }
+
 
         await fetchAPI('/order/pay', {
           method: 'POST',
@@ -82,6 +91,7 @@ export const UpdateCreditCardScreen = ({ navigation }) => {
             NavigationService.navigate('Account/CreditCard', {
               deliveryMode: deliveryMode,
               tip_percentage: tip_percentage,
+              tip_type: tip_type
             });
           })
           .finally(() => setLoading(false));
@@ -92,7 +102,7 @@ export const UpdateCreditCardScreen = ({ navigation }) => {
         
       )
       .finally(() => setLoading(false));
-  }, [userInfo, deliveryMode, card, token, userInfo, tip_percentage]);
+  }, [userInfo, deliveryMode, card, token, userInfo, tip_percentage, tip_type]);
 
   const getOrderDetails = useCallback(() => {
     setLoading(true);

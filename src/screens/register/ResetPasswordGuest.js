@@ -18,7 +18,7 @@ export const ResetPasswordGuestScreen = ({ navigation }) => {
   const token = useSelector((state) => state.account.token);
   const deliveryMode = useMemo(() => navigation.getParam('deliveryMode'), []);
   const tip_percentage = useMemo(() => navigation.getParam('tip_percentage'), []);
-
+  const tip_type = useMemo(() => navigation.getParam('tip_type'), []);
   const setNewPassword = useCallback(() => {
     setLoading(true);
 
@@ -38,6 +38,7 @@ export const ResetPasswordGuestScreen = ({ navigation }) => {
         NavigationService.navigate('CheckPasswordGuest', {
           deliveryMode: deliveryMode,
           tip_percentage: tip_percentage,
+          tip_type: tip_type
         });
       })
       .catch((err) =>

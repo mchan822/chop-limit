@@ -12,6 +12,7 @@ import { showNotification,signOut, setToken, setUserInfo, setPhone , setBanner} 
 export const UserInfoScreen = ({ navigation }) => {
   const deliveryMode = useMemo(() => navigation.getParam('deliveryMode'), []);
   const tip_percentage = useMemo(() => navigation.getParam('tip_percentage'), []);
+  const tip_type = useMemo(() => navigation.getParam('tip_type'), []);
   const [user, setUser] = useState({});
   const [isLoading, setLoading] = useState(false);
 
@@ -73,7 +74,8 @@ export const UserInfoScreen = ({ navigation }) => {
               user : user,
               token : res.data.token,
               deliveryMode: deliveryMode,
-              tip_percentage: deliveryMode,
+              tip_percentage: tip_percentage,
+              tip_type: tip_type
             });
           }
         })
@@ -124,6 +126,7 @@ export const UserInfoScreen = ({ navigation }) => {
             NavigationService.navigate('Account/CreditCard',{
               deliveryMode : deliveryMode,
               tip_percentage : tip_percentage,
+              tip_type: tip_type
             });
          
           })

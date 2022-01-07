@@ -14,6 +14,7 @@ export const GetAccessGuestScreen = ({ navigation }) => {
   
   const deliveryMode = useMemo(() => navigation.getParam('deliveryMode'), []);
   const tip_percentage = useMemo(() => navigation.getParam('tip_percentage'), []);
+  const tip_type = useMemo(() => navigation.getParam('tip_type'), []);
   const [isLoading, setLoading] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');  
   const anim = useRef(new Animated.Value(0)).current;
@@ -42,7 +43,9 @@ export const GetAccessGuestScreen = ({ navigation }) => {
             NavigationService.navigate('CheckPasswordGuest',{
               token: token ? token : guestToken,
               deliveryMode: deliveryMode,
-              tip_percentage: tip_percentage,});
+              tip_percentage: tip_percentage,
+              tip_type: tip_type,
+            });
           } 
           // else if(res.data.user_verified){
           //   NavigationService.navigate('ProfileGuest', {
@@ -55,7 +58,9 @@ export const GetAccessGuestScreen = ({ navigation }) => {
             NavigationService.navigate('VerifyPhoneGuest',{
               token: res.data.token,
               deliveryMode: deliveryMode,
-              tip_percentage: tip_percentage,});
+              tip_percentage: tip_percentage,
+              tip_type: tip_type,
+            });
           }
         })
         .catch((err) =>

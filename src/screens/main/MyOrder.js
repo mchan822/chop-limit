@@ -8,11 +8,11 @@ import {
   StyleSheet,
 } from 'react-native';
 import {CheckBox} from 'react-native-elements';
-import MapView from 'react-native-maps';
-import GeoCoder from 'react-native-geocoding';
+// import MapView from 'react-native-maps';
+// import GeoCoder from 'react-native-geocoding';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { showLocation } from 'react-native-map-link';
-import { Config } from '~/core/config';
+// import { showLocation } from 'react-native-map-link';
+// import { Config } from '~/core/config';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { NavigationService } from '~/core/services';
@@ -167,11 +167,13 @@ export const MyOrderScreen = ({ navigation }) => {
         NavigationService.navigate('GetAccessGuest', {
           deliveryMode: deliveryMode,
           tip_percentage: tipValue,
+          tip_type: checked == 'other' ? "fixed" : 'percentage',
         });  
     }else if(!userInfo.email && userInfo.user_verified == true){
       NavigationService.navigate('ProfileGuest', {
         deliveryMode: deliveryMode,
         tip_percentage: tipValue,
+        tip_type: checked == 'other' ? "fixed" : 'percentage',
         signup_already: true,
         pay_cash: true
       });
@@ -180,7 +182,14 @@ export const MyOrderScreen = ({ navigation }) => {
 
       const formData = new FormData();
       formData.append('delivery_type', deliveryMode);
-      formData.append('tip_percentage', tipValue);
+      if(checked == 'other')
+      {
+        formData.append('tip_type', 'fixed');
+        formData.append('tip_fixed', tipValue);
+      } else {
+        formData.append('tip_type', 'percentage');
+        formData.append('tip_percentage', tipValue);
+      }
 
       fetchAPI('/order/cash_on_delivery', {
         method: 'POST',
@@ -221,11 +230,13 @@ export const MyOrderScreen = ({ navigation }) => {
         NavigationService.navigate('GetAccessGuest', {
           deliveryMode: deliveryMode,
           tip_percentage: tipValue,
+          tip_type: checked == 'other' ? "fixed" : 'percentage',
         });  
     }else if(!userInfo.email && userInfo.user_verified == true){
       NavigationService.navigate('ProfileGuest', {
         deliveryMode: deliveryMode,
         tip_percentage: tipValue,
+        tip_type: checked == 'other' ? "fixed" : 'percentage',
         signup_already: true,
       });
     } else if (userInfo.creditcard ) {
@@ -234,7 +245,15 @@ export const MyOrderScreen = ({ navigation }) => {
       const formData = new FormData();
       formData.append('delivery_type', deliveryMode);
       formData.append('tip_percentage', tipValue);
-
+      if(checked == 'other')
+      {
+        formData.append('tip_type', 'fixed');
+        formData.append('tip_fixed', tipValue);
+      } else {
+        formData.append('tip_type', 'percentage');
+        formData.append('tip_percentage', tipValue);
+      }
+      
       fetchAPI('/order/pay', {
         method: 'POST',
         headers: {
@@ -260,6 +279,7 @@ export const MyOrderScreen = ({ navigation }) => {
             NavigationService.navigate('Account/CreditCard', {
               deliveryMode: deliveryMode,
               tip_percentage: tipValue,
+              tip_type: checked == 'other' ? "fixed" : 'percentage',
               edit: true
             });
             dispatch(showNotification({ type: 'error_card', message: err.message}));
@@ -270,6 +290,7 @@ export const MyOrderScreen = ({ navigation }) => {
       NavigationService.navigate('Account/CreditCard', {
         deliveryMode: deliveryMode,
         tip_percentage: tipValue,
+        tip_type: checked == 'other' ? "fixed" : 'percentage',
         edit: true
       });
     }
@@ -381,21 +402,21 @@ export const MyOrderScreen = ({ navigation }) => {
             color: 'black',
           },
         });
-        GeoCoder.init(Config.googleAPIKey);
+        // GeoCoder.init(Config.googleAPIKey);
 
-        GeoCoder.from(res.data.territory.warehouse_address)
-          .then((json) => {
-            const location = json.results[0].geometry.location;
-            setGeoCode({
-              latitude: location.lat,
-              longitude: location.lng,
-              latitudeDelta: 0.001,
-              longitudeDelta: 0.001,
-            });
-          })
-          .catch((err) =>
-            dispatch(showNotification({ type: 'error', message: err.message })),
-          );
+        // GeoCoder.from(res.data.territory.warehouse_address)
+        //   .then((json) => {
+        //     const location = json.results[0].geometry.location;
+        //     setGeoCode({
+        //       latitude: location.lat,
+        //       longitude: location.lng,
+        //       latitudeDelta: 0.001,
+        //       longitudeDelta: 0.001,
+        //     });
+        //   })
+        //   .catch((err) =>
+        //     dispatch(showNotification({ type: 'error', message: err.message })),
+        //   );
       })
       .catch((err) =>
         //dispatch(showNotification({ type: 'error', message: err.message })),
@@ -574,8 +595,8 @@ export const MyOrderScreen = ({ navigation }) => {
         ' ( ' +
           orderDetail.territory.currency.icon +
           (deliveryMode === 'deliver'
-            ? +orderDetail.total_amount_with_delivery*(1+tipValue/100)
-            : +orderDetail.total_amount_without_delivery*(1+tipValue/100)
+            ? checked == 'other' ? +(parseFloat(orderDetail.total_amount_with_delivery) + parseFloat(tipValue)) : +orderDetail.total_amount_with_delivery*(1+tipValue/100)
+            : checked == 'other' ? +(parseFloat(orderDetail.total_amount_without_delivery) + parseFloat(tipValue)) : +orderDetail.total_amount_without_delivery*(1+tipValue/100)
           ).toFixed(2) + (orderDetail.has_subscription_products == true  ? (' ' + orderDetail.products[0].subscription_type_name_every): ''))  + ' )',
     [userInfo, orderDetail, deliveryMode, tipValue],
   );
@@ -870,29 +891,31 @@ export const MyOrderScreen = ({ navigation }) => {
                   {territory && territory.activate_tip == '1' ? <View style={styles.tipTitle}>
                     <AppText style={styles.summaryKey_tip}>
                       Add a Tip?                      
-                    </AppText>
-                    
-                    {/* <RadioButton.Group style={styles.radio} onValueChange={newValue => {setChecked(newValue);setOther('notOther');}} value={tipValue}> */}
+                    </AppText>                    
                       <View style={styles.radio}>
-                        <CheckBox containerStyle={styles.radioBackground} title="10%" checkedColor={Theme.color.accentColor} checked={tipValue=='10' ? true : false} checkedIcon='dot-circle-o'  onPress = {() => {setChecked('10');setOther('notOther');}}  uncheckedIcon='circle-o'/>
-                        <CheckBox containerStyle={styles.radioBackground} title="15%" checkedColor={Theme.color.accentColor} checked={tipValue=='15' ? true : false} checkedIcon='dot-circle-o'  onPress = {() => {setChecked('15');setOther('notOther');}}  uncheckedIcon='circle-o'/>
-                        <CheckBox containerStyle={styles.radioBackground} title="20%" checkedColor={Theme.color.accentColor} checked={tipValue=='20' ? true : false} checkedIcon='dot-circle-o'  onPress = {() => {setChecked('20');setOther('notOther');}}  uncheckedIcon='circle-o'/>
+                        <CheckBox containerStyle={styles.radioBackground} title="10%" checkedColor={Theme.color.accentColor} checked={tipValue=='10' && checked != 'other' ? true : false} checkedIcon='dot-circle-o'  onPress = {() => {setChecked('10');setOther('notOther');}}  uncheckedIcon='circle-o'/>
+                        <CheckBox containerStyle={styles.radioBackground} title="15%" checkedColor={Theme.color.accentColor} checked={tipValue=='15' && checked != 'other' ? true : false} checkedIcon='dot-circle-o'  onPress = {() => {setChecked('15');setOther('notOther');}}  uncheckedIcon='circle-o'/>
+                        <CheckBox containerStyle={styles.radioBackground} title="20%" checkedColor={Theme.color.accentColor} checked={tipValue=='20' && checked != 'other' ? true : false} checkedIcon='dot-circle-o'  onPress = {() => {setChecked('20');setOther('notOther');}}  uncheckedIcon='circle-o'/>
                         <CheckBox containerStyle={styles.radioBackground} title="Other"  checkedIcon='dot-circle-o'  uncheckedIcon='circle-o' checkedColor={Theme.color.accentColor} checked={checked == 'other' ? true : false}
                           onPress={() => {
-                          NavigationService.navigate('SelectorPercentPage', {
-                            title: 'Tip',
-                            header: 'How much would you like to tip?',
-                            options: [5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100].map((item) => ({
-                              label: item+'%',
-                              value: item,
-                              selected: tipValue == item ? 'selected' : '',
-                            })),
-                            action: (value) => {
+                            NavigationService.navigate('MyOrderLeaveTipOther', {currency: orderDetail.territory.currency.icon , action: (value) => {
                               setChecked(value);
                               setOther('other');
-                            },
-                            noOptionsText: 'No Options Available',
-                          });
+                            }});
+                          // NavigationService.navigate('SelectorPercentPage', {
+                          //   title: 'Tip',
+                          //   header: 'How much would you like to tip?',
+                          //   options: [5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100].map((item) => ({
+                          //     label: item+'%',
+                          //     value: item,
+                          //     selected: tipValue == item ? 'selected' : '',
+                          //   })),
+                          //   action: (value) => {
+                          //     setChecked(value);
+                          //     setOther('other');
+                          //   },
+                          //   noOptionsText: 'No Options Available',
+                          // });
                         }} />                       
                        </View> 
                   </View> : <></>
@@ -1009,21 +1032,25 @@ export const MyOrderScreen = ({ navigation }) => {
                   </View>                
                   {territory &&  territory.activate_tip == '1' ? <View style={styles.summaryRow}>
                     <AppText style={styles.summaryKey}>
-                      {tipValue != '' ? "Tip ("+tipValue+"% of Sub-total)" : "Tip"}
+                      {(tipValue != '' && checked != 'other') ? "Tip ("+tipValue+"% of Sub-total)" : "Tip"}
                       {/* ({orderDetail.taxes_percentage}%) */}
                     </AppText>
                     <AppText style={styles.summaryValue}>
                       {deliveryMode === 'deliver'
-                        ? `${
+                        ? (checked == 'other' ? `${
+                            orderDetail.territory.currency.icon
+                          } ${parseFloat(tipValue).toFixed(2)}` : `${
                             orderDetail.territory.currency.icon
                           } ${(+orderDetail.total_amount_with_delivery*tipValue/100).toFixed(
                             2,
-                          )}`
-                        : `${
+                          )}`)
+                        : (checked == 'other' ? `${
+                          orderDetail.territory.currency.icon
+                        } ${parseFloat(tipValue).toFixed(2)}` :  `${
                             orderDetail.territory.currency.icon
                           } ${(+orderDetail.total_amount_without_delivery*tipValue/100).toFixed(
                             2,
-                          )}`}
+                          )}`)}
                     </AppText>
                   </View>: <></> }
                 </View>

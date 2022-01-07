@@ -11,7 +11,7 @@ import { NavigationService } from '~/core/services';
 export const CheckPasswordGuestScreen = ({ navigation }) => {
   const deliveryMode = useMemo(() => navigation.getParam('deliveryMode'), []);
   const tip_percentage = useMemo(() => navigation.getParam('tip_percentage'), []);
-  
+  const tip_type = useMemo(() => navigation.getParam('tip_type'), []);
   const signInToken = useMemo(() => navigation.getParam('token'), []);
 
   const createMessage = useMemo(() => navigation.getParam('createMessage'), []);
@@ -97,6 +97,7 @@ export const CheckPasswordGuestScreen = ({ navigation }) => {
                   NavigationService.navigate('Account/CreditCard', {
                     deliveryMode: deliveryMode,
                     tip_percentage: tip_percentage,
+                    tip_type: tip_type
                   });
                 }
                 else
@@ -160,6 +161,7 @@ export const CheckPasswordGuestScreen = ({ navigation }) => {
               NavigationService.navigate('Account/CreditCard', {
                 deliveryMode: deliveryMode,
                 tip_percentage: tip_percentage,
+                tip_type: tip_type
               });
             }
             else
@@ -259,6 +261,7 @@ export const CheckPasswordGuestScreen = ({ navigation }) => {
                 onClick={() => NavigationService.navigate("ResetPasswordEmailGuest", {
                   deliveryMode: deliveryMode,
                   tip_percentage: tip_percentage,
+                  tip_type: tip_type
                 })}>
                 Forgot Password</Button>
             </View>

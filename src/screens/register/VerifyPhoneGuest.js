@@ -12,7 +12,7 @@ import { NavigationService } from '~/core/services';
 export const VerifyPhoneGuestScreen = ({ navigation }) => {
   const deliveryMode = useMemo(() => navigation.getParam('deliveryMode'), []);
   const tip_percentage = useMemo(() => navigation.getParam('tip_percentage'), []);
-
+  const tip_type = useMemo(() => navigation.getParam('tip_type'), []);
   const createMessage = useMemo(() => navigation.getParam('createMessage'), []);
   const territory = useMemo(() => navigation.getParam('territory'), []);
   const message = useMemo(() => navigation.getParam('message'), []);
@@ -63,6 +63,7 @@ export const VerifyPhoneGuestScreen = ({ navigation }) => {
         NavigationService.navigate('ProfileGuest', {
           deliveryMode: deliveryMode,
           tip_percentage: tip_percentage,
+          tip_type: tip_type
         });   
       }else{
         setLoading(true);

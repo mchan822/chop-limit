@@ -41,6 +41,7 @@ import {
   ProductScreen,
   ProductEditScreen,
   MyOrderScreen,
+  MyOrderLeaveTipOtherScreen,
   OpenOrder,
   OrderSuccessScreen,
   MyAccountScreen,
@@ -231,6 +232,9 @@ const AppNavigator = createStackNavigator(
     },
     MyOrderETAChange: {
       screen: MyOrderETAChangeScreen,
+    },
+    MyOrderLeaveTipOther: {
+      screen: MyOrderLeaveTipOtherScreen,
     },
     OpenOrder: {
       screen: OpenOrder,

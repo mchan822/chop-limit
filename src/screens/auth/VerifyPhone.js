@@ -18,6 +18,7 @@ export const VerifyPhoneScreen = ({navigation}) => {
   const user = useMemo(() => navigation.getParam('user'), []);
   const deliveryMode = useMemo(() => navigation.getParam('deliveryMode'), []);
   const tip_percentage = useMemo(() => navigation.getParam('tip_percentage'), []);
+  const tip_type = useMemo(() => navigation.getParam('tip_type'), []);
 
   const dispatch = useDispatch();
   const token = useSelector((state) => state.account.token);
@@ -89,7 +90,8 @@ export const VerifyPhoneScreen = ({navigation}) => {
                   dispatch(setToken(signupToken));
                   NavigationService.navigate('Account/CreditCard',{
                     deliveryMode : deliveryMode,
-                    tip_percentage: tip_percentage
+                    tip_percentage: tip_percentage,
+                    tip_type: tip_type
                   });
                 })
                 .catch((err) =>

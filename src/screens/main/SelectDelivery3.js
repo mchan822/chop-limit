@@ -9,12 +9,11 @@ import { showNotification, enterMessageRoom, cancelOrder,setOrder,setBanner,
 import { NavigationService } from '~/core/services';
 import { DashedLine, AppText} from '../../components';
 import { Constants } from '~/core/constant';
-import { Config } from '~/core/config';
+// import { Config } from '~/core/config';
 
-import GetLocation from 'react-native-get-location';
-import GeoCoder from 'react-native-geocoding';
+// import GetLocation from 'react-native-get-location';
+// import GeoCoder from 'react-native-geocoding';
 import Dialog from 'react-native-dialog';
-
 import parseAddress from 'parse-address-string';
 
 export const SelectDeliveryScreen3 = ({ navigation }) => {
@@ -53,27 +52,27 @@ export const SelectDeliveryScreen3 = ({ navigation }) => {
         });
       } 
     }, [windowWidth]);
-    const selectCurrentLocation = useCallback(() => {
-      GetLocation.getCurrentPosition({
-        enableHighAccuracy: true,
-        timeout: 15000,
-      })
-        .then((location) => {
-          GeoCoder.from([location.latitude, location.longitude])
-            .then((json) => {
-              let addressResult = json.results[0];
-              setAddressFull(addressResult);
-              setAddress(addressResult.formatted_address);
-              setDlgVisible(true);
-            })
-            .catch((err) =>
-              dispatch(showNotification({ type: 'error', message: err.message })),
-            );
-        })
-        .catch((err) =>
-          dispatch(showNotification({ type: 'error', message: err.message })),
-        );
-    }, [dispatch]);
+    // const selectCurrentLocation = useCallback(() => {
+    //   GetLocation.getCurrentPosition({
+    //     enableHighAccuracy: true,
+    //     timeout: 15000,
+    //   })
+    //     .then((location) => {
+    //       GeoCoder.from([location.latitude, location.longitude])
+    //         .then((json) => {
+    //           let addressResult = json.results[0];
+    //           setAddressFull(addressResult);
+    //           setAddress(addressResult.formatted_address);
+    //           setDlgVisible(true);
+    //         })
+    //         .catch((err) =>
+    //           dispatch(showNotification({ type: 'error', message: err.message })),
+    //         );
+    //     })
+    //     .catch((err) =>
+    //       dispatch(showNotification({ type: 'error', message: err.message })),
+    //     );
+    // }, [dispatch]);
 
     const saveDelivery = useCallback(() => {
       console.log("here",address);
@@ -262,21 +261,21 @@ export const SelectDeliveryScreen3 = ({ navigation }) => {
     }
 },[dispatch,address,addressFull,street,city,province,country,postalCode,unit, businessName, buildType,note]);
     
-useEffect(() => {
-  setLoading(true);
+// useEffect(() => {
+//   setLoading(true);
 
-  GeoCoder.init(Config.googleAPIKey);
+//   GeoCoder.init(Config.googleAPIKey);
 
-  GetLocation.getCurrentPosition({
-    enableHighAccuracy: true,
-    timeout: 15000,
-  })
-    .then(() => {})
-    // .catch((err) =>
-    // dispatch(showNotification({ type: 'error', message: err.message })),
-    // )
-    .finally(() => setLoading(false));
-}, []);
+//   GetLocation.getCurrentPosition({
+//     enableHighAccuracy: true,
+//     timeout: 15000,
+//   })
+//     .then(() => {})
+//     // .catch((err) =>
+//     // dispatch(showNotification({ type: 'error', message: err.message })),
+//     // )
+//     .finally(() => setLoading(false));
+// }, []);
 const _cancelOrder = useCallback(async () => {
   setLoading(true); 
   

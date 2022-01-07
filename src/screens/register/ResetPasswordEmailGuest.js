@@ -15,6 +15,7 @@ export const ResetPasswordEmailGuestScreen = ({ navigation }) => {
 
   const deliveryMode = useMemo(() => navigation.getParam('deliveryMode'), []);
   const tip_percentage = useMemo(() => navigation.getParam('tip_percentage'), []);
+  const tip_type = useMemo(() => navigation.getParam('tip_type'), []);
   const [email, setEmail] = useState('');
   const [isLoading, setLoading] = useState(false);
 
@@ -33,6 +34,7 @@ export const ResetPasswordEmailGuestScreen = ({ navigation }) => {
         NavigationService.navigate('CheckEmailGuest', {
           deliveryMode: deliveryMode,
           tip_percentage: tip_percentage,
+          tip_type: tip_type,
         });
       })
       .catch((err) =>

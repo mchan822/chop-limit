@@ -45,17 +45,17 @@ export const DeliveryLocationScreen = ({ navigation }) => {
           setParsedAddress(addressObj);
         });
 
-        GeoCoder.from(res.data.address)
-          .then((json) => {
-            const location = json.results[0].geometry.location;
-            setGeoCode({
-              latitude: location.lat,
-              longitude: location.lng,
-              latitudeDelta: 0.001,
-              longitudeDelta: 0.001,
-            });
-          })
-          .catch((err) => console.log(err));
+        // GeoCoder.from(res.data.address)
+        //   .then((json) => {
+        //     const location = json.results[0].geometry.location;
+        //     setGeoCode({
+        //       latitude: location.lat,
+        //       longitude: location.lng,
+        //       latitudeDelta: 0.001,
+        //       longitudeDelta: 0.001,
+        //     });
+        //   })
+        //   .catch((err) => console.log(err));
       })
       .catch((err) =>
         dispatch(showNotification({ type: 'error', message: err.message })),

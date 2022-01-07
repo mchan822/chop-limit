@@ -13,6 +13,7 @@ export const ProfileGuestScreen = ({ navigation }) => {
   
   const deliveryMode = useMemo(() => navigation.getParam('deliveryMode'), []);
   const tip_percentage = useMemo(() => navigation.getParam('tip_percentage'), []);
+  const tip_type = useMemo(() => navigation.getParam('tip_type'), []);
   const signup_already = useMemo(() => navigation.getParam('signup_already'), []);
   const pay_cash = useMemo(() => navigation.getParam("pay_cash"), []);
   const [isLoading, setLoading] = useState(false);
@@ -69,7 +70,14 @@ export const ProfileGuestScreen = ({ navigation }) => {
           setLoading(true);
           const formData = new FormData();
           formData.append('delivery_type', deliveryMode);
-          formData.append('tip_percentage', tip_percentage);
+          if(tip_type == 'fixed')
+          {
+            formData.append('tip_type', 'fixed');
+            formData.append('tip_fixed', tip_percentage);
+          } else {
+            formData.append('tip_type', 'percentage');
+            formData.append('tip_percentage', tip_percentage);
+          }
     
           fetchAPI('/order/cash_on_delivery', {
             method: 'POST',
@@ -101,6 +109,7 @@ export const ProfileGuestScreen = ({ navigation }) => {
           NavigationService.navigate('Account/CreditCard', {
            deliveryMode: deliveryMode,
            tip_percentage: tip_percentage,
+           tip_type: tip_type
            });
         }
         else {
@@ -122,6 +131,7 @@ export const ProfileGuestScreen = ({ navigation }) => {
           NavigationService.navigate('Account/CreditCard', {
             deliveryMode: deliveryMode,
             tip_percentage: tip_percentage,
+            tip_type: tip_type
             });
           })
           .catch((err) =>
