@@ -18,7 +18,6 @@ export const PromoCodeDetailScreen = ({ navigation }) => {
   const token = useSelector((state) => state.account.token);
   const guestToken = useSelector((state) => state.account.guestToken);
   const dispatch = useDispatch();
-
   useEffect(() => {
     fetchAPI(`/territory?territory=${promoCode.territory.tid}`, {
         method: 'GET',
@@ -72,12 +71,12 @@ export const PromoCodeDetailScreen = ({ navigation }) => {
           </View>             
       </View> 
       <View style={{justifyContent:'center', alignItems: 'center', marginVertical: 20}}>
-        <View style={{backgroundColor:'#EFEFEF', width: 250, height: 100, alignItems: 'center',justifyContent: 'center', borderRadius: 20}}>
-          <AppText style={{flex: 1,color: '#333', marginTop: 20, fontSize: 12}}>
+        <View style={(promoCode.promo_code.incl_free_delivery == "1" &&  promoCode.promo_code.discount > 0) ? {backgroundColor:'#EFEFEF', width: 250, alignItems: 'center',justifyContent: 'center', borderRadius: 20, height: 150} : {backgroundColor:'#EFEFEF', width: 250, alignItems: 'center',justifyContent: 'center', borderRadius: 20, height: 100}}>
+          <AppText style={{color: '#333', marginTop: 10, fontSize: 12}}>
               USE CODE TO GET
           </AppText>
-          <AppText style={{flex: 3,color: '#333', marginTop: 10, fontSize: 25, fontWeight: 'bold'}}>
-            {promoCode.promo_code.discount_formatted} OFF
+          <AppText style={{color: '#333', marginTop: 10, fontSize: 25, fontWeight: 'bold', textAlign: 'center'}}>
+            {promoCode.promo_code.discount > 0 && promoCode.promo_code.discount_formatted+' OFF'}{promoCode.promo_code.incl_free_delivery == '1' && (promoCode.promo_code.discount > 0 ? '\n'+'AND FREE DELIVERY' : 'FREE DELIVERY')}
           </AppText>
         </View>
       </View>
@@ -86,7 +85,7 @@ export const PromoCodeDetailScreen = ({ navigation }) => {
           onClick={() => navigation.navigate('PromoCodeCopy',{
                       promoCode : promoCode
               })}>
-          <AppText style={{textTransform: 'uppercase', fontWeight: 'bold',}}> Copy Code: {promoCode.promo_code.name}</AppText>
+          <AppText style={{textTransform: 'uppercase', fontWeight: 'bold',}}>Copy Code: {promoCode.promo_code.name}</AppText>
         </Button>
         {promoCode.promo_code.min_order_amount != '' && <View style={{marginTop: 20}}>
           <AppText style={{color: '#333', fontWeight: 'bold', fontSize: 15}}>

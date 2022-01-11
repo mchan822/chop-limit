@@ -493,10 +493,11 @@ export const HomeScreen = ({ navigation }) => {
                   //   if (page < totalPages-1) {           
                   //     setPage(page + 1);                  
                   //   }}}
-                  ListHeaderComponent={ 
-                    <AppText style={styles.subTitle}>
-                      {(closeDeliveryCnt == 1) ? closeDeliveryCnt + ' restaurant is closed right now' : (openDeliveryCnt == 0 ? 'All' : closeDeliveryCnt) +' restaurants are closed right now'}
-                    </AppText>}
+                  ListHeaderComponent={ <></>
+                    // <AppText style={styles.subTitle}>
+                    //   {(closeDeliveryCnt == 1) ? closeDeliveryCnt + ' restaurant is closed right now' : (openDeliveryCnt == 0 ? 'All' : closeDeliveryCnt) +' restaurants are closed right now'}
+                    // </AppText>
+                    }
                   renderItem={({ item }) => (
                     <TouchableOpacity
                       style={styles.closedSeller}
@@ -526,8 +527,7 @@ export const HomeScreen = ({ navigation }) => {
       backgroundColor='#EFEFEF'
       stickyBottom={<StickyBottom gradientColor='#EFEFEF'/>} 
       >
-      <View style={styles.container}>      
-             
+      <View style={styles.container}>             
          {/* <ImageBackground
             source={require('~/assets/images/banner.png')}
             style={styles.banner}>
