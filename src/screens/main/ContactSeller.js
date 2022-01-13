@@ -11,7 +11,7 @@ import { NavigationService } from '~/core/services';
 
 export const ContactSellerScreen = ({ navigation }) => {
 
-  const sellerID = useMemo(() => navigation.getParam('sellerID'), []);
+  const territory = useMemo(() => navigation.getParam('territory'), []);
   const userInfo = useSelector((state) => state.account.userInfo);
 
   const [isLoading, setLoading] = useState(false);
@@ -42,13 +42,13 @@ export const ContactSellerScreen = ({ navigation }) => {
       },
     })
       .then((res) => {
-        console.log("!%%%%%%%%%%%%%%",res.data);
+        console.log("!%%%%%%%%%%%%%%",territory, "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
         if (res.data.active_user) {
           dispatch(setPhone(phoneNumber));
           NavigationService.navigate('CheckPasswordGuest',{
             token: token ? token : guestToken,
             createMessage: true,
-            territory: sellerID,
+            territory: territory,
             message: message,
             firstName: fromFirstName,
             lastName: fromLastName,
@@ -61,7 +61,7 @@ export const ContactSellerScreen = ({ navigation }) => {
           NavigationService.navigate('VerifyPhoneGuest',{
             token: res.data.token,
             createMessage: true,
-            territory: sellerID,
+            territory: territory,
             message: message,
             firstName: fromFirstName,
             lastName: fromLastName,
@@ -84,7 +84,7 @@ export const ContactSellerScreen = ({ navigation }) => {
       console.log('token++++++++++',token);
       const formData = new FormData();
 
-      formData.append('territory',sellerID)
+      formData.append('territory',territory.tid)
       formData.append('message', message);
       if(fromFirstName)
       formData.append('first_name', fromFirstName);
@@ -116,7 +116,8 @@ export const ContactSellerScreen = ({ navigation }) => {
           //After create message, navigate to MessageRoom
           NavigationService.navigate('MessageRoom',{
             token: res.data.token,
-            territory: sellerID,
+            territory: territory,
+            item: "{'is_delivery_chat': false}"
           });
         })
         .catch((err) =>

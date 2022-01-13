@@ -225,7 +225,7 @@ export const ProductsScreen = ({ navigation }) => {
               style={{ marginBottom: 10 }}
               fullWidth
               onClick={() => {
-                navigation.navigate('ContactSeller',{sellerID : sellerID});
+                navigation.navigate('ContactSeller',{territory : territory});
                 dispatch(clearNotification());
               }}>
               Send A Message
@@ -759,7 +759,7 @@ export const ProductsScreen = ({ navigation }) => {
          type="bordered-dark"
          style={[GlobalStyles.formControl,styles.quoteButton]}
          onClick={() => navigation.navigate('ContactSeller',{
-             sellerID : territory.tid
+            territory : territory
          })}>
          Contact Us
          </Button>  } 

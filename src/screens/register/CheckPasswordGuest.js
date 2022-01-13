@@ -106,7 +106,7 @@ export const CheckPasswordGuestScreen = ({ navigation }) => {
                 setLoading(true);
                 const formData = new FormData();  
           
-                formData.append('territory',territory)
+                formData.append('territory',territory.tid)
                 formData.append('message', message);
           
                 formData.append('first_name', firstName);
@@ -130,10 +130,12 @@ export const CheckPasswordGuestScreen = ({ navigation }) => {
                             user_verified: true,
                         }),
                       );
-                      //dispatch(showNotification({ type: 'success', message: res.message, buttonText: 'Exit', buttonAction : () => navigation.goBack() }));
+                      // dispatch(showNotification({ type: 'success', message: res.message, buttonText: 'Exit', buttonAction : () => navigation.goBack() }));
+                      NavigationService.reset('Home');
                       NavigationService.navigate('MessageRoom',{
                         token: res.data.token,
                         territory: territory,
+                        item: "{'is_delivery_chat': false}"
                       });
                     
                   })
@@ -170,7 +172,7 @@ export const CheckPasswordGuestScreen = ({ navigation }) => {
             setLoading(true);
             const formData = new FormData();  
       
-            formData.append('territory',territory)
+            formData.append('territory',territory.tid)
             formData.append('message', message);
       
             formData.append('first_name', firstName);
@@ -195,9 +197,11 @@ export const CheckPasswordGuestScreen = ({ navigation }) => {
                     }),
                   );
                   //dispatch(showNotification({ type: 'success', message: res.message, buttonText: 'Exit', buttonAction : () => navigation.goBack() }));
+                  NavigationService.reset('Home');
                   NavigationService.navigate('MessageRoom',{
                     token: res.data.token,
                     territory: territory,
+                    item: "{'is_delivery_chat': false}"
                   });
                 
               })
