@@ -484,7 +484,7 @@ export const ProductScreen = ({ navigation }) => {
                 dispatch(
                   showNotification({
                     type: 'error',
-                    message: "This product is required extras",
+                    message: "You missed a required field",
                     options: { align: 'right' },
                     autoHide: false
                   })

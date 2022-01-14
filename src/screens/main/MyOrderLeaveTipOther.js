@@ -34,7 +34,7 @@ export const MyOrderLeaveTipOtherScreen = ({ navigation }) => {
             title={currency}
             placeholder="Enter an amount"
             value={tipAmount}
-            keyboardType="number-pad"            
+            keyboardType="default"            
             onChange={setTipAmount}
           />
         </View>
