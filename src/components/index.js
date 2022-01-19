@@ -10,8 +10,8 @@ export { HorizontalPager } from './shared/HorizontalPager';
 export { Price } from './shared/Price';
 export { Tabs } from './shared/Tabs';
 export { Tab } from './shared/Tab';
-export { DashedLine } from './shared/DashedLine'
-
+export { DashedLine } from './shared/DashedLine';
+export { default as WheelPicker } from './shared/WheelPicker';
 // page-level components
 export { Product } from './pages/Product';
 export { Seller } from './pages/Seller';

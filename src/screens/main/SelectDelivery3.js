@@ -261,21 +261,7 @@ export const SelectDeliveryScreen3 = ({ navigation }) => {
     }
 },[dispatch,address,addressFull,street,city,province,country,postalCode,unit, businessName, buildType,note]);
     
-// useEffect(() => {
-//   setLoading(true);
 
-//   GeoCoder.init(Config.googleAPIKey);
-
-//   GetLocation.getCurrentPosition({
-//     enableHighAccuracy: true,
-//     timeout: 15000,
-//   })
-//     .then(() => {})
-//     // .catch((err) =>
-//     // dispatch(showNotification({ type: 'error', message: err.message })),
-//     // )
-//     .finally(() => setLoading(false));
-// }, []);
 const _cancelOrder = useCallback(async () => {
   setLoading(true); 
   

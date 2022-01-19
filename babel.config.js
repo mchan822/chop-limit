@@ -6,7 +6,8 @@ module.exports = {
       {
         rootPathSuffix: './src',
         rootPathPrefix: '~/',
-      },
+      },      
     ],
+    'react-native-reanimated/plugin',
   ],
 };

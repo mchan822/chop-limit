@@ -2,13 +2,13 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   View,
   Image,
-  TouchableOpacity,
   StyleSheet,
   ScrollView,
   Alert,
   Platform,
   Text,
 } from 'react-native';
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Rating } from 'react-native-ratings';

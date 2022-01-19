@@ -402,21 +402,6 @@ export const MyOrderScreen = ({ navigation }) => {
             color: 'black',
           },
         });
-        // GeoCoder.init(Config.googleAPIKey);
-
-        // GeoCoder.from(res.data.territory.warehouse_address)
-        //   .then((json) => {
-        //     const location = json.results[0].geometry.location;
-        //     setGeoCode({
-        //       latitude: location.lat,
-        //       longitude: location.lng,
-        //       latitudeDelta: 0.001,
-        //       longitudeDelta: 0.001,
-        //     });
-        //   })
-        //   .catch((err) =>
-        //     dispatch(showNotification({ type: 'error', message: err.message })),
-        //   );
       })
       .catch((err) =>
         //dispatch(showNotification({ type: 'error', message: err.message })),

@@ -6,5 +6,5 @@ export const Config = {
   
   followSHOPL: 'https://www.facebook.com/SHOPLApp/',
   // googleAPIKey: 'AIzaSyC6v3MjMvZeLsWqImhRNqun4-3ykBZ8rOs',
-  googleAPIKey: 'AIzaSyDAA-1DUSd8i8LvaAKMV-aDDDzE1GOMelA',
+  googleAPIKey: 'AIzaSyDJyYfIE28U1moF4eWKvj-KGeQsXkYyBH0',
 };

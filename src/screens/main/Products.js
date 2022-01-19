@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   View,
-  Text,
-  TouchableOpacity,
+  Text,  
   FlatList,
   StyleSheet,
   Image,
@@ -10,6 +9,7 @@ import {
   Dimensions,
   Platform
 } from 'react-native';
+import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector, useDispatch } from 'react-redux';
 import parseAddress from 'parse-address-string';

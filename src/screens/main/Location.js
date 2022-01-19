@@ -60,23 +60,7 @@ export const LocationScreen = ({navigation}) => {
   const territory_id = useMemo(() => navigation.getParam('territory_id'), []);
   const changeAddress_Order = useMemo(() => navigation.getParam('changeAddress_Order'), []);
   const subscription_delivery_type = useMemo(() => navigation.getParam('delivery_type'), []);
-/*
-  useEffect(() => {
-    setLoading(true);
 
-    GeoCoder.init(Config.googleAPIKey);
-
-    GetLocation.getCurrentPosition({
-      enableHighAccuracy: true,
-      timeout: 15000,
-    })
-      .then(() => {})
-      // .catch((err) =>
-      // dispatch(showNotification({ type: 'error', message: err.message })),
-      // )
-      .finally(() => setLoading(false));
-  }, []);
-*/
   const _cancelOrder = useCallback(async () => {
     setLoading(true);    
   }, [dispatch]);

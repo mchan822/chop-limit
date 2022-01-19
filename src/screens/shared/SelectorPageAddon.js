@@ -1,9 +1,7 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { View, StyleSheet, FlatList, Text, TouchableOpacity } from 'react-native';
-import { Picker, DatePicker } from 'react-native-wheel-pick';
-
 import { NavigationService } from '~/core/services';
-import { Screen, Button, AppText } from '~/components';
+import { Screen, Button, AppText, WheelPicker } from '~/components';
 import { GlobalStyles, MainNavigationOptions, Theme } from '~/styles';
 import { select } from 'redux-saga/effects';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -30,7 +28,6 @@ export const SelectorPageAddonScreen = ({ navigation }) => {
     //NavigationService.goBack();
   },[selectedItem]);
 
-
   const addItemsAsCount = useCallback((workingItem)=> {
     setWhichSticky(1);
     if(selectedItem) {
@@ -40,10 +37,6 @@ export const SelectorPageAddonScreen = ({ navigation }) => {
       selectItem((existing)=> [...existing,workingItem]);
     }  
   },[selectedCount, selectedItem]);
-
-  useEffect(()=>{
-    console.log("seeeeeeeeeeeeeeeeeee", selectedItem);    
-  },[selectedItem])
   
   const ChooseCountButton = () => {
     return ( <View>
@@ -52,15 +45,23 @@ export const SelectorPageAddonScreen = ({ navigation }) => {
         <View style={{flex:1, justifyContent: 'center', alignItems:'center'}}>
           <AppText style={{fontSize:18, fontWeight: 'bold'}}>{workingItemName}</AppText>
         </View>
+      </View>     
+      <View style={{height: 150, marginBottom:70 }}>
+      <WheelPicker
+          defaultValue={selectedCount}
+          valueArray={pickerData4OptionsCnt}
+          onValueChange={(value => {setSelectedCount(value)})}
+          style={{  width: '100%', backgroundColor: "#ffffff" }}
+        />
       </View>
-      <Picker
+      {/* <Picker
         style={{ backgroundColor: 'white', width: '100%', height: 150, marginBottom:70 }}
         itemStyle={{backgroundColor:'#EEE'}}
         selectedValue={selectedCount}
         pickerData={pickerData4OptionsCnt}
         onValueChange={value => {setSelectedCount(value)}}
         itemSpace={30} // this only support in android
-      />
+      /> */}
       <Button
           type="accent"
           style={styles.myCartButton}
