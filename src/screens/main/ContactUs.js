@@ -13,8 +13,15 @@ export const ContactUsScreen = ({ navigation }) => {
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   const token = useSelector((state) => state.account.token);
+  const userInfo = useSelector((state) => state.account.userInfo);
+  
+  const [fromFirstName, setFromFirstName] = useState(userInfo && userInfo.firstName || '');
+  const [fromLastName, setFromLastName] = useState(userInfo && userInfo.lastName || '');
+  const [fromEmail, setFromEmail] = useState(userInfo && userInfo.email || '');
+
   const dispatch = useDispatch();
 
+  console.log("user Info", userInfo);
   const send = useCallback(() => {
     setLoading(true);
 
@@ -34,7 +41,12 @@ export const ContactUsScreen = ({ navigation }) => {
     if(token){
       formData.append('subject', subject);
       formData.append('message', message);
-
+      if(fromFirstName)
+      formData.append('first_name', fromFirstName);
+      if(fromLastName)
+      formData.append('last_name', fromLastName);
+      if(fromEmail)
+      formData.append('email', fromEmail);
       fetchAPI(`/platform/email`, {
         method: 'POST',
         headers: {
@@ -68,6 +80,30 @@ export const ContactUsScreen = ({ navigation }) => {
   return (
     <Screen isLoading={isLoading} keyboardAware={true} stickyBottom={<StickyBottom/>}>
       <View style={styles.container}>
+      <Input
+        style={GlobalStyles.formControl}
+        title="First Name"
+        placeholder="Your First Name"
+        value={fromFirstName}
+        onChange={setFromFirstName}
+        />
+
+      <Input
+        style={GlobalStyles.formControl}
+        title="Last Name"
+        placeholder="Your Last Name"
+        value={fromLastName}
+        onChange={setFromLastName}
+        />
+
+      <Input
+        style={GlobalStyles.formControl}
+        title="Your E-mail"
+        placeholder="Your E-mail Address"
+        value={fromEmail}
+        onChange={setFromEmail}
+        />
+        
         <Input
           style={GlobalStyles.formControl}
           title="Subject"
