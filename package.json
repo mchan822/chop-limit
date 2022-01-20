@@ -29,6 +29,7 @@
     "react-native-awesome-card-io": "^0.8.3",
     "react-native-background-timer": "^2.4.1",
     "react-native-cli": "^2.0.1",
+    "react-native-codegen": "0.0.12",
     "react-native-dash": "^0.0.11",
     "react-native-date-picker": "^4.1.1",
     "react-native-device-info": "^8.3.1",
